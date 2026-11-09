@@ -1,0 +1,525 @@
+/* ==============================
+   WN57 — PADRÃO VISUAL DO SITE
+============================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --rosa: #ff2f92;
+    --preto: #080808;
+    --cinza: #666666;
+    --fundo: #f7f7f9;
+    --branco: #ffffff;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--branco);
+    color: var(--preto);
+    line-height: 1.6;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* CABEÇALHO */
+
+.header {
+    width: 100%;
+    min-height: 88px;
+    padding: 16px 7%;
+    background: var(--preto);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+}
+
+.header > .logo {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.header > .logo img {
+    width: 105px;
+    max-height: 58px;
+    object-fit: contain;
+}
+
+.header nav {
+    flex: 1;
+}
+
+.header-direita {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 28px;
+}
+
+.header-direita a {
+    color: var(--branco);
+    font-size: 13px;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.header-direita a:hover {
+    color: var(--rosa);
+}
+
+.header-direita .btn-cadastro {
+    background: var(--rosa);
+    color: var(--branco);
+    padding: 12px 23px;
+    border-radius: 30px;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+.header-direita .btn-cadastro:hover {
+    background: #e91e7f;
+    color: var(--branco);
+    transform: translateY(-2px);
+}
+
+/* CONTEÚDO PRINCIPAL */
+
+main {
+    width: 100%;
+    padding: 75px 7% 90px;
+}
+
+/* ETIQUETAS ROSAS */
+
+.tag {
+    display: inline-block;
+    color: var(--rosa);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+
+/* PERGUNTAS FREQUENTES */
+
+.faq {
+    max-width: 950px;
+    margin: 0 auto;
+    padding: 20px 0 85px;
+}
+
+.faq h2 {
+    font-size: clamp(30px, 4vw, 43px);
+    line-height: 1.25;
+    font-weight: 700;
+    letter-spacing: -1.3px;
+    margin-bottom: 35px;
+}
+
+.perguntas {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid #e7e7e7;
+}
+
+.perguntas details {
+    border-bottom: 1px solid #e7e7e7;
+    background: var(--branco);
+    transition: background 0.2s ease;
+}
+
+.perguntas details[open] {
+    background: #fffafd;
+}
+
+.perguntas summary {
+    list-style: none;
+    cursor: pointer;
+    position: relative;
+    padding: 24px 48px 24px 5px;
+    font-size: 15px;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.perguntas summary::-webkit-details-marker {
+    display: none;
+}
+
+.perguntas summary::after {
+    content: '+';
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--rosa);
+    font-size: 25px;
+    font-weight: 400;
+}
+
+.perguntas details[open] summary::after {
+    content: '−';
+}
+
+.perguntas summary:hover {
+    color: var(--rosa);
+}
+
+.perguntas details p {
+    padding: 0 45px 25px 5px;
+    color: var(--cinza);
+    font-size: 14px;
+    line-height: 1.9;
+    max-width: 760px;
+}
+
+/* BLOCO DE SUPORTE */
+
+.seguranca {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 55px 60px;
+    background: var(--preto);
+    color: var(--branco);
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    overflow: hidden;
+}
+
+.seguranca > div:first-child {
+    max-width: 650px;
+}
+
+.seguranca .tag {
+    color: #ff72b4;
+}
+
+.seguranca h2 {
+    max-width: 550px;
+    margin-bottom: 18px;
+    font-size: clamp(27px, 3.5vw, 38px);
+    line-height: 1.25;
+    letter-spacing: -1px;
+}
+
+.seguranca p {
+    max-width: 590px;
+    margin-bottom: 28px;
+    color: #c9c9c9;
+    font-size: 14px;
+    line-height: 1.9;
+}
+
+.seguranca > div:first-child > a {
+    display: inline-block;
+    padding: 13px 24px;
+    background: var(--rosa);
+    border-radius: 30px;
+    color: var(--branco);
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+.seguranca > div:first-child > a:hover {
+    background: #e91e7f;
+    transform: translateY(-2px);
+}
+
+.seguranca-icone {
+    min-width: 115px;
+    width: 115px;
+    height: 115px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #444;
+    background: #171717;
+    border-radius: 50%;
+    font-size: 48px;
+}
+
+/* RODAPÉ */
+
+.rodape {
+    width: 100%;
+    background: var(--preto);
+    color: var(--branco);
+    padding: 60px 7% 25px;
+}
+
+.rodape-container {
+    max-width: 1450px;
+    margin: 0 auto;
+}
+
+.rodape-topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+    padding-bottom: 45px;
+    border-bottom: 1px solid #303030;
+}
+
+.rodape-logo {
+    font-size: 35px;
+    font-weight: 800;
+    letter-spacing: -2px;
+    margin-bottom: 10px;
+}
+
+.rodape-topo > div:first-child > a {
+    color: #dedede;
+    font-size: 12px;
+    transition: color 0.2s ease;
+}
+
+.rodape-topo > div:first-child > a:hover {
+    color: var(--rosa);
+}
+
+.endereco {
+    max-width: 430px;
+    color: #bcbcbc;
+    font-size: 11px;
+    line-height: 1.9;
+    text-align: right;
+}
+
+.rodape-colunas {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 35px;
+    padding: 45px 0;
+    border-bottom: 1px solid #303030;
+}
+
+.rodape-coluna {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 13px;
+}
+
+.rodape-coluna h3 {
+    margin-bottom: 5px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.rodape-coluna a {
+    color: #bcbcbc;
+    font-size: 11px;
+    transition: color 0.2s ease;
+}
+
+.rodape-coluna a:hover {
+    color: var(--rosa);
+}
+
+.rodape-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    padding: 28px 0;
+}
+
+.redes-sociais {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.redes-sociais a {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #202020;
+    color: var(--branco);
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+.redes-sociais a:hover {
+    background: var(--rosa);
+}
+
+.localizacao {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 25px;
+}
+
+.localizacao span {
+    color: #dedede;
+    font-size: 11px;
+}
+
+.rodape-direitos {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 25px;
+    padding-top: 22px;
+    border-top: 1px solid #303030;
+}
+
+.rodape-direitos span,
+.rodape-direitos a {
+    color: #999999;
+    font-size: 10px;
+}
+
+.rodape-direitos a:hover {
+    color: var(--rosa);
+}
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 768px) {
+    .header {
+        min-height: 75px;
+        padding: 15px 5%;
+        gap: 15px;
+    }
+
+    .header > .logo img {
+        width: 85px;
+    }
+
+    .header-direita {
+        gap: 12px;
+    }
+
+    .header-direita a {
+        font-size: 11px;
+    }
+
+    .header-direita .btn-cadastro {
+        padding: 10px 14px;
+    }
+
+    main {
+        padding: 45px 6% 60px;
+    }
+
+    .faq {
+        padding-bottom: 55px;
+    }
+
+    .perguntas summary {
+        font-size: 14px;
+        padding: 22px 35px 22px 3px;
+    }
+
+    .perguntas details p {
+        font-size: 13px;
+        padding-right: 10px;
+    }
+
+    .seguranca {
+        padding: 35px 28px;
+        gap: 20px;
+    }
+
+    .seguranca-icone {
+        min-width: 75px;
+        width: 75px;
+        height: 75px;
+        font-size: 32px;
+    }
+
+    .rodape {
+        padding: 45px 6% 22px;
+    }
+
+    .rodape-topo {
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .endereco {
+        text-align: left;
+    }
+
+    .rodape-colunas {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 35px 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        flex-wrap: wrap;
+    }
+
+    .header nav {
+        display: none;
+    }
+
+    .header-direita {
+        gap: 10px;
+    }
+
+    .header-direita .idioma {
+        display: none;
+    }
+
+    .header-direita .btn-cadastro {
+        padding: 9px 12px;
+    }
+
+    .seguranca {
+        flex-direction: column-reverse;
+        align-items: flex-start;
+        padding: 30px 24px;
+    }
+
+    .seguranca-icone {
+        min-width: 65px;
+        width: 65px;
+        height: 65px;
+        font-size: 28px;
+    }
+
+    .rodape-colunas {
+        gap: 30px 15px;
+    }
+
+    .rodape-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .localizacao {
+        justify-content: flex-start;
+        gap: 12px;
+    }
+
+    .rodape-direitos {
+        gap: 15px;
+    }
+}

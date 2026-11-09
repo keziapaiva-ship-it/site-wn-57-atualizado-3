@@ -1,0 +1,916 @@
+:root {
+    --pink: #FF2D78;
+    --pink-dark: #c4175a;
+    --muted: #999;
+    --border: #333;
+    --erro: #ff6b8a;
+    --ok: #4ade80;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+body {
+    font-family: 'DM Sans', sans-serif;
+    background: #111;
+    color: white;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+button {
+    font-family: inherit;
+}
+
+/* =========================
+   MENU WN57
+========================= */
+
+nav {
+    height: 64px;
+    width: 100%;
+    padding: 0 64px;
+    display: flex;
+    align-items: center;
+    background: #000;
+    position: relative;
+    z-index: 1000;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    margin-right: 90px;
+}
+
+.logo img {
+    width: 100px;
+    height: auto;
+    display: block;
+}
+
+.links {
+    display: flex;
+    gap: 35px;
+    align-items: center;
+}
+
+.links a {
+    color: white;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.links a:hover {
+    color: var(--pink);
+}
+
+.direita {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.direita a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.login {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cadastre {
+    background: var(--pink);
+    color: white;
+    padding: 12px 18px;
+    border-radius: 25px;
+    font-weight: bold;
+}
+
+/* =========================
+   MAPA + PAINEL
+========================= */
+
+.tela {
+    position: relative;
+    height: calc(100vh - 64px);
+    min-height: 560px;
+    background: #202020;
+}
+
+#map {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.painel {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    z-index: 500;
+    width: 100%;
+    max-width: 560px;
+    padding: 22px 28px 30px;
+    background: #292929;
+    border-radius: 30px 30px 0 0;
+    box-shadow: 0 -8px 30px rgba(0, 0, 0, .45);
+}
+
+.arrastar {
+    width: 45px;
+    height: 5px;
+    margin: 0 auto 18px;
+    border-radius: 20px;
+    background: #777;
+}
+
+.tag {
+    display: inline-block;
+    color: var(--pink);
+    background: rgba(255, 45, 120, .12);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.painel h1 {
+    font-size: 22px;
+    margin-bottom: 4px;
+}
+
+.dica {
+    color: #aaa;
+    font-size: 13px;
+    margin-bottom: 18px;
+}
+
+.endereco {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background: #1b1b1b;
+    border-radius: 16px;
+}
+
+.endereco-ico {
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #333;
+    color: var(--pink);
+    font-size: 17px;
+}
+
+.endereco-texto {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.endereco-texto span {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.endereco-texto strong {
+    font-size: 15px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.editar {
+    background: transparent;
+    color: var(--pink);
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    padding: 8px;
+}
+
+.erro {
+    min-height: 1.2em;
+    margin: 10px 2px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--erro);
+}
+
+/* botão */
+.btn-confirmar {
+    width: 100%;
+    height: 58px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    border: none;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #ff36a5, #ff2c7d);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.btn-confirmar:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 45, 120, .35);
+}
+
+.btn-confirmar:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+}
+
+.btn-confirmar:focus-visible,
+.editar:focus-visible {
+    outline: 2px solid var(--pink);
+    outline-offset: 3px;
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media (max-width: 768px) {
+    nav {
+        padding: 0 20px;
+    }
+
+    .logo {
+        margin-right: 25px;
+    }
+
+    .logo img {
+        width: 80px;
+    }
+
+    .links {
+        gap: 15px;
+    }
+
+    .direita {
+        gap: 12px;
+    }
+}
+
+@media (max-width: 500px) {
+    nav {
+        padding: 0 15px;
+    }
+
+    .logo img {
+        width: 70px;
+    }
+
+    .logo {
+        margin-right: 15px;
+    }
+
+    .links {
+        gap: 10px;
+    }
+
+    .direita {
+        gap: 8px;
+    }
+
+    .direita a {
+        font-size: 12px;
+    }
+
+    .cadastre {
+        padding: 9px 12px;
+    }
+
+    .painel {
+        padding: 20px 18px 24px;
+    }
+
+    .painel h1 {
+        font-size: 20px;
+    }
+}
+
+.btn-gps {
+    margin-top: 12px;
+    background: transparent;
+    border: none;
+    color: var(--pink);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.btn-gps:hover {
+    text-decoration: underline;
+}
+
+/* =========================
+   BUSCANDO / MOTORISTA
+========================= */
+
+.painel .endereco+.endereco {
+    margin-top: 10px;
+}
+
+.buscando-topo {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.buscando-topo .dica {
+    margin-bottom: 0;
+}
+
+.spinner {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border: 4px solid rgba(255, 45, 120, .2);
+    border-top-color: var(--pink);
+    border-radius: 50%;
+    animation: girar .9s linear infinite;
+}
+
+@keyframes girar {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.barra {
+    height: 4px;
+    margin-bottom: 18px;
+    background: #3a3a3a;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.barra-fill {
+    width: 40%;
+    height: 100%;
+    background: var(--pink);
+    border-radius: 4px;
+    animation: correr 1.4s ease-in-out infinite;
+}
+
+@keyframes correr {
+    from {
+        transform: translateX(-100%);
+    }
+
+    to {
+        transform: translateX(250%);
+    }
+}
+
+.btn-cancelar {
+    width: 100%;
+    height: 52px;
+    margin-top: 16px;
+    background: transparent;
+    color: white;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.btn-cancelar:hover {
+    border-color: var(--pink);
+    color: var(--pink);
+}
+
+/* ===== MOTORISTA (estilo Uber) ===== */
+
+.eta-topo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 16px;
+}
+
+.eta-topo strong {
+    display: block;
+    font-size: 22px;
+    margin-bottom: 4px;
+}
+
+.eta-topo span {
+    color: #aaa;
+    font-size: 14px;
+}
+
+.eta-bolha {
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff36a5, #ff2c7d);
+    line-height: 1;
+}
+
+.eta-bolha b {
+    font-size: 24px;
+}
+
+.eta-bolha small {
+    margin-top: 2px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.eta-bolha.chegou {
+    background: var(--ok);
+    color: #111;
+    font-size: 26px;
+}
+
+/* PIN */
+.pin-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    background: #1b1b1b;
+    border: 1px dashed rgba(255, 45, 120, .5);
+    border-radius: 16px;
+}
+
+.pin-box>span {
+    color: #ccc;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.pin {
+    display: flex;
+    gap: 6px;
+}
+
+.pin i {
+    width: 34px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: #fff;
+    color: #111;
+    font-style: normal;
+    font-size: 22px;
+    font-weight: 800;
+}
+
+/* card do motorista */
+.mot-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background: #1b1b1b;
+    border-radius: 16px;
+}
+
+.mot-esq {
+    position: relative;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.avatar {
+    width: 58px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff36a5, #ff2c7d);
+    font-size: 24px;
+    font-weight: 800;
+}
+
+.nota {
+    margin-top: -10px;
+    padding: 3px 9px;
+    background: #333;
+    border: 2px solid #1b1b1b;
+    border-radius: 20px;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.nota .fa-star {
+    color: #facc15;
+    font-size: 10px;
+}
+
+.mot-meio {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.mot-meio strong {
+    font-size: 17px;
+}
+
+.mot-meio span {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.mot-meio .viagens {
+    font-size: 12px;
+}
+
+.mot-dir {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.mot-dir>i {
+    font-size: 30px;
+    color: #ddd;
+}
+
+.placa {
+    padding: 6px 10px;
+    background: #fff;
+    color: #111;
+    border: 2px solid #111;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.tag-pet {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 7px 12px;
+    background: rgba(255, 45, 120, .12);
+    color: var(--pink);
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* atalhos redondos */
+.atalhos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.atalhos button,
+.atalhos a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 6px;
+    background: #1b1b1b;
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.atalhos i {
+    font-size: 18px;
+    color: var(--pink);
+}
+
+.atalhos button:hover,
+.atalhos a:hover {
+    background: #232323;
+}
+
+/* detalhes */
+.detalhes {
+    margin-top: 12px;
+    padding: 16px;
+    background: #1b1b1b;
+    border-radius: 16px;
+}
+
+.det-linha {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding-bottom: 14px;
+}
+
+.det-linha>i {
+    width: 18px;
+    margin-top: 3px;
+    text-align: center;
+    color: var(--pink);
+    font-size: 13px;
+}
+
+.det-linha:first-child>i {
+    color: #ddd;
+    font-size: 9px;
+    margin-top: 6px;
+}
+
+.det-linha span {
+    display: block;
+    color: var(--muted);
+    font-size: 12px;
+    margin-bottom: 3px;
+}
+
+.det-linha strong {
+    font-size: 14px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.resumo {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 14px;
+    border-top: 1px solid #2c2c2c;
+}
+
+.resumo div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.resumo span {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.resumo strong {
+    font-size: 15px;
+}
+
+/* marcadores do mapa */
+.radar {
+    position: relative;
+    width: 24px;
+    height: 24px;
+}
+
+.radar span {
+    position: absolute;
+    inset: 0;
+    border: 2px solid var(--pink);
+    border-radius: 50%;
+    opacity: 0;
+    animation: onda 2.4s ease-out infinite;
+}
+
+.radar span:nth-child(2) {
+    animation-delay: .8s;
+}
+
+.radar span:nth-child(3) {
+    animation-delay: 1.6s;
+}
+
+@keyframes onda {
+    0% {
+        transform: scale(1);
+        opacity: .9;
+        background: rgba(255, 45, 120, .15);
+    }
+
+    100% {
+        transform: scale(12);
+        opacity: 0;
+    }
+}
+
+.carro-pino {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #111;
+    border: 3px solid var(--pink);
+    color: #fff;
+    font-size: 16px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, .5);
+}
+
+@media (max-width: 500px) {
+    .placa {
+        font-size: 13px;
+        padding: 6px 9px;
+    }
+
+    .carro {
+        flex-wrap: wrap;
+    }
+
+    .acoes .btn-cancelar {
+        padding: 0 14px;
+    }
+}
+
+@media (max-width: 500px) {
+    .pin-box {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .pin i {
+        width: 30px;
+        height: 38px;
+        font-size: 20px;
+    }
+
+    .mot-card {
+        gap: 10px;
+        padding: 12px;
+    }
+
+    .placa {
+        font-size: 13px;
+        padding: 5px 8px;
+    }
+}
+
+/* ===== SEMÁFORO / AVISO NO MAPA ===== */
+
+.aviso-mapa {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 18px;
+    background: #111;
+    color: #fff;
+    border: 1px solid var(--pink);
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 700;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, .45);
+    white-space: nowrap;
+}
+
+.aviso-mapa i {
+    color: #ef4444;
+}
+
+.semaforo {
+    width: 18px;
+    height: 34px;
+    padding: 4px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background: #111;
+    border: 2px solid #444;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .5);
+}
+
+.semaforo span {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #333;
+}
+
+.semaforo.vermelho span:first-child {
+    background: #ef4444;
+    box-shadow: 0 0 8px #ef4444;
+}
+
+.semaforo.verde span:last-child {
+    background: #22c55e;
+    box-shadow: 0 0 8px #22c55e;
+}
+
+/* ===== FIM DA VIAGEM ===== */
+
+#estadoFim {
+    text-align: center;
+}
+
+#estadoFim .check {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--ok);
+    color: #111;
+    font-size: 26px;
+}
+
+.fim-titulo {
+    font-size: 22px;
+    margin-bottom: 4px;
+}
+
+.fim-sub {
+    margin-bottom: 14px;
+}
+
+.fim-resumo {
+    margin-top: 0;
+    border-top: none;
+    background: #1b1b1b;
+    padding: 14px 16px;
+    border-radius: 16px;
+    text-align: left;
+}
+
+.avalie {
+    margin: 18px 0 10px;
+    font-size: 14px;
+    color: #ccc;
+}
+
+.estrelas {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.estrelas button {
+    background: transparent;
+    border: none;
+    font-size: 30px;
+    color: #444;
+    cursor: pointer;
+    transition: .15s;
+}
+
+.estrelas button.on {
+    color: #facc15;
+}
+
+.estrelas button:hover {
+    transform: scale(1.15);
+}

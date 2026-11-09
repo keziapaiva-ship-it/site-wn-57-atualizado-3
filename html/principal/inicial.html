@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WN57 • Mobilidade Premium</title>
+
+    <!-- FONTES -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS DA PÁGINA -->
+    <link rel="stylesheet" href="/css/princial/inicial.css">
+
+    <!-- VERIFICAÇÃO DE LOGIN ANTES DA EXIBIÇÃO DA PÁGINA -->
+    <script>
+        try {
+            var u = JSON.parse(localStorage.getItem("usuario"));
+
+            if (u && u.nome) {
+                document.documentElement.classList.add("logado");
+            }
+        } catch (e) { }
+    </script>
+</head>
+
+<body>
+
+    <!-- CABEÇALHO E NAVEGAÇÃO -->
+
+    <header>
+        <div class="header-container">
+
+            <!-- LOGO -->
+            <img src="/img/logo/logo1.jpg" class="logo" alt="WN57">
+
+            <!-- MENU PRINCIPAL -->
+            <nav>
+                <a href="/html/principal/inicial.html">Inicial</a>
+                <a href="/html/corrida/solicitar.html">Viajar</a>
+                <a href="#sobre">Sobre-nós</a>
+            </nav>
+
+            <!-- AÇÕES DO USUÁRIO -->
+            <div class="header-right">
+
+                <button class="idioma-btn">
+                    🌐 PT-BR
+                </button>
+
+                <a href="/html/ajuda/ajuda.html">Ajuda</a>
+
+                <!-- LINKS PARA USUÁRIOS DESCONECTADOS -->
+                <a href="/html/login/login.html" data-deslogado>
+                    Fazer login
+                </a>
+
+                <a href="/html/login/cadastro.html" class="btn-menu" data-deslogado>
+                    Cadastre-se
+                </a>
+
+                <!-- MENU DO PERFIL PARA USUÁRIOS CONECTADOS -->
+                <div class="perfil" id="perfil">
+
+                    <button class="perfil-btn" id="perfilBtn" type="button" aria-haspopup="true" aria-expanded="false">
+
+                        <span class="perfil-avatar" id="avatarMini">U</span>
+                        <span id="perfilNomeCurto">Usuário</span>
+                        <span class="seta">▾</span>
+
+                    </button>
+
+                    <!-- CONTEÚDO DO MENU DE PERFIL -->
+                    <div class="perfil-menu" id="perfilMenu">
+
+                        <!-- INFORMAÇÕES DO USUÁRIO -->
+                        <div class="perfil-topo">
+
+                            <div>
+                                <h3 id="perfilNome">Usuário</h3>
+
+                                <span class="nota" id="perfilNotaBox">
+                                    ★
+                                    <span id="perfilNota">5,00</span>
+                                </span>
+                            </div>
+
+                            <div class="perfil-foto" id="perfilFoto">
+                                U
+                            </div>
+
+                        </div>
+
+                        <!-- ATALHOS DO PERFIL -->
+                        <div class="perfil-atalhos">
+
+                            <!-- AJUDA -->
+                            <a href="/html/ajuda/ajuda.html">
+
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path
+                                        d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 4a6 6 0 013.6 1.2l-2.2 2.2a3 3 0 00-2.8 0L8.4 7.2A6 6 0 0112 6zM6 12c0-1.3.4-2.6 1.2-3.6l2.2 2.2a3 3 0 000 2.8l-2.2 2.2A6 6 0 016 12zm6 6a6 6 0 01-3.6-1.2l2.2-2.2a3 3 0 002.8 0l2.2 2.2A6 6 0 0112 18zm4.8-2.4l-2.2-2.2a3 3 0 000-2.8l2.2-2.2A6 6 0 0118 12c0 1.3-.4 2.6-1.2 3.6z" />
+                                </svg>
+
+                                Ajuda
+                            </a>
+
+                            <!-- CARTEIRA -->
+                            <a href="/html/carteira.html">
+
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path
+                                        d="M3 6a2 2 0 012-2h14a2 2 0 012 2v3H3zm0 5h18v7a2 2 0 01-2 2H5a2 2 0 01-2-2zm11 2v2h5v-2z" />
+                                </svg>
+
+                                Carteira
+                            </a>
+
+                            <!-- ATIVIDADE -->
+                            <a href="/html/atividade.html">
+
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path
+                                        d="M6 2h12a1 1 0 011 1v19l-3-2-2 2-2-2-2 2-2-2-3 2V3a1 1 0 011-1zm2 5v2h8V7zm0 4v2h8v-2z" />
+                                </svg>
+
+                                Atividade
+                            </a>
+
+                        </div>
+
+                        <!-- LISTA DE OPÇÕES DO PERFIL -->
+                        <ul class="perfil-lista">
+
+                            <!-- GERENCIAR CONTA -->
+                            <li>
+                                <a href="/html/gerenciar.conta.html">
+
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path
+                                            d="M12 12a5 5 0 100-10 5 5 0 000 10zm0 2c-4 0-8 2-8 5v3h16v-3c0-3-4-5-8-5z" />
+                                    </svg>
+
+                                    Gerenciar conta
+                                </a>
+                            </li>
+
+                            <!-- SOLICITAR CORRIDA -->
+                            <li>
+                                <a href="/html/corrida/solicitar.html">
+
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path
+                                            d="M7 3a3 3 0 00-.9 5.9V16a3 3 0 105 .9h2.8a3 3 0 100-2H11V8.9A3 3 0 007 3z" />
+                                    </svg>
+
+                                    Pedir corrida
+                                </a>
+                            </li>
+
+                            <!-- ÁREA PARA MOTORISTAS -->
+                            <li>
+                                <a href="#">
+
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path
+                                            d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 3a7 7 0 016.9 6H15a3 3 0 00-6 0H5.1A7 7 0 0112 5zm0 7a1 1 0 110 2 1 1 0 010-2zm-1 3.9V19a7 7 0 01-5.9-6h4a3 3 0 001.9 2.9zm2 0A3 3 0 0014.9 13h4A7 7 0 0113 19z" />
+                                    </svg>
+
+                                    Seja motorista
+                                </a>
+                            </li>
+
+                            <!-- SUPORTE -->
+                            <li>
+                                <a href="/html/suporte.html">
+
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M4 4h16a2 2 0 012 2v10a2 2 0 01-2 2H8l-5 4V6a2 2 0 012-2z" />
+                                    </svg>
+
+                                    Suporte
+                                </a>
+                            </li>
+
+                        </ul>
+
+                        <!-- BOTÃO SAIR -->
+                        <button class="perfil-sair" id="perfilSair" type="button">
+                            Sair
+                        </button>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+
+    <!-- MAPA DA PÁGINA -->
+
+    <div id="map"></div>
+
+    <!-- BIBLIOTECA LEAFLET -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+
+    <!-- SEÇÃO PRINCIPAL (HERO) -->
+
+    <section class="hero">
+
+        <div class="hero-text">
+
+            <h1>
+                Sua corrida
+                <span>premium</span>
+            </h1>
+
+            <p>
+                Um aplicativo moderno, rápido e seguro.
+                Viaje com conforto em uma experiência extraordinária.
+            </p>
+
+            <!-- BOTÕES PRINCIPAIS -->
+            <div class="hero-buttons">
+
+                <a href="/html/corrida/solicitar.html" class="btn">
+                    Pedir corrida
+                </a>
+
+                <a href="/html/ajuda/ajuda.html" class="btn secondary-btn">
+                    Como funciona
+                </a>
+
+            </div>
+        </div>
+
+        <!-- PRÉVIA DO APLICATIVO EM UM CELULAR -->
+        <div class="hero-image">
+
+            <div class="phone">
+
+                <div class="screen">
+
+                    <div class="map"></div>
+
+                    <!-- CARTÃO DE CORRIDA -->
+                    <div class="ride-card">
+
+                        <h3>WN57 Comfort</h3>
+
+                        <p>
+                            Motorista chegando • 3 min
+                        </p>
+
+                        <!-- INFORMAÇÕES DA MOTORISTA -->
+                        <div class="driver">
+
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Foto da motorista">
+
+                            <div>
+                                <h4>Mariana Silva</h4>
+                                <span>HB20 • ABC-1234</span>
+                            </div>
+
+                        </div>
+
+                        <button class="btn" style="width:100%;">
+                            Confirmar corrida
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- ESTATÍSTICAS DA PLATAFORMA -->
+
+    <section class="stats">
+
+        <div class="stat-box">
+            <h2>+20k</h2>
+            <p>Corridas realizadas</p>
+        </div>
+
+        <div class="stat-box">
+            <h2>4.9★</h2>
+            <p>Avaliação dos usuários</p>
+        </div>
+
+        <div class="stat-box">
+            <h2>+3k</h2>
+            <p>Motoristas ativos</p>
+        </div>
+
+    </section>
+
+
+    <!-- SOBRE A WN57 E FUNCIONALIDADES -->
+    <section class="features" id="sobre">
+
+        <div class="section-title">
+
+            <h2>Por que usar a WN57?</h2>
+
+            <p>
+                Mobilidade moderna, elegante e segura.
+            </p>
+
+        </div>
+
+        <!-- LISTA DE FUNCIONALIDADES -->
+        <div class="feature-grid">
+
+            <div class="feature-card">
+                <div class="icon">🚗</div>
+                <h3>Corridas rápidas</h3>
+                <p>
+                    Motoristas próximos em poucos segundos.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon">📍</div>
+                <h3>Mapa em tempo real</h3>
+                <p>
+                    Veja sua rota ao vivo com GPS moderno.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon">🛡️</div>
+                <h3>Mais segurança</h3>
+                <p>
+                    Motoristas verificados e suporte 24h.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon">💳</div>
+                <h3>Pagamento fácil</h3>
+                <p>
+                    PIX, cartão ou dinheiro.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CATEGORIAS DE CORRIDA -->
+
+    <section class="rides">
+
+        <!-- CATEGORIA WN BLACK -->
+        <div class="ride-option" style="background-image:url('/img/carros/carro.black.jpg')">
+
+            <div class="ride-content">
+                <h3>WN Black</h3>
+                <p>
+                    Luxo e conforto premium.
+                </p>
+            </div>
+
+        </div>
+
+        <!-- CATEGORIA WN COMFORT -->
+        <div class="ride-option" style="background-image:url('/img/carros/carro.confort.jpg')">
+
+            <div class="ride-content">
+                <h3>WN Comfort</h3>
+                <p>
+                    Viagens mais confortáveis.
+                </p>
+            </div>
+
+        </div>
+
+        <!-- CATEGORIA WN ECONÔMICO -->
+        <div class="ride-option" style="background-image:url('/img/carros/carro.economico.jpg')">
+
+            <div class="ride-content">
+                <h3>WN Econômico</h3>
+                <p>
+                    Corridas rápidas e acessíveis.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- AVALIAÇÕES DOS CLIENTES -->
+
+    <section class="reviews">
+
+        <div class="review">
+            <p>
+                “Aplicativo muito bonito e rápido.
+                A experiência parece app internacional.”
+            </p>
+
+            <h4>Amanda • ⭐ 5.0</h4>
+        </div>
+
+        <div class="review">
+            <p>
+                “Mapa incrível e motoristas muito educados.”
+            </p>
+
+            <h4>Fernanda • ⭐ 4.9</h4>
+        </div>
+
+        <div class="review">
+            <p>
+                “Visual premium e muito moderno.”
+            </p>
+
+            <h4>Julia • ⭐ 5.0</h4>
+        </div>
+
+    </section>
+
+
+    <!-- DOWNLOAD DO APLICATIVO -->
+
+    <section class="download">
+
+        <div>
+
+            <h2>Baixe o app WN57</h2>
+
+            <p>
+                Solicite sua corrida em segundos com uma plataforma moderna,
+                rápida e segura.
+            </p>
+
+        </div>
+
+        <button class="btn secondary-btn">
+            Download
+        </button>
+
+    </section>
+
+
+    <!-- RODAPÉ -->
+
+    <footer>
+        © 2026 WN57 • Todos os direitos reservados
+    </footer>
+
+
+    <!-- BOTÃO VOLTAR AO TOPO -->
+    <button id="topBtn" title="Voltar ao topo">
+        ↑
+    </button>
+
+
+    <!-- AVISO DE COOKIES -->
+
+    <div class="cookie-banner" id="cookieBanner">
+
+        <button class="cookie-fechar" id="fecharCookie">
+            ×
+        </button>
+
+        <div class="cookie-texto">
+
+            <h3>Nós utilizamos cookies</h3>
+
+            <p>
+                Nós utilizamos cookies para melhorar a sua experiência de navegação.
+                Ao aceitar, você concorda com a
+                <strong>Política de Privacidade</strong> e
+                <strong>Política de Cookies</strong> da WN57.
+            </p>
+
+        </div>
+
+        <!-- BOTÕES DE COOKIES -->
+        <div class="cookie-botoes">
+
+            <button class="cookie-aceitar" id="aceitarCookie">
+                Aceitar
+            </button>
+
+            <button class="cookie-recusar" id="recusarCookie">
+                Recusar
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- JAVASCRIPT DA PÁGINA INICIAL -->
+
+    <script src="/javascript/principal/inicial.js"></script>
+
+</body>
+
+</html>

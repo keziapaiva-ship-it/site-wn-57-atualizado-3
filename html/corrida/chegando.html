@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seu motorista - WN57</title>
+
+    <!-- Estilos da página -->
+    <link rel="stylesheet" href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/css/chegando.css">
+
+    <!-- Fontes (Google Fonts) -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Mapa (Leaflet) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+
+<body>
+
+    <!-- 01. MENU (igual ao das outras páginas) -->
+    <header>
+
+        <div class="logo">
+            <img src="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/img/logo/logown57.png" alt="WN57">
+        </div>
+
+        <nav>
+            <a href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/inicial.html">Inicial</a>
+            <a href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/corrida.html">Viajar</a>
+            <a href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/atividade.html">Atividade</a>
+            <a href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/quemsomos.html">Sobre-nós</a>
+        </nav>
+
+        <div class="menu-direita">
+
+            <button class="idioma-btn" id="btnIdioma" type="button" data-no-i18n>
+                🌐 PT-BR
+            </button>
+
+            <a href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/ajuda.html">
+                Ajuda
+            </a>
+
+            <div id="usuarioArea">
+                <a href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/login.html">
+                    Fazer login
+                </a>
+            </div>
+
+            <a href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/cadastro.html" class="btn-menu">
+                Cadastre-se
+            </a>
+        </div>
+    </header>
+    <!-- /MENU -->
+
+
+    <!-- 02. SEM VIAGEM ATIVA -->
+    <section class="sem-viagem" id="semViagem" hidden>
+        <div class="sem-viagem-card">
+            <h1>Nenhuma viagem em andamento</h1>
+            <p>Peça uma corrida para acompanhar seu motorista aqui.</p>
+            <a class="btn-primario"
+                href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/solicitar.html">Solicitar corrida</a>
+        </div>
+    </section>
+
+
+    <!-- 03. ACOMPANHAMENTO -->
+    <main class="tela" id="tela" hidden>
+
+        <!-- ---------- Painel ---------- -->
+        <section class="painel">
+
+            <div class="arrastar"></div>
+
+            <div class="status-topo">
+                <span class="tag">WN57</span>
+                <h1 id="stTitulo">Procurando motorista...</h1>
+                <p id="stSub">Estamos encontrando o melhor motorista perto de você.</p>
+                <div class="barra"><div id="barraFill"></div></div>
+            </div>
+
+
+            <!-- Motorista (aparece quando encontrado) -->
+            <div class="motorista" id="boxMotorista" hidden>
+
+                <div class="motorista-linha">
+                    <div class="avatar" id="mtAvatar">M</div>
+
+                    <div class="motorista-dados">
+                        <strong id="mtNome">Motorista</strong>
+                        <small id="mtNota">★ 4,9</small>
+                    </div>
+
+                    <div class="carro-dados">
+                        <strong id="mtCarro">Carro</strong>
+                        <span class="placa" id="mtPlaca">ABC1D23</span>
+                    </div>
+                </div>
+
+                <div class="pin-box">
+                    <span>Código de verificação</span>
+                    <strong id="mtPin">0000</strong>
+                </div>
+
+            </div>
+
+
+            <!-- Rota -->
+            <div class="rota">
+                <div class="rota-item">
+                    <span class="bolinha"></span>
+                    <div>
+                        <small>Embarque</small>
+                        <strong id="viOrigem">--</strong>
+                    </div>
+                </div>
+                <div class="rota-item">
+                    <span class="quadrado"></span>
+                    <div>
+                        <small>Destino</small>
+                        <strong id="viDestino">--</strong>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Pagamento -->
+            <div class="pagto">
+                <div>
+                    <small>Pagamento</small>
+                    <strong id="viForma">--</strong>
+                </div>
+                <div class="pagto-valor">
+                    <small id="viCategoria">WN</small>
+                    <strong id="viValor">R$ 0,00</strong>
+                </div>
+            </div>
+
+
+            <!-- Ações -->
+            <div class="acoes" id="boxAcoes">
+                <button type="button" id="btnLigar"><span>📞</span>Ligar</button>
+                <button type="button" id="btnMensagem"><span>💬</span>Mensagem</button>
+                <button type="button" id="btnCompartilhar"><span>🔗</span>Compartilhar</button>
+                <button type="button" id="btnCancelar" class="perigo"><span>✕</span>Cancelar</button>
+            </div>
+
+
+            <!-- Fim da viagem -->
+            <div class="final" id="boxFinal" hidden>
+                <h2>Avalie seu motorista</h2>
+                <div class="estrelas" id="estrelas" role="radiogroup" aria-label="Nota do motorista">
+                    <button type="button" data-nota="1" aria-label="1 estrela">★</button>
+                    <button type="button" data-nota="2" aria-label="2 estrelas">★</button>
+                    <button type="button" data-nota="3" aria-label="3 estrelas">★</button>
+                    <button type="button" data-nota="4" aria-label="4 estrelas">★</button>
+                    <button type="button" data-nota="5" aria-label="5 estrelas">★</button>
+                </div>
+                <button type="button" class="btn-primario" id="btnConcluir">Concluir</button>
+            </div>
+
+        </section>
+
+
+        <!-- ---------- Mapa ---------- -->
+        <section class="mapa-wrap">
+            <div id="map"></div>
+        </section>
+
+    </main>
+
+    <!-- Aviso rápido -->
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <!-- 04. SCRIPTS -->
+    <script src="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/javascript/chegando.js"></script>
+</body>
+
+</html>

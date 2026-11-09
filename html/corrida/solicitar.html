@@ -1,0 +1,378 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicite sua viagem - WN57</title>
+    <link rel="stylesheet" href="/css/corrida/solicitar.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script>
+        try {
+            var u = JSON.parse(localStorage.getItem("usuarioLogado") || localStorage.getItem("usuario"));
+            if (u && u.nome) document.documentElement.classList.add("logado");
+        } catch (e) { }
+    </script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="/img/logo/logo1.jpg" alt="WN57">
+        </div>
+
+        <nav>
+            <a href="/html/principal/inicial.html">Inicial</a>
+            <a href="/html/corrida/solicitar.html">Viajar</a>
+            <a href="/html/">Sobre-nós</a>
+        </nav>
+
+        <div class="menu-direita">
+            <button class="idioma-btn" id="btnIdioma" type="button" data-no-i18n>🌐 PT-BR</button>
+            <a href="/html/ajuda/ajuda.html">Ajuda</a>
+            <div id="usuarioArea" data-deslogado>
+                <a href="/html/login/login.html" data-login>Fazer login</a>
+            </div>
+            <a href="/html/login/cadastro.html" class="btn-menu" data-deslogado>Cadastre-se</a>
+            <div class="perfil" id="perfil">
+                <button class="perfil-btn" id="perfilBtn" type="button" aria-haspopup="true" aria-expanded="false">
+                    <span class="perfil-avatar" id="avatarMini">U</span>
+                    <span id="perfilNomeCurto">Usuário</span>
+                    <span class="seta">▾</span>
+                </button>
+                <div class="perfil-menu" id="perfilMenu">
+                    <div class="perfil-topo">
+                        <div>
+                            <h3 id="perfilNome">Usuário</h3>
+                            <span class="nota">★ 5,00</span>
+                        </div>
+                        <div class="perfil-foto" id="perfilFoto">U</div>
+                    </div>
+                    <div class="perfil-atalhos">
+                        <a href="/html/ajuda/ajuda.html">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path
+                                    d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 4a6 6 0 013.6 1.2l-2.2 2.2a3 3 0 00-2.8 0L8.4 7.2A6 6 0 0112 6zM6 12c0-1.3.4-2.6 1.2-3.6l2.2 2.2a3 3 0 000 2.8l-2.2 2.2A6 6 0 016 12zm6 6a6 6 0 01-3.6-1.2l2.2-2.2a3 3 0 002.8 0l2.2 2.2A6 6 0 0112 18zm4.8-2.4l-2.2-2.2a3 3 0 000-2.8l2.2-2.2A6 6 0 0118 12c0 1.3-.4 2.6-1.2 3.6z" />
+                            </svg>
+                            Ajuda
+                        </a>
+                        <a
+                            href="/site-de-corrida-wn-57-main/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/carteira.html">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path
+                                    d="M3 6a2 2 0 012-2h14a2 2 0 012 2v3H3zm0 5h18v7a2 2 0 01-2 2H5a2 2 0 01-2-2zm11 2v2h5v-2z" />
+                            </svg>
+                            Carteira
+                        </a>
+                        <a
+                            href="/site-de-corrida-wn-57-main/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/atividade.html">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path
+                                    d="M6 2h12a1 1 0 011 1v19l-3-2-2 2-2-2-2 2-2-2-3 2V3a1 1 0 011-1zm2 5v2h8V7zm0 4v2h8v-2z" />
+                            </svg>
+                            Atividade
+                        </a>
+                    </div>
+                    <ul class="perfil-lista">
+                        <li><a
+                                href="/site-de-corrida-wn-57-main/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/gerenciar.conta.html"><svg
+                                    viewBox="0 0 24 24">
+                                    <path d="M12 12a5 5 0 100-10 5 5 0 000 10zm0 2c-4 0-8 2-8 5v3h16v-3c0-3-4-5-8-5z" />
+                                </svg>Gerenciar conta</a></li>
+                        <li><a
+                                href="/site-de-corrida-wn-57-main/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/solicitar.html"><svg
+                                    viewBox="0 0 24 24">
+                                    <path
+                                        d="M7 3a3 3 0 00-.9 5.9V16a3 3 0 105 .9h2.8a3 3 0 100-2H11V8.9A3 3 0 007 3z" />
+                                </svg>Pedir corrida</a></li>
+                        <li><a href="#"><svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 3a7 7 0 016.9 6H15a3 3 0 00-6 0H5.1A7 7 0 0112 5zm0 7a1 1 0 110 2 1 1 0 010-2zm-1 3.9V19a7 7 0 01-5.9-6h4a3 3 0 001.9 2.9zm2 0A3 3 0 0014.9 13h4A7 7 0 0113 19z" />
+                                </svg>Seja motorista</a></li>
+                        <li><a
+                                href="/site-de-corrida-wn-57-main/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/suporte.html"><svg
+                                    viewBox="0 0 24 24">
+                                    <path d="M4 4h16a2 2 0 012 2v10a2 2 0 01-2 2H8l-5 4V6a2 2 0 012-2z" />
+                                </svg>Suporte</a></li>
+                    </ul>
+                    <button class="perfil-sair" id="perfilSair" type="button">Sair</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Vá para qualquer<br>lugar <em>com WN</em></h1>
+        <button class="cidade-btn" id="abrirCidade" type="button">
+            📍 <span id="cidadeSelecionada">Curitiba, BR</span>
+            <span class="alterar">Alterar cidade</span>
+        </button>
+        <div class="modal-overlay" id="modalCidade">
+            <div class="modal-cidade">
+                <button class="fechar" id="fecharCidade" type="button">×</button>
+                <h2>Você está atualmente em<br><span id="cidadeTitulo">Curitiba</span></h2>
+                <button class="explorar" id="explorarEstado" type="button">Explorar o estado</button>
+                <div class="pesquisa">
+                    <span>⌕</span>
+                    <input type="text" id="pesquisaCidade" placeholder="Pesquisar estado ou cidade">
+                </div>
+                <h3>Estados do Brasil</h3>
+                <div class="lista-cidades" id="listaCidades">
+                    <button class="cidade-item" data-cidade="Acre, AC">🇧🇷 Acre (AC)</button>
+                    <button class="cidade-item" data-cidade="Alagoas, AL">🇧🇷 Alagoas (AL)</button>
+                    <button class="cidade-item" data-cidade="Amapá, AP">🇧🇷 Amapá (AP)</button>
+                    <button class="cidade-item" data-cidade="Amazonas, AM">🇧🇷 Amazonas (AM)</button>
+                    <button class="cidade-item" data-cidade="Bahia, BA">🇧🇷 Bahia (BA)</button>
+                    <button class="cidade-item" data-cidade="Ceará, CE">🇧🇷 Ceará (CE)</button>
+                    <button class="cidade-item" data-cidade="Distrito Federal, DF">🇧🇷 Distrito Federal (DF)</button>
+                    <button class="cidade-item" data-cidade="Espírito Santo, ES">🇧🇷 Espírito Santo (ES)</button>
+                    <button class="cidade-item" data-cidade="Goiás, GO">🇧🇷 Goiás (GO)</button>
+                    <button class="cidade-item" data-cidade="Maranhão, MA">🇧🇷 Maranhão (MA)</button>
+                    <button class="cidade-item" data-cidade="Mato Grosso, MT">🇧🇷 Mato Grosso (MT)</button>
+                    <button class="cidade-item" data-cidade="Mato Grosso do Sul, MS">🇧🇷 Mato Grosso do Sul
+                        (MS)</button>
+                    <button class="cidade-item" data-cidade="Minas Gerais, MG">🇧🇷 Minas Gerais (MG)</button>
+                    <button class="cidade-item" data-cidade="Pará, PA">🇧🇷 Pará (PA)</button>
+                    <button class="cidade-item" data-cidade="Paraíba, PB">🇧🇷 Paraíba (PB)</button>
+                    <button class="cidade-item" data-cidade="Paraná, PR">🇧🇷 Paraná (PR)</button>
+                    <button class="cidade-item" data-cidade="Pernambuco, PE">🇧🇷 Pernambuco (PE)</button>
+                    <button class="cidade-item" data-cidade="Piauí, PI">🇧🇷 Piauí (PI)</button>
+                    <button class="cidade-item" data-cidade="Rio de Janeiro, RJ">🇧🇷 Rio de Janeiro (RJ)</button>
+                    <button class="cidade-item" data-cidade="Rio Grande do Norte, RN">🇧🇷 Rio Grande do Norte
+                        (RN)</button>
+                    <button class="cidade-item" data-cidade="Rio Grande do Sul, RS">🇧🇷 Rio Grande do Sul (RS)</button>
+                    <button class="cidade-item" data-cidade="Rondônia, RO">🇧🇷 Rondônia (RO)</button>
+                    <button class="cidade-item" data-cidade="Roraima, RR">🇧🇷 Roraima (RR)</button>
+                    <button class="cidade-item" data-cidade="Santa Catarina, SC">🇧🇷 Santa Catarina (SC)</button>
+                    <button class="cidade-item" data-cidade="São Paulo, SP">🇧🇷 São Paulo (SP)</button>
+                    <button class="cidade-item" data-cidade="Sergipe, SE">🇧🇷 Sergipe (SE)</button>
+                    <button class="cidade-item" data-cidade="Tocantins, TO">🇧🇷 Tocantins (TO)</button>
+                </div>
+            </div>
+        </div>
+        <p>Escolha o veículo perfeito, calcule sua rota e chegue com estilo.</p>
+    </section>
+
+    <div class="route-card">
+        <div class="input-group">
+            <input id="origem" placeholder="Sua localização">
+            <button class="btn-loc" onclick="pegarGPS()" type="button">📍</button>
+        </div>
+        <div class="input-group">
+            <input id="destino" placeholder="Para onde você vai?" oninput="buscarSugestoes(this.value)">
+        </div>
+        <ul id="sugestoes"></ul>
+        <button class="btn-calc" onclick="irMapa()" type="button">Solicitar corrida</button>
+    </div>
+
+    <section id="destinoEstado" class="destino-estado">
+        <div class="destino-topo">
+            <span class="destino-tag">WN57</span>
+            <h2>Explore seu destino</h2>
+            <p>Encontre lugares, veja sua rota e descubra opções de viagem.</p>
+        </div>
+
+        <div class="destino-abas">
+            <button class="destino-aba ativa" data-categoria="atracoes">Atrações</button>
+            <button class="destino-aba" data-categoria="transporte">Transporte</button>
+            <button class="destino-aba" data-categoria="hoteis">Hotéis</button>
+            <button class="destino-aba" data-categoria="entretenimento">Entretenimento</button>
+            <button class="destino-aba" data-categoria="restaurantes">Restaurantes</button>
+        </div>
+
+        <div class="destino-conteudo">
+            <div class="lista-destinos" id="listaDestinos"></div>
+            <div class="mapa-estado">
+                <iframe id="mapaEstado" title="Mapa do destino selecionado" loading="lazy"></iframe>
+            </div>
+            <div class="destino-info">
+                <div class="info-card">
+                    <span>📍</span>
+                    <div><strong id="infoOrigem">Sua localização</strong><small>Origem</small></div>
+                </div>
+                <div class="info-card">
+                    <span>🏁</span>
+                    <div><strong id="infoDestino">Escolha um destino</strong><small>Destino</small></div>
+                </div>
+                <div class="info-card">
+                    <span>⏱️</span>
+                    <div><strong id="infoTempo">-- min</strong><small>Tempo estimado</small></div>
+                </div>
+                <div class="info-card">
+                    <span>💰</span>
+                    <div><strong id="infoPreco">R$ --</strong><small>Estimativa da viagem</small></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="wn57-viagens">
+        <div class="wn57-titulo">
+            <span>SUA VIAGEM, DO SEU JEITO</span>
+            <h2>Use o <strong>WN57</strong> para<br>viajar do seu jeito</h2>
+            <p>Mais praticidade, segurança e conforto em todas as suas viagens.</p>
+        </div>
+
+        <div class="wn57-cards">
+            <div class="wn57-card">
+                <div class="wn57-imagem">
+                    <img src="/img/tres imagens do solicitar/imagem2.jpg" alt="Pessoa escolhendo uma viagem">
+                </div>
+                <div class="wn57-card-conteudo">
+                    <h3>Opções de viagem</h3>
+                    <p>Escolha a opção ideal para o seu destino, com conforto e praticidade.</p>
+                    <a href="#">Saiba mais</a>
+                </div>
+            </div>
+
+            <div class="wn57-card">
+                <div class="wn57-imagem">
+                    <img src="/img/tres imagens do solicitar/imagem 1.jpg" alt="Pessoa viajando com seu pet">
+                </div>
+                <div class="wn57-card-conteudo">
+                    <h3>Viaje com seu pet na WN57</h3>
+                    <p>Viaje com seu pet de forma confortável, segura e tranquila.</p>
+                    <a href="#">Saiba mais</a>
+                </div>
+            </div>
+
+            <div class="wn57-card">
+                <div class="wn57-imagem">
+                    <img src="/img/tres imagens do solicitar/imagem3.jpg" alt="Carro WN57">
+                </div>
+                <div class="wn57-card-conteudo">
+                    <h3>Mais cidades</h3>
+                    <p>Encontre o WN57 em diferentes cidades e escolha seu destino.</p>
+                    <a href="#">Saiba mais</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="agendamento">
+        <div class="agendamento-container">
+            <div class="agendamento-card">
+                <span class="agendamento-tag">WN57</span>
+                <h1>Planeje sua viagem</h1>
+                <p class="descricao">Escolha a data e o horário para realizar sua viagem.</p>
+
+                <div class="campos-agendamento">
+                    <div class="campo">
+                        <label for="data">Data</label>
+                        <div class="input-box">
+                            <span>📅</span>
+                            <input type="date" id="data">
+                        </div>
+                    </div>
+
+                    <div class="campo">
+                        <label for="horario">Horário</label>
+                        <div class="input-box">
+                            <span>🕐</span>
+                            <input type="time" id="horario">
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn-avancar" onclick="avancarAgendamento()" type="button">
+                    Avançar <span>→</span>
+                </button>
+            </div>
+
+            <div class="vantagens-card">
+                <h2>Por que agendar?</h2>
+                <div class="vantagem">
+                    <div class="icone">✓</div>
+                    <div>
+                        <h3>Escolha seu horário</h3>
+                        <p>Defina quando deseja realizar sua viagem.</p>
+                    </div>
+                </div>
+                <div class="vantagem">
+                    <div class="icone">✓</div>
+                    <div>
+                        <h3>Mais praticidade</h3>
+                        <p>Organize sua viagem com antecedência.</p>
+                    </div>
+                </div>
+                <div class="vantagem">
+                    <div class="icone">✓</div>
+                    <div>
+                        <h3>Escolha sua categoria</h3>
+                        <p>WN, Black ou Pet para você escolher.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="destaque-wn57">
+        <div class="destaque-texto">
+            <h2>Conheça o WN57</h2>
+            <p>Descubra quem somos e o que estamos construindo para transformar a experiência de mobilidade.</p>
+            <a href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/quemsomos.html"
+                class="btn-saiba-mais">Saiba mais</a>
+        </div>
+        <div class="destaque-imagem">
+            <img src="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/img/ChatGPT Image 9 de set. de 2026, 15_31_56.png"
+                alt="Carro WN57">
+        </div>
+    </section>
+
+    <footer class="rodape">
+        <div class="rodape-container">
+            <div class="rodape-topo">
+                <div>
+                    <div class="rodape-logo">WN57</div>
+                    <a href="#" class="ajuda-link">Acesse a Central de Ajuda</a>
+                </div>
+                <div class="endereco">
+                    WN57 Tecnologia Ltda | Avenida Brasil, nº 949, Pinhais, Paraná, Brasil - CEP 83320-000
+                </div>
+            </div>
+
+            <div class="rodape-colunas">
+                <div class="rodape-coluna">
+                    <h3>Empresa</h3>
+                    <a href="#">Quem somos</a><a href="#">Investidores</a><a href="#">Blog</a><a href="#">Carreiras</a>
+                </div>
+                <div class="rodape-coluna">
+                    <h3>Produtos</h3>
+                    <a href="#">Viajar</a><a href="#">Gift cards</a><a href="#">WN57 Health</a><a href="#">WN57
+                        Advertising</a>
+                </div>
+                <div class="rodape-coluna">
+                    <h3>Cidadania global</h3>
+                    <a href="#">Segurança</a><a href="#">Sustentabilidade</a>
+                </div>
+                <div class="rodape-coluna">
+                    <h3>Viagem</h3>
+                    <a href="#">Reservar</a><a href="#">Aeroportos</a><a href="#">Hotéis</a><a href="#">Cidades</a>
+                </div>
+            </div>
+
+            <div class="rodape-bottom">
+                <div class="redes-sociais">
+                    <a href="#">in</a><a href="#">▶</a><a href="#">◎</a><a href="#">𝕏</a>
+                </div>
+                <div class="localizacao">
+                    <span>🌐 Português (Brasil)</span><span>📍 Curitiba</span>
+                </div>
+            </div>
+
+            <div class="rodape-direitos">
+                <span>© 2026 WN57</span>
+                <a href="#">Privacidade</a><a href="#">Termos</a><a href="#">Acessibilidade</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/javascript/corrida/solicita.js"></script>
+</body>
+
+</html>

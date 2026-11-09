@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WN57 - Confirmar endereço</title>
+  <link rel="stylesheet" href="/site-de-corrida-wn-57-main/site-de-corrida-wn-57-main/site-wn-57-corrida-main/css/confirmar-endereco.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+  <!-- MENU WN57 -->
+  <nav>
+    <div class="logo">
+      <img src="/site-de-corrida-wn-57-main/site-de-corrida-wn-57-main/site-wn-57-corrida-main/img/Captura de tela 2026-09-08 150021.png" alt="WN57">
+    </div>
+
+    <div class="links">
+      <a href="inicial.html">Início</a>
+      <a href="solicitar.html">Viajar</a>
+      <a href="atividade.html">Atividade</a>
+    </div>
+
+    <div class="direita">
+      <a href="login.html" class="login">
+        <i class="fa-regular fa-user"></i>
+        Fazer login
+      </a>
+      <a href="cadastro.html" class="cadastre">Cadastre-se</a>
+    </div>
+  </nav>
+
+
+  <main class="tela">
+
+    <!-- MAPA -->
+    <div id="map"></div>
+
+    <!-- aviso sobre o mapa -->
+    <div class="aviso-mapa" id="avisoMapa" hidden>
+      <i class="fa-solid fa-traffic-light"></i>
+      <span id="avisoMapaTexto">Motorista parado no semáforo</span>
+    </div>
+
+    <!-- PAINEL (3 estados: confirmar / buscando / motorista) -->
+    <section class="painel">
+
+      <div class="arrastar"></div>
+
+      <!-- ESTADO 1: CONFIRMAR -->
+      <div id="estadoConfirmar">
+
+        <span class="tag" id="tagCategoria">WN57</span>
+
+        <h1>Confirme seu local de embarque</h1>
+        <p class="dica">Arraste o pino ou toque no mapa para ajustar.</p>
+
+        <div class="endereco">
+          <div class="endereco-ico"><i class="fa-solid fa-location-dot"></i></div>
+
+          <div class="endereco-texto">
+            <span>Embarque</span>
+            <strong id="textoEndereco">Buscando localização...</strong>
+          </div>
+
+          <button type="button" class="editar" id="btnEditar" aria-label="Alterar endereço">
+            <i class="fa-solid fa-pen"></i>
+          </button>
+        </div>
+
+        <button type="button" class="btn-gps" id="btnGps">
+          <i class="fa-solid fa-crosshairs"></i> Usar minha localização
+        </button>
+
+        <p class="erro" id="erroMapa" role="alert"></p>
+
+        <button type="button" class="btn-confirmar" id="btnConfirmar" disabled>
+          Confirmar endereço
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+
+      </div>
+
+
+      <!-- ESTADO 2: PROCURANDO -->
+      <div id="estadoBuscando" hidden>
+
+        <div class="buscando-topo">
+          <div class="spinner"></div>
+          <div>
+            <h1>Procurando motoristas...</h1>
+            <p class="dica" id="textoBusca">Estamos encontrando o melhor motorista perto de você.</p>
+          </div>
+        </div>
+
+        <div class="barra"><div class="barra-fill"></div></div>
+
+        <div class="endereco">
+          <div class="endereco-ico"><i class="fa-solid fa-location-dot"></i></div>
+          <div class="endereco-texto">
+            <span>Embarque</span>
+            <strong id="buscaOrigem"></strong>
+          </div>
+        </div>
+
+        <div class="endereco">
+          <div class="endereco-ico"><i class="fa-solid fa-flag-checkered"></i></div>
+          <div class="endereco-texto">
+            <span>Destino</span>
+            <strong id="buscaDestino"></strong>
+          </div>
+        </div>
+
+        <button type="button" class="btn-cancelar" id="btnCancelarBusca">Cancelar</button>
+
+      </div>
+
+
+      <!-- ESTADO 3: MOTORISTA ENCONTRADO (estilo Uber) -->
+      <div id="estadoMotorista" hidden>
+
+        <!-- tempo de chegada -->
+        <div class="eta-topo">
+          <div>
+            <strong id="etaTitulo">Chegando em 3 min</strong>
+            <span id="etaTexto">Seu motorista está a caminho</span>
+          </div>
+
+          <div class="eta-bolha" id="etaBolha">
+            <b id="etaMin">3</b>
+            <small>min</small>
+          </div>
+        </div>
+
+        <!-- PIN -->
+        <div class="pin-box" id="pinBox">
+          <span>Informe o PIN ao motorista</span>
+          <div class="pin" id="motPin"></div>
+        </div>
+
+        <!-- motorista + carro -->
+        <div class="mot-card">
+
+          <div class="mot-esq">
+            <div class="avatar" id="motAvatar">M</div>
+            <div class="nota"><i class="fa-solid fa-star"></i> <b id="motNota">4,9</b></div>
+          </div>
+
+          <div class="mot-meio">
+            <strong id="motNome">Motorista</strong>
+            <span><span id="motCor">Cor</span> · <span id="motCarro">Carro</span></span>
+            <span class="viagens"><span id="motViagens">0</span> viagens</span>
+          </div>
+
+          <div class="mot-dir">
+            <i class="fa-solid fa-car-side"></i>
+            <div class="placa" id="motPlaca">ABC1D23</div>
+          </div>
+
+        </div>
+
+        <span class="tag-pet" id="tagPet" hidden><i class="fa-solid fa-paw"></i> Motorista aceita pet</span>
+
+        <!-- atalhos -->
+        <div class="atalhos">
+          <button type="button" id="btnCompartilhar">
+            <i class="fa-solid fa-share-nodes"></i>
+            <span>Compartilhar</span>
+          </button>
+
+          <button type="button" id="btnDetalhes" aria-expanded="false">
+            <i class="fa-solid fa-list"></i>
+            <span>Detalhes</span>
+          </button>
+
+          <a href="atividade.html">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            <span>Atividade</span>
+          </a>
+        </div>
+
+        <!-- detalhes (abre ao tocar em Detalhes) -->
+        <div class="detalhes" id="detalhes" hidden>
+
+          <div class="det-linha">
+            <i class="fa-solid fa-circle"></i>
+            <div><span>Embarque</span><strong id="detOrigem"></strong></div>
+          </div>
+
+          <div class="det-linha">
+            <i class="fa-solid fa-location-dot"></i>
+            <div><span>Destino</span><strong id="detDestino"></strong></div>
+          </div>
+
+          <div class="resumo">
+            <div>
+              <span>Categoria</span>
+              <strong id="resCategoria">WN</strong>
+            </div>
+            <div>
+              <span>Valor</span>
+              <strong id="resValor">R$ 0,00</strong>
+            </div>
+            <div>
+              <span>Pagamento</span>
+              <strong id="resPagamento">-</strong>
+            </div>
+          </div>
+
+        </div>
+
+        <button type="button" class="btn-cancelar" id="btnCancelarCorrida">Cancelar corrida</button>
+
+      </div>
+
+      <!-- ESTADO 4: VIAGEM CONCLUÍDA -->
+      <div id="estadoFim" hidden>
+
+        <div class="check"><i class="fa-solid fa-check"></i></div>
+
+        <h1 class="fim-titulo">Você chegou ao destino!</h1>
+        <p class="dica fim-sub" id="fimDestino"></p>
+
+        <div class="resumo fim-resumo">
+          <div>
+            <span>Valor</span>
+            <strong id="fimValor">R$ 0,00</strong>
+          </div>
+          <div>
+            <span>Pagamento</span>
+            <strong id="fimPagamento">-</strong>
+          </div>
+        </div>
+
+        <p class="avalie">Como foi sua viagem com <b id="fimMotorista"></b>?</p>
+
+        <div class="estrelas" id="estrelas" role="radiogroup" aria-label="Avaliação">
+          <button type="button" data-n="1" aria-label="1 estrela"><i class="fa-solid fa-star"></i></button>
+          <button type="button" data-n="2" aria-label="2 estrelas"><i class="fa-solid fa-star"></i></button>
+          <button type="button" data-n="3" aria-label="3 estrelas"><i class="fa-solid fa-star"></i></button>
+          <button type="button" data-n="4" aria-label="4 estrelas"><i class="fa-solid fa-star"></i></button>
+          <button type="button" data-n="5" aria-label="5 estrelas"><i class="fa-solid fa-star"></i></button>
+        </div>
+
+        <button type="button" class="btn-confirmar" id="btnConcluir">
+          Concluir
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="/site-de-corrida-wn-57-main/site-de-corrida-wn-57-main/site-wn-57-corrida-main/javascript/confirmar-endereco.js"></script>
+
+</body>
+
+</html>

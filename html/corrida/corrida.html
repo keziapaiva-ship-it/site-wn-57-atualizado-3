@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WN57 - Sua corrida</title>
+
+  <!-- Estilos principais -->
+  <link rel="stylesheet"
+    href="/css/corrida/corrida.css">
+
+  <!-- Estilos da área de pagamento -->
+  <link rel="stylesheet"
+    href="/css/corrida/pagamento.css">
+
+  <!-- Fonte DM Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+  <!-- Mensagem de login -->
+  <div id="mensagemLogin" class="mensagem-login">
+    <div class="caixa-login">
+      <h2>Faça login primeiro</h2>
+      <p>Você precisa fazer login antes de solicitar uma corrida.</p>
+      <button onclick="irParaLogin()">Fazer login</button>
+    </div>
+  </div>
+
+  <!-- Menu WN57 -->
+  <nav>
+
+    <div class="logo">
+      <img src="/img/logo/logo1.jpg" alt="WN57">
+    </div>
+
+    <div class="links">
+      <a href="/html/principal/inicial.html">Início</a>
+      <a href="/html/corrida/solicitar.html">Viajar</a>
+    </div>
+
+    <div class="direita">
+
+      <button class="compartilhar" onclick="compartilharCorrida()">
+        <i class="fa-solid fa-share-nodes"></i>
+      </button>
+
+      <a href="/html/login/login.html" class="login">
+        <i class="fa-regular fa-user"></i>
+        Fazer login
+      </a>
+
+      <a href="/html/login/cadastro.html" class="cadastre">
+        Cadastre-se
+      </a>
+
+    </div>
+
+  </nav>
+
+  <!-- Área principal da corrida -->
+  <main class="corrida-container">
+
+    <!-- Mapa -->
+    <section class="mapa-area">
+
+      <div id="map">
+        <div id="infoRota">
+          <strong id="distanciaRota">Calculando rota...</strong>
+          <span id="tempoRota">Aguarde...</span>
+        </div>
+      </div>
+
+      <div class="mapa-topo"></div>
+
+    </section>
+
+    <!-- Painel da corrida -->
+    <section class="painel-corrida">
+
+      <div class="arrastar"></div>
+
+      <div class="titulo-painel">
+        <span class="tag">WN57</span>
+        <h1>Para onde vamos?</h1>
+        <p>Confira os dados da sua viagem.</p>
+      </div>
+
+      <!-- Localização e destino -->
+      <div class="rota-info">
+
+        <div class="rota-linha">
+
+          <div class="icone-rota origem-icone">
+            <i class="fa-solid fa-circle"></i>
+          </div>
+
+          <div class="rota-texto">
+            <span>Localização atual</span>
+            <strong id="mostrarOrigem">Carregando...</strong>
+          </div>
+
+        </div>
+
+        <div class="linha-vertical"></div>
+
+        <div class="rota-linha">
+
+          <div class="icone-rota destino-icone">
+            <i class="fa-solid fa-location-dot"></i>
+          </div>
+
+          <div class="rota-texto">
+            <span>Destino</span>
+            <strong id="mostrarDestino">Carregando...</strong>
+          </div>
+
+          <button class="editar-rota" onclick="voltarEditar()">
+            <i class="fa-solid fa-pen"></i>
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- Categorias de veículos -->
+      <h2 class="titulo-categoria">Escolha seu veículo</h2>
+
+      <div class="categorias">
+
+        <div class="categoria ativa" onclick="selecionarCarro(this, 'WN', 15)">
+
+          <img src="../img/Gemini_Generated_Image_98smgp98smgp98sm.jpg" alt="Carro WN">
+
+          <div class="categoria-info">
+            <h3>WN</h3>
+            <p>Confortável e econômico</p>
+            <span>4 passageiros</span>
+          </div>
+
+          <strong class="preco">R$ 15,00</strong>
+
+        </div>
+
+        <div class="categoria" onclick="selecionarCarro(this, 'Black', 25)">
+
+          <img src="../img/ChatGPT Image 9 de set. de 2026, 15_31_56.png" alt="Carro WN Black">
+
+          <div class="categoria-info">
+            <h3>WN Black</h3>
+            <p>Mais conforto para você</p>
+            <span>4 passageiros</span>
+          </div>
+
+          <strong class="preco">R$ 25,00</strong>
+
+        </div>
+
+        <div class="categoria" onclick="selecionarCarro(this, 'Pet', 20)">
+
+          <img src="../img/Gemini_Generated_Image_98smgp98smgp98sm.jpg" alt="Carro WN Pet">
+
+          <div class="categoria-info">
+            <h3>WN Pet</h3>
+            <p>Viaje com seu pet</p>
+            <span>4 passageiros</span>
+          </div>
+
+          <strong class="preco">R$ 20,00</strong>
+
+        </div>
+
+      </div>
+
+      <!-- Área de pagamento -->
+      <h2 class="titulo-categoria">Pagamento</h2>
+
+      <div class="pg">
+
+        <fieldset class="pg-metodos">
+          <legend>Forma de pagamento</legend>
+
+          <label class="pg-metodo">
+            <input type="radio" name="pagamento" value="cartao" checked>
+            <span><i class="fa-regular fa-credit-card"></i> Cartão</span>
+          </label>
+
+          <label class="pg-metodo">
+            <input type="radio" name="pagamento" value="pix">
+            <span><i class="fa-brands fa-pix"></i> Pix</span>
+          </label>
+
+          <label class="pg-metodo">
+            <input type="radio" name="pagamento" value="dinheiro">
+            <span><i class="fa-solid fa-money-bill-wave"></i> Dinheiro</span>
+          </label>
+
+        </fieldset>
+
+        <!-- Dados do cartão -->
+        <div class="pg-painel" id="pg-cartao">
+
+          <div class="pg-campo">
+            <label for="cartaoNumero">Número do cartão</label>
+            <input type="tel" id="cartaoNumero" inputmode="numeric" autocomplete="cc-number"
+              placeholder="0000 0000 0000 0000" maxlength="19">
+          </div>
+
+          <div class="pg-campo">
+            <label for="cartaoNome">Nome impresso no cartão</label>
+            <input type="text" id="cartaoNome" autocomplete="cc-name" placeholder="Como está no cartão">
+          </div>
+
+          <div class="pg-duas">
+
+            <div class="pg-campo">
+              <label for="cartaoValidade">Validade</label>
+              <input type="tel" id="cartaoValidade" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/AA"
+                maxlength="5">
+            </div>
+
+            <div class="pg-campo">
+              <label for="cartaoCvv">CVV</label>
+              <input type="tel" id="cartaoCvv" inputmode="numeric" autocomplete="cc-csc" placeholder="123"
+                maxlength="4">
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Informações do Pix -->
+        <div class="pg-painel" id="pg-pix" hidden>
+          <p class="pg-nota">O código Pix é gerado quando você confirmar a corrida.</p>
+        </div>
+
+        <!-- Informações do pagamento em dinheiro -->
+        <div class="pg-painel" id="pg-dinheiro" hidden>
+          <p class="pg-nota">Pague direto ao motorista no fim da corrida.</p>
+        </div>
+
+        <p class="pg-erro" id="pgErro" role="alert"></p>
+
+      </div>
+
+      <!-- Resumo da corrida -->
+      <div class="resumo">
+
+        <div>
+          <span>Categoria escolhida</span>
+          <strong id="categoriaEscolhida">WN</strong>
+        </div>
+
+        <div>
+          <span>Valor estimado</span>
+          <strong id="valorCorrida">R$ 15,00</strong>
+        </div>
+
+        <div>
+          <span>Pagamento</span>
+          <strong id="pagamentoEscolhido">Cartão</strong>
+        </div>
+
+      </div>
+
+      <!-- Botão de confirmação -->
+      <button class="btn-confirmar" onclick="confirmarCorrida()">
+        Confirmar corrida
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+
+      <p class="pg-sucesso" id="pgSucesso" role="status"></p>
+
+    </section>
+
+  </main>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script
+    src="/javascript/corrida/corrida.js"></script>
+
+</body>
+
+</html>

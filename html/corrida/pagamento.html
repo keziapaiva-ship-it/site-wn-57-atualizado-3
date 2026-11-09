@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagamento - WN57</title>
+
+    <!-- Estilos da página -->
+    <link rel="stylesheet" href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/css/pagamento.css">
+
+    <!-- Fontes (Google Fonts) -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- 01. MENU (igual ao da página solicitar) -->
+    <header>
+
+        <div class="logo">
+            <img src="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/img/logo/logown57.png" alt="WN57">
+        </div>
+
+        <nav>
+            <a href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/inicial.html">Inicial</a>
+            <a href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/corrida.html">Viajar</a>
+            <a href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/atividade.html">Atividade</a>
+            <a href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/quemsomos.html">Sobre-nós</a>
+        </nav>
+
+        <div class="menu-direita">
+
+            <button class="idioma-btn" id="btnIdioma" type="button" data-no-i18n>
+                🌐 PT-BR
+            </button>
+
+            <a href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/ajuda.html">
+                Ajuda
+            </a>
+
+            <!-- Login (preenchido via JS quando o usuário está logado) -->
+            <div id="usuarioArea">
+                <a href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/login.html">
+                    Fazer login
+                </a>
+            </div>
+
+            <a href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/cadastro.html" class="btn-menu">
+                Cadastre-se
+            </a>
+        </div>
+    </header>
+    <!-- /MENU -->
+
+
+    <!-- 02. PAGAMENTO -->
+    <main class="pagamento">
+
+        <div class="pg-topo">
+            <span class="pg-tag">WN57</span>
+            <h1>Pagamento</h1>
+            <p>Escolha como pagar e finalize sua viagem com segurança.</p>
+        </div>
+
+        <form id="formPagamento" class="pg-grid" novalidate>
+
+            <!-- ---------- Coluna esquerda: formas de pagamento ---------- -->
+            <section class="pg-card">
+
+                <h2>Forma de pagamento</h2>
+
+                <div class="metodos" role="radiogroup" aria-label="Forma de pagamento">
+                    <button type="button" class="metodo ativo" role="radio" aria-checked="true" data-metodo="pix">
+                        <span class="metodo-ico">⚡</span>
+                        <strong>PIX</strong>
+                        <small>Aprovação instantânea</small>
+                    </button>
+
+                    <button type="button" class="metodo" role="radio" aria-checked="false" data-metodo="cartao">
+                        <span class="metodo-ico">💳</span>
+                        <strong>Cartão de crédito</strong>
+                        <small>Até 3x sem juros</small>
+                    </button>
+                </div>
+
+
+                <!-- ===== PIX ===== -->
+                <div id="painelPix" class="painel">
+
+                    <div class="pix-layout">
+
+                        <div class="pix-qr">
+                            <img id="pixQr" alt="QR Code PIX" width="220" height="220">
+                        </div>
+
+                        <div class="pix-dados">
+                            <div class="pix-status" id="pixStatus">
+                                <span class="ponto"></span>
+                                <span id="pixStatusTxt">Aguardando pagamento</span>
+                                <strong id="pixTempo">10:00</strong>
+                            </div>
+
+                            <label for="pixCodigo">PIX copia e cola</label>
+                            <div class="copia-box">
+                                <input type="text" id="pixCodigo" readonly>
+                                <button type="button" id="btnCopiar" class="btn-copiar">Copiar</button>
+                            </div>
+
+                            <button type="button" id="btnNovoPix" class="btn-sec-escuro" hidden>
+                                Gerar novo código
+                            </button>
+
+                            <ol class="pix-passos">
+                                <li>Abra o app do seu banco e escolha pagar com PIX.</li>
+                                <li>Escaneie o QR Code ou cole o código copiado.</li>
+                                <li>Confirme o valor e volte aqui para finalizar.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- ===== CARTÃO ===== -->
+                <div id="painelCartao" class="painel" hidden>
+
+                    <!-- Prévia animada do cartão -->
+                    <div class="cartao-3d" id="cartao3d" aria-hidden="true">
+                        <div class="cartao-inner">
+
+                            <div class="face frente">
+                                <div class="cartao-topo">
+                                    <span class="chip"></span>
+                                    <span class="bandeira" id="pvBandeira">CARTÃO</span>
+                                </div>
+                                <div class="pv-numero" id="pvNumero">•••• •••• •••• ••••</div>
+                                <div class="pv-base">
+                                    <div>
+                                        <small>Titular</small>
+                                        <strong id="pvNome">NOME NO CARTÃO</strong>
+                                    </div>
+                                    <div>
+                                        <small>Validade</small>
+                                        <strong id="pvValidade">MM/AA</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="face verso">
+                                <div class="tarja"></div>
+                                <div class="pv-cvv">
+                                    <small>CVV</small>
+                                    <strong id="pvCvv">•••</strong>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="campo">
+                        <label for="numero">Número do cartão</label>
+                        <input type="text" id="numero" inputmode="numeric" autocomplete="cc-number"
+                            placeholder="0000 0000 0000 0000" maxlength="23">
+                        <small class="erro" id="erro-numero" aria-live="polite"></small>
+                    </div>
+
+                    <div class="campo">
+                        <label for="nome">Nome impresso no cartão</label>
+                        <input type="text" id="nome" autocomplete="cc-name" placeholder="Como está no cartão"
+                            maxlength="40">
+                        <small class="erro" id="erro-nome" aria-live="polite"></small>
+                    </div>
+
+                    <div class="linha">
+                        <div class="campo">
+                            <label for="validade">Validade</label>
+                            <input type="text" id="validade" inputmode="numeric" autocomplete="cc-exp"
+                                placeholder="MM/AA" maxlength="5">
+                            <small class="erro" id="erro-validade" aria-live="polite"></small>
+                        </div>
+
+                        <div class="campo">
+                            <label for="cvv">CVV</label>
+                            <input type="text" id="cvv" inputmode="numeric" autocomplete="cc-csc" placeholder="123"
+                                maxlength="4">
+                            <small class="erro" id="erro-cvv" aria-live="polite"></small>
+                        </div>
+                    </div>
+
+                    <div class="campo">
+                        <label for="parcelas">Parcelas</label>
+                        <select id="parcelas"></select>
+                    </div>
+                </div>
+
+
+                <!-- Botão final -->
+                <button type="submit" class="finalizar" id="btnFinalizar">
+                    Já paguei com PIX
+                </button>
+
+                <p class="seguro">
+                    🔒 Seus dados de cartão não são salvos neste site.
+                </p>
+            </section>
+
+
+            <!-- ---------- Coluna direita: resumo ---------- -->
+            <aside class="pg-card pg-resumo">
+
+                <h2>Resumo da viagem</h2>
+
+                <div class="rota">
+                    <div class="rota-item">
+                        <span>📍</span>
+                        <div>
+                            <small>Origem</small>
+                            <strong id="resOrigem">Sua localização</strong>
+                        </div>
+                    </div>
+                    <div class="rota-item">
+                        <span>🏁</span>
+                        <div>
+                            <small>Destino</small>
+                            <strong id="resDestino">--</strong>
+                        </div>
+                    </div>
+                    <div class="rota-item">
+                        <span>🚗</span>
+                        <div>
+                            <small>Veículo</small>
+                            <strong id="resCategoria">WN</strong>
+                        </div>
+                    </div>
+                    <div class="rota-item">
+                        <span>⏱️</span>
+                        <div>
+                            <small>Tempo estimado</small>
+                            <strong id="resTempo">--</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cupom">
+                    <label for="cupom">Cupom de desconto</label>
+                    <div class="cupom-box">
+                        <input type="text" id="cupom" placeholder="Digite seu cupom" maxlength="20"
+                            autocomplete="off">
+                        <button type="button" id="btnCupom">Aplicar</button>
+                    </div>
+                    <small id="cupomMsg" class="cupom-msg" aria-live="polite"></small>
+                </div>
+
+                <div class="valores">
+                    <div class="valor-linha">
+                        <span>Valor da corrida</span>
+                        <span id="resSubtotal">R$ 0,00</span>
+                    </div>
+                    <div class="valor-linha desconto" id="linhaDesconto" hidden>
+                        <span>Desconto</span>
+                        <span id="resDesconto">- R$ 0,00</span>
+                    </div>
+                    <div class="valor-linha total">
+                        <span>Total</span>
+                        <strong id="resTotal">R$ 0,00</strong>
+                    </div>
+                </div>
+
+            </aside>
+        </form>
+    </main>
+    <!-- /PAGAMENTO -->
+
+
+    <!-- Modal de sucesso -->
+    <div class="modal-overlay" id="modalSucesso" hidden role="dialog" aria-modal="true"
+        aria-labelledby="sucessoTitulo">
+        <div class="modal-sucesso">
+            <div class="check">✓</div>
+            <h2 id="sucessoTitulo">Pagamento confirmado!</h2>
+            <p>Sua viagem está paga. Boa viagem com a WN57.</p>
+
+            <dl class="comprovante">
+                <div><dt>Comprovante</dt><dd id="cpId">--</dd></div>
+                <div><dt>Forma</dt><dd id="cpForma">--</dd></div>
+                <div><dt>Valor</dt><dd id="cpValor">--</dd></div>
+                <div><dt>Data</dt><dd id="cpData">--</dd></div>
+            </dl>
+
+            <a class="btn-primario" id="linkAtividade"
+                href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/atividade.html">Ver minha atividade</a>
+            <a class="btn-sec" href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/inicial.html">Voltar ao
+                início</a>
+        </div>
+    </div>
+
+    <!-- Aviso rápido -->
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <!-- 03. SCRIPTS -->
+    <script src="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/javascript/pagamento.js"></script>
+</body>
+
+</html>

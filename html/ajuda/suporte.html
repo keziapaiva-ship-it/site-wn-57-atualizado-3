@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Suporte • WN57</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --ink: #0e1a2b;
+            --paper: #f4f6f9;
+            --line: #d9dfe8;
+            --blue: #2457f5;
+            --soft: #e7edff;
+            --muted: #5a667a;
+            --ok: #0f8a5f
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        body {
+            font-family: Poppins, system-ui, sans-serif;
+            background: var(--paper);
+            color: var(--ink);
+            line-height: 1.6
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+
+        header {
+            background: #fff;
+            border-bottom: 1px solid var(--line)
+        }
+
+        .header-container {
+            max-width: 1180px;
+            margin: auto;
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            flex-wrap: wrap
+        }
+
+        .logo {
+            height: 38px
+        }
+
+        nav {
+            display: flex;
+            gap: 22px;
+            font-size: 15px;
+            font-weight: 500;
+            flex: 1
+        }
+
+        nav a[aria-current] {
+            border-bottom: 2px solid var(--blue)
+        }
+
+        .header-right {
+            display: flex;
+            gap: 18px;
+            align-items: center;
+            font-size: 14px
+        }
+
+        .btn-menu {
+            background: var(--ink);
+            color: #fff;
+            padding: 8px 18px;
+            border-radius: 999px
+        }
+
+        main {
+            max-width: 1180px;
+            margin: auto;
+            padding: 56px 24px 40px;
+            display: grid;
+            grid-template-columns: 1fr 440px;
+            gap: 56px;
+            align-items: start
+        }
+
+        h1 {
+            font-size: clamp(2rem, 4.2vw, 3.1rem);
+            line-height: 1.15;
+            font-weight: 700;
+            max-width: 14em
+        }
+
+        .lead {
+            margin-top: 18px;
+            color: var(--muted);
+            max-width: 34em
+        }
+
+        .scope {
+            margin-top: 34px;
+            display: grid;
+            gap: 22px;
+            max-width: 34em
+        }
+
+        .scope h2 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 8px
+        }
+
+        .scope ul {
+            list-style: none;
+            display: grid;
+            gap: 6px;
+            font-size: .95rem
+        }
+
+        .scope li {
+            padding-left: 26px;
+            position: relative
+        }
+
+        .scope li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--ok);
+            font-weight: 700
+        }
+
+        .scope .no li::before {
+            content: "✕";
+            color: #b42318
+        }
+
+        .scope .no {
+            border-top: 1px solid var(--line);
+            padding-top: 20px
+        }
+
+        .chat {
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            box-shadow: 0 18px 50px rgba(14, 26, 43, .14);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+            position: sticky;
+            top: 24px
+        }
+
+        .chat-head {
+            background: var(--ink);
+            color: #fff;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px
+        }
+
+        .avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--blue);
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+            font-size: .8rem
+        }
+
+        .chat-head small {
+            display: block;
+            opacity: .75;
+            font-size: .75rem
+        }
+
+        .dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #35d49a;
+            margin-right: 5px
+        }
+
+        #msgs {
+            flex: 1;
+            overflow-y: auto;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            scroll-behavior: smooth
+        }
+
+        .msg {
+            max-width: 84%;
+            padding: 10px 14px;
+            border-radius: 16px;
+            font-size: .9rem;
+            white-space: pre-line
+        }
+
+        .msg.user {
+            align-self: flex-end;
+            background: var(--blue);
+            color: #fff;
+            border-bottom-right-radius: 4px
+        }
+
+        .msg.ia {
+            align-self: flex-start;
+            background: var(--soft);
+            border-bottom-left-radius: 4px
+        }
+
+        .typing span {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            margin-right: 3px;
+            border-radius: 50%;
+            background: var(--muted);
+            animation: b 1s infinite
+        }
+
+        .typing span:nth-child(2) {
+            animation-delay: .15s
+        }
+
+        .typing span:nth-child(3) {
+            animation-delay: .3s
+        }
+
+        @keyframes b {
+
+            0%,
+            60%,
+            100% {
+                transform: translateY(0)
+            }
+
+            30% {
+                transform: translateY(-4px)
+            }
+        }
+
+        .chips {
+            padding: 0 18px 12px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap
+        }
+
+        .chip {
+            border: 1px solid var(--line);
+            background: #fff;
+            border-radius: 999px;
+            padding: 6px 12px;
+            font: inherit;
+            font-size: .78rem;
+            cursor: pointer
+        }
+
+        .chip:hover {
+            border-color: var(--blue);
+            color: var(--blue)
+        }
+
+        .input {
+            display: flex;
+            border-top: 1px solid var(--line)
+        }
+
+        .input input {
+            flex: 1;
+            border: 0;
+            padding: 15px 18px;
+            font: inherit;
+            font-size: .9rem;
+            outline: none
+        }
+
+        .input button {
+            border: 0;
+            background: var(--blue);
+            color: #fff;
+            padding: 0 22px;
+            font: inherit;
+            font-weight: 600;
+            cursor: pointer
+        }
+
+        :focus-visible {
+            outline: 3px solid #8aa6ff;
+            outline-offset: 2px
+        }
+
+        .note {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 24px 48px;
+            color: var(--muted);
+            font-size: .85rem
+        }
+
+        footer {
+            text-align: center;
+            padding: 24px;
+            border-top: 1px solid var(--line);
+            font-size: .85rem;
+            color: var(--muted)
+        }
+
+        @media(max-width:920px) {
+            main {
+                grid-template-columns: 1fr;
+                gap: 36px
+            }
+
+            .chat {
+                position: static;
+                height: 560px
+            }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+            .typing span {
+                animation: none
+            }
+
+            #msgs {
+                scroll-behavior: auto
+            }
+        }
+
+
+        .video-suporte {
+            margin-top: 24px;
+            max-width: 400px;
+        }
+
+        .video-suporte h2 {
+            font-size: 1rem;
+            margin-bottom: 6px;
+        }
+
+        .video-suporte p {
+            font-size: .8rem;
+            margin-bottom: 10px;
+        }
+
+        .video-container {
+            background: #fff;
+            padding: 6px;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .video-container video {
+            display: block;
+            width: 99%;
+            max-height: 341px;
+            border-radius: 8px;
+            background: #0e1a2b;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-container">
+            <img src="../img/Captura de tela 2026-09-08 150021.png" class="logo" alt="WN57">
+            <nav>
+                <a href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/inicial.html">Inicial</a>
+                <a href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/solicitar.html">Viajar</a>
+                <a href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/atividade.html">Atividade</a>
+                <a href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/sobre-nos.html">Sobre-nós</a>
+            </nav>
+            <div class="header-right">
+                <a href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/suporte.html"
+                    aria-current="page">Suporte</a>
+                <a href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/login.html">Fazer login</a>
+                <a href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/cadastro.html"
+                    class="btn-menu">Cadastre-se</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section>
+
+
+            <h1>Tire sua dúvida agora, sem esperar atendente.</h1>
+            <p class="lead">A assistente de suporte da WN57 responde na hora as perguntas mais comuns dos clientes.
+                Teste ao lado: clique em uma pergunta ou escreva a sua.</p>
+
+            <div class="scope">
+                <div>
+                    <h2>O que a assistente responde</h2>
+                    <ul>
+                        <li>Como pedir, cancelar e acompanhar uma corrida</li>
+                        <li>Formas de pagamento, cobranças e reembolso</li>
+                        <li>Diferença entre WN Black, Comfort e Econômico</li>
+                        <li>Segurança, objetos esquecidos e problemas com o app</li>
+                        <li>Login, cadastro e senha</li>
+                    </ul>
+                </div>
+                  <div class="video-suporte">
+                <h2>🎬 Como usar a WN57</h2>
+                <p>
+                    Assista ao vídeo para conhecer melhor a plataforma
+                    e aprender a utilizar nossos serviços.
+                </p>
+
+                <div class="video-container">
+                    <video controls preload="metadata" playsinline>
+                        <source src="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/img/VID_20261019_143506.mp4"
+                            type="video/mp4">
+                        Seu navegador não consegue reproduzir este vídeo.
+                    </video>
+                </div>
+            </div>
+                <div class="no">
+                    <h2>O que ela não faz</h2>
+                    <ul>
+                        <li>Não responde assuntos fora da WN57</li>
+                        <li>Não pede senha nem dados de cartão</li>
+                        <li>Não altera corridas nem cobranças: encaminha para o suporte humano</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="chat" aria-label="Chat de suporte WN57">
+            <div class="chat-head">
+                <div class="avatar">WN</div>
+                <div>Assistente WN57<small><span class="dot"></span>Online • responde em segundos</small></div>
+            </div>
+            <div id="msgs" role="log" aria-live="polite"></div>
+            <div class="chips" id="chips"></div>
+            <form class="input" id="form">
+                <input id="campo" placeholder="Escreva sua dúvida..." autocomplete="off" aria-label="Sua dúvida" />
+                <button type="submit">Enviar</button>
+            </form>
+        </section>
+    </main>
+
+    <p class="note">Esta é uma demonstração com respostas de exemplo. Para ligar à IA de verdade, preencha
+        <code>API_URL</code> no script desta página com o endereço do seu servidor.
+    </p>
+
+    <footer>© 2026 WN57 • Todos os direitos reservados</footer>
+
+    <script>
+        // Deixe vazio para usar as respostas de exemplo. Com servidor da IA: "https://seu-servidor.com/api/chat"
+        const API_URL = "";
+
+        const FAQ = [
+            { k: /cancel/i, r: "Para cancelar, abra a corrida em Atividade e toque em “Cancelar corrida”.\nSe o motorista já estiver a caminho, pode haver uma taxa pequena de cancelamento." },
+            { k: /pix|cart|dinheiro|pagamento|pagar/i, r: "Na WN57 você paga com PIX, cartão ou dinheiro. Escolha a forma antes de confirmar a corrida; dá para trocar em Atividade enquanto a corrida não começou." },
+            { k: /black|comfort|econ|categoria|diferen/i, r: "• WN Econômico: corridas rápidas e acessíveis.\n• WN Comfort: viagens mais confortáveis.\n• WN Black: luxo e conforto premium." },
+            { k: /atras|demor|motorista n|chegou/i, r: "Você pode ver a posição do motorista no mapa em tempo real. Se ele passar muito do tempo estimado, cancele sem custo pelo app e peça outra corrida." },
+            { k: /cobran|reembols|valor errado|cobrou/i, r: "Se houve cobrança diferente do combinado, vá em Atividade, abra a corrida e toque em “Ajuda com esta corrida”. A análise e o reembolso são feitos pelo suporte humano." },
+            { k: /esquec|perdi|objeto/i, r: "Abra a corrida em Atividade e toque em “Item esquecido”. Você poderá entrar em contato com o motorista para combinar a devolução." },
+            { k: /segur|verificad|confi/i, r: "Todos os motoristas são verificados, você acompanha a rota ao vivo e o suporte funciona 24h." },
+            { k: /senha|login|entrar|cadastr|conta/i, r: "Para entrar, use “Fazer login”. Esqueceu a senha? Toque em “Esqueci minha senha” e siga o link enviado por e-mail. Para criar conta, use “Cadastre-se”." },
+            { k: /app|abre|trava|erro|n[aã]o funciona|bug|mapa/i, r: "Tente nesta ordem:\n1. Feche e abra o app de novo.\n2. Verifique sua internet e o GPS.\n3. Atualize o app.\nSe o erro continuar, me diga o que aparece na tela." },
+            { k: /ol[aá]|oi\b|bom dia|boa tarde|boa noite/i, r: "Olá! Sobre o que você quer falar: corrida, pagamento, conta ou problema no app?" }
+        ];
+        const FORA = "Eu só respondo dúvidas sobre a WN57, como corridas, pagamentos, conta e uso do app. Para outro assunto, fale com o suporte humano pela página de Ajuda.";
+        const SUGESTOES = ["Como cancelo uma corrida?", "Quais formas de pagamento?", "Qual a diferença entre WN Black e Comfort?", "O app não abre"];
+
+        const msgs = document.getElementById("msgs"), campo = document.getElementById("campo");
+        const reduz = matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const espera = ms => new Promise(r => setTimeout(r, reduz ? 0 : ms));
+        let historico = [], ocupado = false;
+
+        function add(txt, tipo) {
+            const d = document.createElement("div");
+            d.className = "msg " + tipo; d.textContent = txt;
+            msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight; return d;
+        }
+        function digitando() {
+            const d = document.createElement("div");
+            d.className = "msg ia typing"; d.innerHTML = "<span></span><span></span><span></span>";
+            msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight; return d;
+        }
+        async function responder(txt) {
+            if (API_URL) {
+                const r = await fetch(API_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ messages: historico }) });
+                return (await r.json()).reply;
+            }
+            await espera(900);
+            const achou = FAQ.find(f => f.k.test(txt));
+            return achou ? achou.r : FORA;
+        }
+        async function perguntar(txt) {
+            if (ocupado || !txt.trim()) return;
+            ocupado = true; add(txt, "user"); historico.push({ role: "user", content: txt });
+            const t = digitando();
+            try {
+                const resp = await responder(txt);
+                t.remove(); add(resp, "ia"); historico.push({ role: "assistant", content: resp });
+            } catch {
+                t.remove(); add("Não consegui responder agora. Tente de novo em instantes.", "ia"); historico.pop();
+            }
+            ocupado = false;
+        }
+
+        document.getElementById("form").addEventListener("submit", e => { e.preventDefault(); const v = campo.value; campo.value = ""; perguntar(v); });
+        const chips = document.getElementById("chips");
+        SUGESTOES.forEach(s => { const b = document.createElement("button"); b.className = "chip"; b.type = "button"; b.textContent = s; b.onclick = () => perguntar(s); chips.appendChild(b); });
+
+        // Demonstração inicial: uma pergunta respondida sozinha ao abrir a página
+        (async () => {
+            add("Olá! Sou a assistente de suporte da WN57. Posso ajudar com corridas, pagamentos, conta e problemas no app.", "ia");
+            await espera(1400);
+            await perguntar("Como cancelo uma corrida?");
+        })();
+    </script>
+</body>
+
+</html>

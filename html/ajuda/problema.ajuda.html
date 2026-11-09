@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatar um problema • WN57</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/css/problema.ajuda.css">
+</head>
+
+<body>
+    <header>
+        <a href="inicial.html"><img src="../img/Captura de tela 2026-09-08 150021.png" alt="Logo WN57"></a>
+        <nav><a href="ajuda.html">Central de Ajuda</a><a href="suporte.html">Suporte</a><a
+                href="cadastro.html">Cadastre-se</a></nav>
+    </header>
+    <main>
+        <a class="voltar" href="ajuda.html">← Voltar para a Central de Ajuda</a>
+        <section class="hero">
+            <div class="icone">⚠️</div>
+            <h1>Relatar um problema</h1>
+            <p>Encontre orientações para resolver falhas e comunicar dificuldades.</p>
+        </section>
+        <section class="relatar">
+            <div class="relatar-titulo">
+                <span class="relatar-icone">📝</span>
+                <div>
+                    <h2>Relatar um problema</h2>
+                    <p>Conte o que aconteceu para que a equipe WN57 possa analisar.</p>
+                </div>
+            </div>
+
+            <form id="formProblema">
+                <label for="tipoProblema">Tipo de problema</label>
+                <select id="tipoProblema" name="tipoProblema" required>
+                    <option value="">Selecione uma opção</option>
+                    <option value="site">Site não funciona</option>
+                    <option value="mapa">Erro no mapa ou localização</option>
+                    <option value="corrida">Problema com uma corrida</option>
+                    <option value="pagamento">Problema com pagamento</option>
+                    <option value="conta">Problema com minha conta</option>
+                    <option value="seguranca">Segurança</option>
+                    <option value="outro">Outro problema</option>
+                </select>
+
+                <label for="descricaoProblema">Descreva o problema</label>
+                <textarea id="descricaoProblema" name="descricaoProblema"
+                    placeholder="Explique o que aconteceu e quando ocorreu..." rows="5" required minlength="10"
+                    maxlength="1000"></textarea>
+
+                <label for="emailProblema">E-mail para contato (opcional)</label>
+                <input type="email" id="emailProblema" name="emailProblema" placeholder="seuemail@exemplo.com">
+
+                <button type="submit">Enviar relato</button>
+
+                <p id="mensagemProblema" role="status" aria-live="polite"></p>
+            </form>
+        </section>
+
+        <section class="contato">
+            <h2>Precisa de mais ajuda?</h2>
+            <p>Se precisar de orientação adicional, entre em contato com o suporte WN57.</p>
+            <a href="suporte.html">Acessar suporte</a>
+        </section>
+        <h2>Perguntas frequentes</h2>
+        <section class="perguntas">
+            <details>
+                <summary>O site não está funcionando. O que faço?</summary>
+                <p>Atualize a página e confira sua conexão. Se o problema continuar, tente novamente mais tarde e
+                    contate o suporte.</p>
+            </details>
+            <details>
+                <summary>O mapa mostra meu local errado. Como resolvo?</summary>
+                <p>Confira se a localização do dispositivo está ativada e verifique manualmente o endereço informado.
+                </p>
+            </details>
+            <details>
+                <summary>Como envio um relato de problema?</summary>
+                <p>Acesse o suporte e descreva o problema, incluindo a página em que ocorreu e as etapas que levaram à
+                    falha.</p>
+            </details>
+            <details>
+                <summary>O problema continua mesmo depois de tentar resolver?</summary>
+                <p>Informe ao suporte o que você já tentou fazer e, se possível, inclua uma captura de tela sem dados
+                    pessoais sensíveis.</p>
+            </details>
+        </section>
+       
+    <footer>© 2026 WN57 • Todos os direitos reservados</footer>
+    <script src="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/javascript/problema.ajuda.js"></script>
+</body>
+
+</html>
