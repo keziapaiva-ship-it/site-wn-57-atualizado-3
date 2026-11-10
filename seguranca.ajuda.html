@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Segurança • WN57</title>
+
+    <!-- CORREÇÃO: adicionados preconnect para as fontes do Google (mesmo padrão das outras páginas).
+         Só melhora o carregamento, não muda o visual. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- CORREÇÃO: o nome do CSS estava "segurança.ajuda.css" (com ç), mas o JS e a página usam "seguranca"
+         (sem ç). Acentos em nome de arquivo costumam quebrar no servidor/hospedagem (a URL precisa ser
+         codificada e o nome muda conforme o sistema). Troquei para "seguranca.ajuda.css".
+         >>> IMPORTANTE: renomeie o arquivo CSS na sua pasta para "seguranca.ajuda.css" (sem ç),
+             senão o estilo não carrega. -->
+    <link rel="stylesheet" href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/css/seguranca.ajuda.css">
+</head>
+
+<body>
+    <header>
+        <!-- CORREÇÃO: o nome da imagem tinha espaços; troquei por %20 para a URL ficar válida.
+             Dica: renomeie o arquivo para "logo-wn57.png". -->
+        <a href="inicial.html"><img src="../img/Captura%20de%20tela%202026-09-08%20150021.png" alt="Logo WN57"></a>
+
+        <!-- Mantive os links colados, sem espaço entre eles, para não alterar o espaçamento do design.
+             CORREÇÃO: "Cadastre-se" apontava para "cadastro.html" (mesma pasta), mas na página de ajuda o
+             cadastro fica em /html/login/cadastro.html. Ajustei para o mesmo caminho. -->
+        <nav><a href="ajuda.html">Central de Ajuda</a><a href="suporte.html">Suporte</a><a
+                href="/html/login/cadastro.html">Cadastre-se</a></nav>
+    </header>
+
+    <main>
+        <a class="voltar" href="ajuda.html">← Voltar para a Central de Ajuda</a>
+
+        <section class="hero">
+            <div class="icone">🛡️</div>
+            <h1>Segurança</h1>
+            <p>Saiba como cuidar da sua segurança e relatar situações preocupantes.</p>
+        </section>
+
+        <h2>Perguntas frequentes</h2>
+
+        <!-- Cada <details> é uma pergunta que abre e fecha sozinha, sem precisar de JavaScript -->
+        <section class="perguntas">
+            <details>
+                <summary>Como confirmo se estou entrando no veículo correto?</summary>
+                <p>Confira a identificação do veículo e os dados do motorista antes de embarcar. Se houver divergência,
+                    não entre.</p>
+            </details>
+            <details>
+                <summary>O que faço se me sentir em perigo?</summary>
+                <p>Priorize sua segurança, procure um local seguro e, em uma emergência, acione os serviços de
+                    emergência locais.</p>
+            </details>
+            <details>
+                <summary>Como relato uma situação de risco?</summary>
+                <p>Assim que estiver em segurança, informe o suporte da WN57 e descreva o ocorrido.</p>
+            </details>
+            <details>
+                <summary>Como protejo meus dados pessoais?</summary>
+                <p>Não compartilhe sua senha, códigos de acesso ou informações pessoais desnecessárias com
+                    desconhecidos.</p>
+            </details>
+        </section>
+
+        <section class="contato">
+            <h2>Precisa de mais ajuda?</h2>
+            <!-- CORREÇÃO: o <a> estava colado no <p>, na mesma linha; coloquei em linha própria só para
+                 ficar legível. Confira se suporte.html existe na mesma pasta desta página. -->
+            <p>Entre em contato com o suporte quando estiver em segurança.</p>
+            <a href="suporte.html">Acessar suporte</a>
+        </section>
+    </main>
+
+    <footer>© 2026 WN57 • Todos os direitos reservados</footer>
+
+    <!-- Script no final do body (correto). Se seguranca.ajuda.js não existir em ../javascript/,
+         o navegador mostra erro 404 no console. -->
+    <script src="../javascript/seguranca.ajuda.js"></script>
+</body>
+
+</html>
