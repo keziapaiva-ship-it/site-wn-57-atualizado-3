@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Carteira • WN57</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rosa: #ff2d78;
+            --rosa-700: #c2185b;
+            --vinho: #4a0d2e;
+            --rosa-200: #f9c6de;
+            --rosa-100: #fde8f2;
+            --rosa-50: #fff5fa;
+            --linha: #f0d9e5;
+            --texto: #2a1220;
+            --suave: #7a5568;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        body {
+            font-family: "Poppins", "Segoe UI", system-ui, sans-serif;
+            color: var(--texto);
+            background: #fff
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--rosa);
+            outline-offset: 2px
+        }
+
+        /* ===== topo ===== */
+        .topo {
+            position: sticky;
+            top: 0;
+            z-index: 30;
+            background: #fff;
+            border-bottom: 1px solid var(--linha)
+        }
+
+        .topo-in {
+            max-width: 960px;
+            margin: 0 auto;
+            height: 72px;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .marca {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--vinho)
+        }
+
+        .marca b {
+            color: var(--rosa)
+        }
+
+        .conta {
+            position: relative
+        }
+
+        .conta-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: none;
+            border: 0;
+            padding: 4px;
+            border-radius: 999px
+        }
+
+        .conta-btn:hover {
+            background: var(--rosa-50)
+        }
+
+        .avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--rosa-200) center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--vinho)
+        }
+
+        .conta-btn svg {
+            width: 14px;
+            height: 14px;
+            fill: var(--vinho)
+        }
+
+        .conta-menu {
+            position: absolute;
+            right: 0;
+            top: calc(100% + 8px);
+            min-width: 220px;
+            background: #fff;
+            border-radius: 12px;
+            padding: 8px 0;
+            box-shadow: 0 8px 28px rgba(194, 24, 91, .25);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-6px);
+            transition: .18s
+        }
+
+        .conta-menu.aberto {
+            opacity: 1;
+            visibility: visible;
+            transform: none
+        }
+
+        .conta-menu .quem {
+            padding: 10px 18px 12px;
+            border-bottom: 1px solid var(--linha);
+            font-weight: 600;
+            color: var(--vinho)
+        }
+
+        .conta-menu a,
+        .conta-menu button {
+            display: block;
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: 0;
+            padding: 12px 18px;
+            font-size: 15px
+        }
+
+        .conta-menu a:hover,
+        .conta-menu button:hover {
+            background: var(--rosa-100)
+        }
+
+        .conta-menu .sair {
+            color: #d32f2f
+        }
+
+        /* ===== página ===== */
+        main {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 40px 24px 96px
+        }
+
+        h1 {
+            font-size: 32px;
+            color: var(--vinho);
+            margin-bottom: 24px
+        }
+
+        h2 {
+            font-size: 26px;
+            color: var(--vinho);
+            margin: 56px 0 18px
+        }
+
+        .sub {
+            color: var(--suave);
+            font-size: 15px;
+            margin-bottom: 10px
+        }
+
+        .grade {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px
+        }
+
+        /* saldo e créditos */
+        .painel {
+            border: 1.5px solid var(--linha);
+            border-radius: 18px;
+            padding: 26px;
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            background: var(--rosa-50)
+        }
+
+        .painel.creditos {
+            background: linear-gradient(135deg, var(--rosa-50) 0 58%, var(--rosa-100) 58% 100%)
+        }
+
+        .painel .rotulo {
+            color: var(--suave);
+            font-size: 15px
+        }
+
+        .painel .valor {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--vinho);
+            margin: 6px 0 14px
+        }
+
+        .painel .texto {
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 1.4;
+            max-width: 300px
+        }
+
+        .painel .texto small {
+            display: block;
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--suave);
+            margin-top: 4px
+        }
+
+        .painel .acao {
+            margin-top: auto
+        }
+
+        .btn-escuro {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--vinho);
+            color: #fff;
+            border: 0;
+            border-radius: 999px;
+            padding: 14px 22px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: background .15s
+        }
+
+        .btn-escuro:hover {
+            background: var(--rosa-700)
+        }
+
+        .btn-escuro svg {
+            width: 16px;
+            height: 16px;
+            fill: #fff
+        }
+
+        /* formas de pagamento */
+        .pagamentos {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px
+        }
+
+        .forma {
+            position: relative;
+            min-height: 250px;
+            border-radius: 18px;
+            padding: 24px;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden
+        }
+
+        .forma.cartao {
+            background: linear-gradient(145deg, #4a0d2e, #7d1350)
+        }
+
+        .forma.cartao.alt {
+            background: linear-gradient(145deg, #2c0a1d, #5a0f3b)
+        }
+
+        .forma.pix {
+            background: #f2e6ec;
+            color: var(--texto)
+        }
+
+        .forma.dinheiro {
+            background: linear-gradient(145deg, #c2185b, #ff2d78)
+        }
+
+        .forma-topo {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px
+        }
+
+        .forma-nome {
+            font-weight: 600;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap
+        }
+
+        .etiqueta {
+            font-size: 12px;
+            font-weight: 600;
+            background: #fff;
+            color: var(--rosa-700);
+            border-radius: 6px;
+            padding: 2px 8px
+        }
+
+        .selo {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, .2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .3px;
+            flex-shrink: 0
+        }
+
+        .pix .selo {
+            background: #fff
+        }
+
+        .selo svg {
+            width: 24px;
+            height: 24px
+        }
+
+        .numero {
+            margin-top: 26px;
+            font-family: Consolas, monospace;
+            font-size: 20px;
+            letter-spacing: 2px
+        }
+
+        .detalhe {
+            margin-top: 8px;
+            font-size: 14px;
+            opacity: .85
+        }
+
+        .forma-acoes {
+            margin-top: auto;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap
+        }
+
+        .mini {
+            border: 0;
+            border-radius: 999px;
+            padding: 8px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            background: rgba(255, 255, 255, .2);
+            color: inherit;
+            transition: background .15s
+        }
+
+        .mini:hover {
+            background: rgba(255, 255, 255, .35)
+        }
+
+        .pix .mini {
+            background: rgba(74, 13, 46, .1)
+        }
+
+        .pix .mini:hover {
+            background: rgba(74, 13, 46, .2)
+        }
+
+        /* linhas de lista */
+        .linha-add {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            background: none;
+            border: 0;
+            border-bottom: 1px solid var(--linha);
+            padding: 22px 4px;
+            text-align: left;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background .15s
+        }
+
+        .linha-add:hover {
+            background: var(--rosa-50)
+        }
+
+        .linha-add svg {
+            width: 18px;
+            height: 18px;
+            fill: var(--vinho);
+            flex-shrink: 0
+        }
+
+        .linha-add .seta {
+            margin-left: auto;
+            fill: none;
+            stroke: #b896a8;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round
+        }
+
+        .linha-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 18px 4px;
+            border-bottom: 1px solid var(--linha)
+        }
+
+        .linha-item .ic {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--rosa-100);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0
+        }
+
+        .linha-item .ic svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--rosa-700)
+        }
+
+        .linha-item strong {
+            display: block;
+            font-weight: 600
+        }
+
+        .linha-item small {
+            color: var(--suave)
+        }
+
+        .linha-item .tira {
+            margin-left: auto;
+            background: none;
+            border: 0;
+            color: var(--rosa-700);
+            font-weight: 600;
+            font-size: 14px
+        }
+
+        .status {
+            margin-left: auto;
+            font-size: 12px;
+            font-weight: 600;
+            background: var(--rosa-100);
+            color: var(--vinho);
+            border-radius: 999px;
+            padding: 4px 10px
+        }
+
+        /* ofertas */
+        .ofertas {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px
+        }
+
+        .oferta {
+            border: 1.5px solid var(--linha);
+            border-radius: 18px;
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px
+        }
+
+        .oferta h3 {
+            font-size: 18px;
+            color: var(--vinho)
+        }
+
+        .oferta p {
+            color: var(--suave);
+            font-size: 14px;
+            line-height: 1.5
+        }
+
+        .oferta .cod {
+            font-family: Consolas, monospace;
+            font-weight: 700;
+            color: var(--rosa-700)
+        }
+
+        .oferta button {
+            margin-top: auto;
+            align-self: flex-start;
+            border: 2px solid var(--rosa);
+            background: #fff;
+            color: var(--rosa-700);
+            border-radius: 999px;
+            padding: 10px 20px;
+            font-weight: 600;
+            transition: .15s
+        }
+
+        .oferta button:hover {
+            background: var(--rosa);
+            color: #fff
+        }
+
+        .oferta.ativa button {
+            background: var(--rosa-100);
+            border-color: var(--rosa-100);
+            color: var(--vinho);
+            cursor: default
+        }
+
+        /* janelas */
+        dialog {
+            border: 0;
+            border-radius: 18px;
+            padding: 0;
+            width: min(440px, calc(100vw - 32px));
+            box-shadow: 0 20px 60px rgba(74, 13, 46, .35)
+        }
+
+        dialog::backdrop {
+            background: rgba(42, 18, 32, .55)
+        }
+
+        .dlg {
+            padding: 28px
+        }
+
+        .dlg h3 {
+            font-size: 22px;
+            color: var(--vinho);
+            margin-bottom: 6px
+        }
+
+        .dlg .aviso {
+            font-size: 13px;
+            color: var(--suave);
+            line-height: 1.5;
+            margin-bottom: 16px
+        }
+
+        .dlg label {
+            display: block;
+            font-weight: 600;
+            font-size: 14px;
+            margin: 14px 0 6px
+        }
+
+        .dlg input,
+        .dlg select {
+            width: 100%;
+            padding: 13px 14px;
+            border: 2px solid var(--linha);
+            border-radius: 10px;
+            font: inherit;
+            background: #fff
+        }
+
+        .dlg input:focus,
+        .dlg select:focus {
+            border-color: var(--rosa);
+            outline: none
+        }
+
+        .dlg .botoes {
+            display: flex;
+            gap: 10px;
+            margin-top: 22px
+        }
+
+        .dlg .botoes button {
+            flex: 1;
+            padding: 13px;
+            border-radius: 10px;
+            border: 0;
+            font-weight: 600
+        }
+
+        .dlg .ok {
+            background: var(--rosa-700);
+            color: #fff
+        }
+
+        .dlg .ok:hover {
+            background: var(--vinho)
+        }
+
+        .dlg .cancelar {
+            background: var(--rosa-100);
+            color: var(--vinho)
+        }
+
+        .aviso-flutuante {
+            position: fixed;
+            left: 50%;
+            bottom: 28px;
+            transform: translate(-50%, 20px);
+            background: var(--vinho);
+            color: #fff;
+            padding: 14px 22px;
+            border-radius: 10px;
+            opacity: 0;
+            pointer-events: none;
+            transition: .2s;
+            z-index: 60;
+            max-width: 90vw
+        }
+
+        .aviso-flutuante.mostra {
+            opacity: 1;
+            transform: translate(-50%, 0)
+        }
+
+        @media (max-width:760px) {
+
+            .grade,
+            .pagamentos {
+                grid-template-columns: 1fr
+            }
+
+            main {
+                padding: 28px 16px 80px
+            }
+
+            .topo-in {
+                padding: 0 16px
+            }
+        }
+
+        @media (prefers-reduced-motion:reduce) {
+            * {
+                transition: none !important
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="topo">
+        <div class="topo-in">
+            <a class="marca" href="inicial.html"><b>WN57</b> Carteira</a>
+
+            <div class="conta">
+                <button class="conta-btn" id="contaBtn" type="button" aria-haspopup="true" aria-expanded="false"
+                    aria-label="Menu da conta">
+                    <span class="avatar" id="avatar">U</span>
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12 16l-7-7h14z" />
+                    </svg>
+                </button>
+                <div class="conta-menu" id="contaMenu">
+                    <div class="quem" id="quem">Usuário</div>
+                    <a href="/site-de-corrida-wn-57-main/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/inicial.html">Página inicial</a>
+                    <a href="conta.html">Gerenciar conta</a>
+                    <button class="sair" id="sair" type="button">Sair</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <h1>Carteira</h1>
+
+        <!-- SALDO E CRÉDITOS -->
+        <section class="grade" aria-label="Saldo e créditos">
+            <div class="painel">
+                <span class="rotulo">Saldo</span>
+                <div class="valor">R$ 0,00</div>
+                <p class="texto" id="textoBanco">Adicione a conta bancária na qual você quer receber suas transferências
+                </p>
+                <div class="acao">
+                    <button class="btn-escuro" id="btnBanco" type="button">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z" />
+                        </svg>
+                        <span id="rotuloBanco">Adicionar conta bancária</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="painel creditos">
+                <span class="rotulo">Créditos WN57</span>
+                <div class="valor">R$ 0,00</div>
+                <div class="acao">
+                    <button class="btn-escuro" id="btnVale" type="button">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z" />
+                        </svg>
+                        Vale-presente
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- FORMAS DE PAGAMENTO -->
+        <h2>Formas de pagamento</h2>
+        <section class="pagamentos" id="pagamentos" aria-label="Formas de pagamento"></section>
+
+        <button class="linha-add" id="btnAddPagamento" type="button" style="margin-top:24px">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z" />
+            </svg>
+            Adicionar forma de pagamento
+        </button>
+
+        <!-- OFERTAS -->
+        <h2>Ofertas na loja</h2>
+        <section class="ofertas" id="ofertas" aria-label="Ofertas"></section>
+    </main>
+
+    <!-- JANELA: forma de pagamento -->
+    <dialog id="dlgPagamento">
+        <form class="dlg" method="dialog" id="formPagamento">
+            <h3>Adicionar forma de pagamento</h3>
+            <p class="aviso">Por segurança, não pedimos o número completo do cartão. Guardamos só a bandeira e os 4
+                últimos dígitos.</p>
+
+            <label for="pgTipo">Tipo</label>
+            <select id="pgTipo">
+                <option value="credito">Cartão de crédito</option>
+                <option value="debito">Cartão de débito</option>
+                <option value="pix">PIX</option>
+            </select>
+
+            <div id="camposCartao">
+                <label for="pgBandeira">Bandeira</label>
+                <select id="pgBandeira">
+                    <option>Visa</option>
+                    <option>Mastercard</option>
+                    <option>Elo</option>
+                    <option>American Express</option>
+                    <option>Hipercard</option>
+                    <option>Maestro</option>
+                </select>
+                <label for="pgFinal">Últimos 4 dígitos</label>
+                <input id="pgFinal" inputmode="numeric" maxlength="4" placeholder="0000" autocomplete="off">
+            </div>
+
+            <div class="botoes">
+                <button type="button" class="cancelar" data-fechar>Cancelar</button>
+                <button type="submit" class="ok">Salvar</button>
+            </div>
+        </form>
+    </dialog>
+
+    <!-- JANELA: conta bancária -->
+    <dialog id="dlgBanco">
+        <form class="dlg" method="dialog" id="formBanco">
+            <h3>Conta bancária</h3>
+            <p class="aviso">Usada para receber transferências. Guardamos só o banco e os 4 últimos dígitos da conta.
+            </p>
+            <label for="bcNome">Banco</label>
+            <input id="bcNome" maxlength="40" placeholder="Ex.: Nubank, Itaú, Caixa" required>
+            <label for="bcFinal">Últimos 4 dígitos da conta</label>
+            <input id="bcFinal" inputmode="numeric" maxlength="4" placeholder="0000" required autocomplete="off">
+            <div class="botoes">
+                <button type="button" class="cancelar" data-fechar>Cancelar</button>
+                <button type="submit" class="ok">Salvar</button>
+            </div>
+        </form>
+    </dialog>
+
+    <!-- JANELA: voucher / vale-presente -->
+    <dialog id="dlgVoucher">
+        <form class="dlg" method="dialog" id="formVoucher">
+            <h3>Adicionar voucher</h3>
+            <p class="aviso">Digite o código do voucher ou do vale-presente. Ele fica em análise até ser validado.</p>
+            <label for="vcCodigo">Código</label>
+            <input id="vcCodigo" maxlength="24" placeholder="Ex.: WN57-ABCD-1234" required autocomplete="off">
+            <div class="botoes">
+                <button type="button" class="cancelar" data-fechar>Cancelar</button>
+                <button type="submit" class="ok">Adicionar</button>
+            </div>
+        </form>
+    </dialog>
+
+    <div class="aviso-flutuante" id="aviso" role="status"></div>
+
+    <script>
+        const CHAVE_USUARIO = "usuario";
+        const CHAVE_CARTEIRA = "wn57_carteira";
+
+        /* ---------- login obrigatório ---------- */
+        let usuario = null;
+        try { usuario = JSON.parse(localStorage.getItem(CHAVE_USUARIO)); } catch (e) { }
+        if (!usuario || !usuario.nome) { location.href = "login/login.html"; }
+
+        /* ---------- dados da carteira ---------- */
+        const PADRAO = {
+            pagamentos: [
+                { id: "pix", tipo: "pix", principal: false },
+                { id: "dinheiro", tipo: "dinheiro", principal: true }
+            ],
+            banco: null,
+            vouchers: [],
+            ofertas: []
+        };
+        let carteira;
+        try { carteira = JSON.parse(localStorage.getItem(CHAVE_CARTEIRA)) || structuredClone(PADRAO); }
+        catch (e) { carteira = structuredClone(PADRAO); }
+
+        function salvar() {
+            try { localStorage.setItem(CHAVE_CARTEIRA, JSON.stringify(carteira)); }
+            catch (e) { avisar("Não foi possível salvar neste navegador."); }
+        }
+        const $ = (id) => document.getElementById(id);
+        const esc = (t) => String(t).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+        let tempoAviso;
+        function avisar(texto) {
+            const a = $("aviso");
+            a.textContent = texto; a.classList.add("mostra");
+            clearTimeout(tempoAviso);
+            tempoAviso = setTimeout(() => a.classList.remove("mostra"), 3200);
+        }
+        document.querySelectorAll("[data-aviso]").forEach((b) => b.addEventListener("click", () => avisar(b.dataset.aviso)));
+
+        /* ---------- topo: foto e menu ---------- */
+        (function () {
+            const av = $("avatar");
+            if (usuario && usuario.foto) {
+                av.textContent = "";
+                av.style.backgroundImage = `url("${String(usuario.foto).replace(/"/g, "%22")}")`;
+            } else if (usuario) {
+                av.textContent = usuario.nome.trim().charAt(0).toUpperCase();
+            }
+            if (usuario) $("quem").textContent = usuario.nome;
+
+            const btn = $("contaBtn"), menu = $("contaMenu");
+            const alternar = (abrir) => {
+                const aberto = abrir ?? !menu.classList.contains("aberto");
+                menu.classList.toggle("aberto", aberto);
+                btn.setAttribute("aria-expanded", aberto);
+            };
+            btn.addEventListener("click", (e) => { e.stopPropagation(); alternar(); });
+            document.addEventListener("click", () => alternar(false));
+            document.addEventListener("keydown", (e) => { if (e.key === "Escape") alternar(false); });
+            $("sair").addEventListener("click", () => { localStorage.removeItem(CHAVE_USUARIO); location.href = "inicial.html"; });
+        })();
+
+        /* ---------- formas de pagamento ---------- */
+        const ICONE_PIX = '<svg viewBox="0 0 24 24"><path fill="#2bb5a0" d="M12 2.5l4 4-4 4-4-4zm-5.5 5.5l4 4-4 4-4-4zm11 0l4 4-4 4-4-4zM12 13.5l4 4-4 4-4-4z"/></svg>';
+        const ICONE_DINHEIRO = '<svg viewBox="0 0 24 24"><path fill="#fff" d="M3 6h18v12H3zm9 2.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7z"/></svg>';
+
+        function desenharPagamentos() {
+            const alvo = $("pagamentos");
+            alvo.innerHTML = "";
+            carteira.pagamentos.forEach((p, i) => {
+                let classe, nome, selo, corpo = "";
+                if (p.tipo === "pix") {
+                    classe = "pix"; nome = "PIX"; selo = ICONE_PIX;
+                    corpo = '<div class="detalhe">Pague na hora, direto do app do seu banco.</div>';
+                } else if (p.tipo === "dinheiro") {
+                    classe = "dinheiro"; nome = "Dinheiro"; selo = ICONE_DINHEIRO;
+                    corpo = '<div class="detalhe">Pague o motorista no fim da corrida.</div>';
+                } else {
+                    classe = "cartao" + (i % 2 ? " alt" : "");
+                    nome = esc(p.bandeira) + (p.tipo === "debito" ? " • débito" : " • crédito");
+                    selo = esc(p.bandeira.slice(0, 4).toUpperCase());
+                    corpo = '<div class="numero">•••• ' + esc(p.final) + "</div>";
+                }
+                const el = document.createElement("article");
+                el.className = "forma " + classe;
+                el.innerHTML =
+                    '<div class="forma-topo"><div class="forma-nome">' + nome +
+                    (p.principal ? ' <span class="etiqueta">Principal</span>' : "") +
+                    '</div><div class="selo">' + selo + "</div></div>" + corpo +
+                    '<div class="forma-acoes">' +
+                    (p.principal ? "" : '<button class="mini" type="button" data-acao="principal">Tornar principal</button>') +
+                    (p.tipo === "dinheiro" ? "" : '<button class="mini" type="button" data-acao="remover">Remover</button>') +
+                    "</div>";
+                el.querySelectorAll("[data-acao]").forEach((b) => b.addEventListener("click", () => {
+                    if (b.dataset.acao === "principal") {
+                        carteira.pagamentos.forEach((x) => (x.principal = x.id === p.id));
+                        avisar(nome.replace(/&[^;]+;/g, "") + " é sua forma principal.");
+                    } else {
+                        if (!confirm("Remover esta forma de pagamento?")) return;
+                        const eraPrincipal = p.principal;
+                        carteira.pagamentos = carteira.pagamentos.filter((x) => x.id !== p.id);
+                        if (eraPrincipal) {
+                            const din = carteira.pagamentos.find((x) => x.tipo === "dinheiro");
+                            if (din) din.principal = true;
+                        }
+                        avisar("Forma de pagamento removida.");
+                    }
+                    salvar(); desenharPagamentos();
+                }));
+                alvo.appendChild(el);
+            });
+        }
+
+        /* ---------- conta bancária ---------- */
+        function desenharBanco() {
+            if (carteira.banco) {
+                $("textoBanco").innerHTML = esc(carteira.banco.nome) + "<small>Conta final " + esc(carteira.banco.final) + "</small>";
+                $("rotuloBanco").textContent = "Alterar conta bancária";
+            } else {
+                $("textoBanco").textContent = "Adicione a conta bancária na qual você quer receber suas transferências";
+                $("rotuloBanco").textContent = "Adicionar conta bancária";
+            }
+        }
+
+        /* ---------- vouchers ---------- */
+        function desenharVouchers() {
+            const alvo = $("listaVouchers");
+            alvo.innerHTML = "";
+            carteira.vouchers.forEach((v, i) => {
+                const item = document.createElement("div");
+                item.className = "linha-item";
+                item.innerHTML =
+                    '<span class="ic"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 012-2h14a2 2 0 012 2v3a2 2 0 000 4v3a2 2 0 01-2 2H5a2 2 0 01-2-2v-3a2 2 0 000-4z"/></svg></span>' +
+                    "<div><strong>" + esc(v.codigo) + "</strong><small>Adicionado em " + esc(v.data) + "</small></div>" +
+                    '<span class="status">Em análise</span>' +
+                    '<button class="tira" type="button">Remover</button>';
+                item.querySelector(".tira").addEventListener("click", () => {
+                    carteira.vouchers.splice(i, 1); salvar(); desenharVouchers();
+                });
+                alvo.appendChild(item);
+            });
+        }
+
+        /* ---------- ofertas (exemplos: troque pelos seus cupons) ---------- */
+        const OFERTAS = [
+            { id: "wn10", titulo: "10% na próxima corrida", texto: "Desconto para usar em qualquer categoria, na sua próxima viagem.", codigo: "WN10" },
+            { id: "black", titulo: "WN Black com desconto", texto: "Experimente o conforto premium com valor especial na primeira viagem.", codigo: "BLACK15" }
+        ];
+        function desenharOfertas() {
+            const alvo = $("ofertas");
+            alvo.innerHTML = "";
+            OFERTAS.forEach((o) => {
+                const ativa = carteira.ofertas.includes(o.id);
+                const el = document.createElement("article");
+                el.className = "oferta" + (ativa ? " ativa" : "");
+                el.innerHTML = "<h3>" + esc(o.titulo) + "</h3><p>" + esc(o.texto) + '</p><p>Cupom: <span class="cod">' + esc(o.codigo) + "</span></p>" +
+                    '<button type="button">' + (ativa ? "Ativada" : "Ativar oferta") + "</button>";
+                if (!ativa) el.querySelector("button").addEventListener("click", () => {
+                    carteira.ofertas.push(o.id); salvar(); desenharOfertas(); avisar("Oferta ativada.");
+                });
+                alvo.appendChild(el);
+            });
+        }
+
+        /* ---------- janelas ---------- */
+        document.querySelectorAll("dialog [data-fechar]").forEach((b) => b.addEventListener("click", () => b.closest("dialog").close()));
+        document.querySelectorAll("dialog").forEach((d) => d.addEventListener("click", (e) => { if (e.target === d) d.close(); }));
+
+        $("btnAddPagamento").addEventListener("click", () => {
+            $("formPagamento").reset();
+            $("camposCartao").style.display = "";
+            $("dlgPagamento").showModal();
+        });
+        $("pgTipo").addEventListener("change", () => {
+            $("camposCartao").style.display = $("pgTipo").value === "pix" ? "none" : "";
+        });
+        $("pgFinal").addEventListener("input", (e) => { e.target.value = e.target.value.replace(/\D/g, "").slice(0, 4); });
+        $("bcFinal").addEventListener("input", (e) => { e.target.value = e.target.value.replace(/\D/g, "").slice(0, 4); });
+
+        $("formPagamento").addEventListener("submit", (e) => {
+            const tipo = $("pgTipo").value;
+            if (tipo === "pix") {
+                if (carteira.pagamentos.some((p) => p.tipo === "pix")) { e.preventDefault(); $("dlgPagamento").close(); return avisar("O PIX já está na sua carteira."); }
+                carteira.pagamentos.push({ id: "pix", tipo: "pix", principal: false });
+            } else {
+                const final = $("pgFinal").value;
+                if (final.length !== 4) { e.preventDefault(); return avisar("Digite os 4 últimos dígitos do cartão."); }
+                carteira.pagamentos.push({ id: "c" + Date.now(), tipo, bandeira: $("pgBandeira").value, final, principal: false });
+            }
+            salvar(); desenharPagamentos(); avisar("Forma de pagamento adicionada.");
+        });
+
+        $("btnBanco").addEventListener("click", () => {
+            $("formBanco").reset();
+            if (carteira.banco) { $("bcNome").value = carteira.banco.nome; $("bcFinal").value = carteira.banco.final; }
+            $("dlgBanco").showModal();
+        });
+        $("formBanco").addEventListener("submit", (e) => {
+            const final = $("bcFinal").value;
+            if (final.length !== 4) { e.preventDefault(); return avisar("Digite os 4 últimos dígitos da conta."); }
+            carteira.banco = { nome: $("bcNome").value.trim(), final };
+            salvar(); desenharBanco(); avisar("Conta bancária salva.");
+        });
+
+        function abrirVoucher() { $("formVoucher").reset(); $("dlgVoucher").showModal(); }
+        $("btnVoucher").addEventListener("click", abrirVoucher);
+        $("btnVale").addEventListener("click", abrirVoucher);
+        $("formVoucher").addEventListener("submit", () => {
+            const codigo = $("vcCodigo").value.trim().toUpperCase();
+            if (!codigo) return;
+            carteira.vouchers.push({ codigo, data: new Date().toLocaleDateString("pt-BR") });
+            salvar(); desenharVouchers(); avisar("Voucher adicionado e em análise.");
+        });
+
+        /* ---------- início ---------- */
+        desenharPagamentos();
+        desenharBanco();
+        desenharVouchers();
+        desenharOfertas();
+    </script>
+</body>
+
+</html>

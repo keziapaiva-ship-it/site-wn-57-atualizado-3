@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar conta - WN57</title>
+
+    <!-- Estilos da página (um único arquivo) -->
+    <link rel="stylesheet"
+        href="/css/login/cadastro.css">
+
+    <!-- Fontes (Google Fonts) -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+
+    <!-- Estilo do campo de foto (novo) -->
+    <style>
+        .foto {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .foto label {
+            font-weight: 600;
+        }
+
+        .foto img {
+            width: 84px;
+            height: 84px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #f9c6de;
+            border: 3px solid #fde8f2;
+        }
+
+        .foto input[type="file"] {
+            font-size: 14px;
+            max-width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!--01. MENU (cabeçalho)-->
+    <header>
+
+        <!-- Logo -->
+        <div class="logo">
+            <img src="/img/logo/logo1.jpg" alt="WN57">
+        </div>
+
+
+        <!-- ---------- Ações do usuário (direita) ---------- -->
+        <div class="menu-direita">
+            <!-- Idioma (PT-BR / EN) -->
+            <button class="idioma-btn" id="btnIdioma" type="button" data-no-i18n>
+                🌐 PT-BR
+            </button>
+
+            <!-- Ajuda -->
+            <a href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/ajuda.html">
+                Ajuda
+            </a>
+
+            <!-- Login (o perfil.js troca este link pelo menu rosa quando a pessoa está logada) -->
+            <div id="usuarioArea">
+                <a href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/login/login.html">
+                    Fazer login
+                </a>
+            </div>
+        </div>
+    </header>
+    <!-- /MENU -->
+
+
+    <!--02. CADASTRO (formulário)-->
+
+    <div class="container">
+        <main>
+            <section class="sessao">
+
+                <form action="/enviar-dados" method="post" novalidate>
+
+                    <!-- ---------- Título ---------- -->
+                    <div class="sessao-topo">
+                        <h1>Crie sua conta</h1>
+                        <p>Preencha seus dados para viajar com a WN57.</p>
+                    </div>
+
+                    <!-- ---------- Login com Google ---------- -->
+                    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+                    <div class="google-area">
+                        <div id="g_id_onload"
+                            data-client_id="86008452356-253qos5sqh3t35olmsdkqekkp06kgrs2.apps.googleusercontent.com"
+                            data-callback="handleCredentialResponse" data-auto_select="false" data-itp_support="true">
+                        </div>
+                        <script>
+                            function handleCredentialResponse(resposta) {
+                                // Decodifica o JWT do Google
+                                const base64 = resposta.credential.split(".")[1]
+                                    .replace(/-/g, "+")
+                                    .replace(/_/g, "/");
+
+                                const json = decodeURIComponent(
+                                    atob(base64)
+                                        .split("")
+                                        .map((c) => "%" + c.charCodeAt(0).toString(16).padStart(2, "0"))
+                                        .join("")
+                                );
+
+                                const usuario = JSON.parse(json);
+
+                                // Guarda o usuário como "logado"
+                                localStorage.setItem(
+                                    "usuario",
+                                    JSON.stringify({
+                                        nome: usuario.name,
+                                        email: usuario.email,
+                                        foto: usuario.picture,
+                                        origem: "google",
+                                    })
+                                );
+
+                                // Volta para a página inicial já logado (caminho definido no perfil.js)
+                                window.location.href = WN57.paginaInicial;
+                            }
+                        </script>
+
+                        <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline"
+                            data-text="signup_with" data-shape="pill" data-width="400">
+                        </div>
+                    </div>
+
+                    <div class="divisor">
+                        <span>ou cadastre-se com seus dados</span>
+                    </div>
+
+                    <!-- ---------- Campos ---------- -->
+                    <div class="informacoes">
+
+                        <!-- NOVO: foto de perfil -->
+                        <div class="foto">
+                            <img id="previaFoto" alt="Prévia da foto"
+                                src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23f9c6de'/%3E%3Ccircle cx='32' cy='25' r='11' fill='%23c2185b'/%3E%3Cpath d='M10 64c0-14 10-22 22-22s22 8 22 22z' fill='%23c2185b'/%3E%3C/svg%3E">
+                            <div class="foto-texto">
+                                <span class="foto-titulo">Foto de perfil</span>
+                                <p class="foto-dica">JPG ou PNG, até 5 MB. Ela aparece no seu perfil.</p>
+                                <div class="foto-acoes">
+                                    <label for="foto" class="foto-botao">Escolher foto</label>
+                                    <span id="nomeArquivo" class="foto-nome">Nenhum arquivo escolhido</span>
+                                </div>
+                                <input type="file" id="foto" name="foto" accept="image/*" class="foto-input">
+                            </div>
+                        </div>
+
+                        <div class="nome">
+                            <label for="nome">Nome completo</label>
+                            <input type="text" id="nome" name="nome" placeholder="Ex.: Maria da Silva" required>
+                        </div>
+
+                        <div class="email">
+                            <label for="email">E-mail</label>
+                            <input type="email" id="email" name="email" placeholder="voce@email.com" required>
+                        </div>
+
+                        <div class="date">
+                            <label for="date">Data de nascimento</label>
+                            <input type="text" id="date" name="date" placeholder="dd/mm/aaaa" required>
+                        </div>
+
+                        <div class="telefone">
+                            <label for="telefone">Telefone</label>
+                            <input type="tel" id="telefone" name="telefone" placeholder="(11) 99999-9999" required>
+                        </div>
+
+                        <div class="senha">
+                            <label for="senha">Senha</label>
+                            <input type="password" id="senha" name="senha" placeholder="Crie uma senha" required>
+                        </div>
+
+                        <div class="confirmacao-senha">
+                            <label for="confirmacao-senha">Confirmar senha</label>
+                            <input type="password" id="confirmacao-senha" name="confirmacao_senha"
+                                placeholder="Repita a senha" required>
+                        </div>
+
+                    </div>
+
+                    <p class="dica-senha">
+                        Use 8 ou mais caracteres, com letra maiúscula, minúscula, número e símbolo.
+                    </p>
+
+                    <!-- ---------- Enviar ---------- -->
+                    <button type="submit" class="btn-enviar">Criar conta</button>
+
+                    <!-- ---------- Rodapé do formulário ---------- -->
+                    <p class="termos">
+                        Ao criar a conta, você concorda com os
+                        <a href="#">Termos de uso</a> e a
+                        <a href="#">Política de privacidade</a>.
+                    </p>
+
+                    <p class="ja-tem-conta">
+                        Já tem uma conta?
+                        <a href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/login/login.html">Entrar</a>
+                    </p>
+                </form>
+            </section>
+        </main>
+    </div>
+    <!-- /CADASTRO -->
+
+
+    <!-- 03. SCRIPTS (a ordem importa) -->
+
+    <!-- 1) Menu de perfil rosa + caminhos do site (define WN57) -->
+    <script
+        src="/site-de-corrida-wn-57-main/site-de-corrida-wn-57-main/site-wn-57-corrida-main/javascript/perfil.js"></script>
+
+    <!-- 2) E-mail de boas-vindas (EmailJS) -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- 3) Lógica do cadastro -->
+    <script
+        src="/site-de-corrida-wn-57-main/site-de-corrida-wn-57-main/site-wn-57-corrida-main/javascript/api.js"></script>
+    <script
+        src="/site-de-corrida-wn-57-main/site-de-corrida-wn-57-main/site-wn-57-corrida-main/javascript/cadastro.js"></script>
+
+</body>
+
+</html>

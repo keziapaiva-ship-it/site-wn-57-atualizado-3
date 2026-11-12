@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WN57 - Aviso WN Pet</title>
+    <link rel="stylesheet" href="/css/corrida/pet.css">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- MENU WN57 -->
+    <nav>
+        <div class="logo">
+            <img src="/site-de-corrida-wn-57-main/site-de-corrida-wn-57-main/site-wn-57-corrida-main/img/Captura de tela 2026-09-08 150021.png" alt="WN57">
+        </div>
+
+        <div class="links">
+            <a href="inicial.html">Início</a>
+            <a href="solicitar.html">Viajar</a>
+             <a href="solicitar.html">Sobre-Nós</a>
+        </div>
+
+        <div class="direita">
+            <a href="login.html" class="login">
+                <i class="fa-regular fa-user"></i>
+                Fazer login
+            </a>
+            <a href="cadastro.html" class="cadastre">Cadastre-se</a>
+        </div>
+    </nav>
+
+
+    <main class="aviso-pagina">
+
+        <section class="aviso-card">
+
+            <div class="aviso-topo">
+                <span class="tag"><i class="fa-solid fa-paw"></i> WN57 Pet</span>
+                <h1>Aviso importante</h1>
+                <p>Leia com atenção antes de confirmar sua corrida com animal de estimação.</p>
+            </div>
+
+            <div class="aviso-corpo" tabindex="0">
+
+                <p>O WN57 Pet permite que os usuários solicitem viagens pelo aplicativo WN57 acompanhados de um animal
+                    de estimação, <strong>limitado a cães e gatos</strong>. Não é permitido o transporte de animais
+                    silvestres, exóticos ou de qualquer outra espécie.</p>
+
+                <h2>1. Responsabilidade do usuário</h2>
+                <p>O usuário é o único responsável pelo animal e deve acompanhá-lo durante toda a viagem. Também deve
+                    garantir a segurança do animal, do motorista e de terceiros, conforme as normas aplicáveis.</p>
+
+                <h2>2. Sem responsabilidade e sem seguro</h2>
+                <p>A WN57 não se responsabiliza pelo animal. Nenhuma cobertura de seguro é fornecida pela WN57 ou pelos
+                    motoristas parceiros para animais de estimação, incluindo lesões, fuga, mal-estar, perda ou morte do
+                    animal.</p>
+
+                <h2>3. Danos e limpeza</h2>
+                <p>O usuário responde por danos causados pelo animal ao veículo (arranhões, mordidas, sujeira, odores,
+                    pelos, necessidades fisiológicas). Poderá ser cobrada taxa de limpeza ou de reparo, conforme os
+                    Termos e Condições.</p>
+
+                <h2>4. Recomendações de segurança</h2>
+                <p>Recomendamos o uso de cinto de segurança específico para animais, bolsa ou caixa de transporte e
+                    toalha durante toda a viagem. O animal deve permanecer no banco traseiro, sem ficar solto no
+                    veículo, no colo do motorista ou em local que atrapalhe a condução (arts. 235 e 252 do Código de
+                    Trânsito Brasileiro).</p>
+
+                <h2>5. Coleira e focinheira</h2>
+                <p>O uso de coleira e focinheira é <strong>obrigatório</strong> para animais de grande porte ou de raças
+                    consideradas agressivas, conforme a legislação local aplicável. Nos demais casos, recomenda-se
+                    coleira e toalha durante toda a viagem.</p>
+
+                <h2>6. Saúde do animal</h2>
+                <p>Recomendamos manter vacinas e vermifugação em dia. Animais doentes, agressivos ou em condições que
+                    ofereçam risco à saúde e à segurança de terceiros podem ter o transporte recusado.</p>
+
+                <h2>7. Maus-tratos</h2>
+                <p>É proibido praticar abuso, maus-tratos, ferir ou mutilar animais. Essa conduta é crime, com pena de
+                    reclusão de 2 a 5 anos quando envolver cães e gatos (Lei 9.605/98, com a redação da Lei
+                    14.064/2020). Não deixe o animal sozinho no veículo, especialmente em locais fechados ou sob calor.
+                </p>
+
+                <h2>8. Cão-guia e cão de assistência</h2>
+                <p>O transporte de cão-guia que acompanha pessoa com deficiência é um direito garantido por lei (Lei
+                    11.126/2005 e Lei 13.146/2015) e <strong>não pode ser recusado</strong>. Nesse caso, as regras acima
+                    não se aplicam como condição de aceitação da corrida, e não há cobrança adicional.</p>
+
+                <h2>9. Motoristas e alergias</h2>
+                <p>Motoristas parceiros podem optar por não aceitar corridas Pet, exceto no caso de cão-guia, o que pode
+                    aumentar o tempo de espera. O usuário deve informar corretamente no aplicativo que viajará com
+                    animal.</p>
+
+                <h2>10. Termos e Condições</h2>
+                <p>O uso do WN57 Pet está sujeito ao cumprimento dos Termos e Condições da plataforma e à legislação
+                    vigente, incluindo o Código de Defesa do Consumidor.</p>
+
+            </div>
+
+            <label class="aviso-aceite">
+                <input type="checkbox" id="petCheck">
+                <span>Li e concordo com este aviso e com os Termos e Condições.</span>
+            </label>
+
+            <div class="aviso-botoes">
+                <button type="button" class="btn-cancelar" id="petCancelar">Cancelar</button>
+
+                <button type="button" class="btn-aceitar" id="petAceitar" disabled>
+                    Entendi e continuar
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="/javascript/corrida/pet.js"></script>
+
+</body>
+
+</html>
