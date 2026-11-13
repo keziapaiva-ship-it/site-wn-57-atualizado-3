@@ -1,0 +1,816 @@
+
+/* =====================================================
+   WN57 - ARTIGO: O IMPACTO DO TRANSPORTE
+   Mesmo modelo visual das outras páginas do blog
+===================================================== */
+
+
+/* =====================================================
+   CONFIGURAÇÕES GERAIS
+===================================================== */
+
+:root {
+    --rosa: #ff2d78;
+    --rosa-escuro: #d91f65;
+    --rosa-claro: #fff0f5;
+    --preto: #0d0d0d;
+    --branco: #ffffff;
+    --cinza: #777777;
+    --fundo: #f6f7f9;
+    --borda: #e8e8e8;
+    --fonte: 'Poppins', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--fonte);
+    background: var(--fundo);
+    color: var(--preto);
+    line-height: 1.7;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+
+/* =====================================================
+   CABEÇALHO - PADRÃO PRINCIPAL WN57
+===================================================== */
+
+.cabecalho {
+    width: 100%;
+    height: 80px;
+    padding: 0 6.8%;
+
+    background: var(--preto);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    position: relative;
+    z-index: 1000;
+
+    border-top: 2px solid var(--rosa);
+}
+
+/* Logo */
+
+.cabecalho .logo {
+    width: 65px;
+    height: 55px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #454545;
+    border-radius: 10px;
+
+    background: #050505;
+
+    flex-shrink: 0;
+}
+
+.cabecalho .logo img {
+    width: 55px;
+    height: 43px;
+
+    object-fit: contain;
+    display: block;
+}
+
+
+/* Menu central */
+
+.cabecalho nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cabecalho nav a {
+    color: var(--branco);
+
+    font-family: var(--fonte);
+    font-size: 13px;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition: color 0.3s ease;
+}
+
+.cabecalho nav a:hover {
+    color: var(--rosa);
+}
+
+
+/* Botões do lado direito */
+
+.header-buttons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    flex-shrink: 0;
+}
+
+.header-buttons a {
+    min-height: 42px;
+    padding: 0 19px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 8px;
+
+    font-family: var(--fonte);
+    font-size: 12px;
+    font-weight: 600;
+
+    white-space: nowrap;
+
+    transition: all 0.3s ease;
+}
+
+
+/* Botão voltar ao blog */
+
+.btn-voltar {
+    color: var(--branco);
+    border: 1px solid #555555;
+    background: transparent;
+}
+
+.btn-voltar:hover {
+    border-color: var(--rosa);
+    color: var(--rosa);
+}
+
+
+/* Botão fazer login */
+
+.btn-login {
+    color: var(--branco);
+    border: 1px solid #555555;
+    background: transparent;
+}
+
+.btn-login:hover {
+    border-color: var(--rosa);
+    color: var(--rosa);
+}
+
+
+/* Botão cadastro */
+
+.btn-cadastro {
+    color: var(--branco);
+    background: var(--rosa);
+    border: 1px solid var(--rosa);
+}
+
+.btn-cadastro:hover {
+    background: var(--rosa-escuro);
+    border-color: var(--rosa-escuro);
+    transform: translateY(-2px);
+}
+
+
+/* =====================================================
+   CONTEÚDO PRINCIPAL
+===================================================== */
+
+.artigo-container {
+    width: 100%;
+    max-width: 1100px;
+
+    margin: 50px auto;
+    padding: 0 25px;
+}
+
+
+/* =====================================================
+   CAMINHO DE NAVEGAÇÃO
+===================================================== */
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 11px;
+
+    margin-bottom: 35px;
+
+    color: var(--cinza);
+    font-size: 12px;
+}
+
+.breadcrumb a {
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+.breadcrumb a:hover {
+    color: var(--rosa);
+}
+
+.breadcrumb i {
+    color: #b5b5b5;
+    font-size: 10px;
+}
+
+.breadcrumb span {
+    color: var(--rosa-escuro);
+    font-weight: 600;
+}
+
+
+/* =====================================================
+   CABEÇALHO DO ARTIGO
+===================================================== */
+
+.artigo-cabecalho {
+    max-width: 850px;
+
+    margin: 0 auto 35px;
+
+    text-align: center;
+}
+
+
+/* Categoria */
+
+.categoria {
+    display: inline-block;
+
+    padding: 8px 17px;
+    margin-bottom: 22px;
+
+    background: var(--rosa-claro);
+    color: var(--rosa-escuro);
+
+    border-radius: 30px;
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+
+/* Título */
+
+.artigo-cabecalho h1 {
+    color: var(--preto);
+
+    font-size: clamp(30px, 5vw, 45px);
+    font-weight: 800;
+
+    line-height: 1.3;
+    letter-spacing: -1.2px;
+
+    margin-bottom: 18px;
+}
+
+
+/* Descrição */
+
+.descricao {
+    max-width: 700px;
+
+    margin: 0 auto 28px;
+
+    color: var(--cinza);
+
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+
+/* =====================================================
+   INFORMAÇÕES DO AUTOR
+===================================================== */
+
+.autor-artigo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 13px;
+
+    text-align: left;
+}
+
+
+/* Ícone do autor */
+
+.autor-icone {
+    width: 43px;
+    height: 43px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--rosa-claro);
+    color: var(--rosa);
+
+    border-radius: 50%;
+
+    font-size: 16px;
+}
+
+
+/* Dados da publicação */
+
+.autor-artigo div:last-child {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.autor-artigo strong {
+    color: var(--preto);
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.autor-artigo span {
+    color: var(--cinza);
+    font-size: 11px;
+}
+
+
+/* =====================================================
+   IMAGEM PRINCIPAL
+===================================================== */
+
+.imagem-capa {
+    width: 100%;
+    height: 440px;
+
+    overflow: hidden;
+
+    border-radius: 17px;
+    margin-bottom: 45px;
+
+    background: #e5e5e5;
+
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.imagem-capa img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transition: transform 0.6s;
+}
+
+.imagem-capa:hover img {
+    transform: scale(1.025);
+}
+
+
+/* =====================================================
+   TEXTO COMPLETO DO ARTIGO
+===================================================== */
+
+.texto-artigo {
+    max-width: 800px;
+
+    margin: 0 auto;
+    padding: 50px 60px;
+
+    background: var(--branco);
+
+    border: 1px solid #eeeeee;
+    border-radius: 16px;
+
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.035);
+}
+
+
+/* Parágrafos */
+
+.texto-artigo p {
+    color: #4b4b4b;
+
+    font-size: 14px;
+    line-height: 2;
+
+    margin-bottom: 23px;
+
+    text-align: justify;
+}
+
+
+/* Introdução */
+
+.texto-artigo .introducao {
+    color: #333333;
+
+    font-size: 16px;
+    font-weight: 500;
+
+    line-height: 1.9;
+
+    padding-bottom: 25px;
+    margin-bottom: 30px;
+
+    border-bottom: 1px solid var(--borda);
+}
+
+
+/* Títulos */
+
+.texto-artigo h2 {
+    color: var(--preto);
+
+    font-size: 22px;
+    font-weight: 700;
+
+    line-height: 1.4;
+
+    margin-top: 38px;
+    margin-bottom: 16px;
+}
+
+.texto-artigo h3 {
+    color: var(--preto);
+
+    font-size: 18px;
+
+    margin-top: 25px;
+    margin-bottom: 12px;
+}
+
+
+/* Palavras em destaque */
+
+.texto-artigo strong {
+    color: var(--rosa-escuro);
+    font-weight: 700;
+}
+
+
+/* =====================================================
+   CITAÇÃO
+===================================================== */
+
+.texto-artigo blockquote {
+    margin: 35px 0;
+    padding: 25px 28px;
+
+    background: var(--rosa-claro);
+
+    border-left: 4px solid var(--rosa);
+    border-radius: 0 10px 10px 0;
+
+    color: #333333;
+
+    font-size: 15px;
+    font-weight: 500;
+    font-style: italic;
+
+    line-height: 1.9;
+}
+
+
+/* =====================================================
+   BOTÃO VOLTAR PARA O BLOG
+===================================================== */
+
+.voltar-blog {
+    display: flex;
+    justify-content: center;
+
+    margin: 45px 0 65px;
+}
+
+.voltar-blog a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    padding: 14px 27px;
+
+    background: var(--rosa);
+    color: var(--branco);
+
+    border-radius: 8px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    transition: 0.3s;
+}
+
+.voltar-blog a:hover {
+    background: var(--rosa-escuro);
+
+    transform: translateY(-3px);
+
+    box-shadow: 0 8px 20px rgba(255, 45, 120, 0.2);
+}
+
+
+/* =====================================================
+   RODAPÉ
+===================================================== */
+
+.rodape {
+    padding: 45px 7% 25px;
+
+    background: var(--preto);
+    color: var(--branco);
+
+    text-align: center;
+}
+
+.rodape h2 {
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.rodape h2 span {
+    color: var(--rosa);
+}
+
+.rodape p {
+    color: #aaaaaa;
+
+    font-size: 13px;
+
+    margin: 8px 0 22px;
+}
+
+.rodape > span {
+    display: block;
+
+    padding-top: 20px;
+
+    border-top: 1px solid #292929;
+
+    color: #888888;
+    font-size: 11px;
+}
+
+
+/* =====================================================
+   ANIMAÇÃO DE ENTRADA
+===================================================== */
+
+.artigo-cabecalho,
+.imagem-capa,
+.texto-artigo {
+    animation: aparecer 0.7s ease both;
+}
+
+.imagem-capa {
+    animation-delay: 0.1s;
+}
+
+.texto-artigo {
+    animation-delay: 0.2s;
+}
+
+@keyframes aparecer {
+
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =====================================================
+   RESPONSIVIDADE - TABLETS
+===================================================== */
+
+@media (max-width: 1000px) {
+
+    .cabecalho {
+        padding: 0 3%;
+    }
+
+    .cabecalho nav {
+        gap: 18px;
+    }
+
+    .header-buttons {
+        gap: 7px;
+    }
+
+    .header-buttons a {
+        padding: 0 12px;
+        font-size: 11px;
+    }
+
+    .imagem-capa {
+        height: 350px;
+    }
+
+    .texto-artigo {
+        padding: 40px;
+    }
+}
+
+
+/* =====================================================
+   RESPONSIVIDADE - CELULARES
+===================================================== */
+
+@media (max-width: 700px) {
+
+    /* Cabeçalho */
+
+    .cabecalho {
+        height: auto;
+        min-height: 75px;
+
+        padding: 12px 5%;
+
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .cabecalho .logo {
+        width: 58px;
+        height: 45px;
+    }
+
+    .cabecalho .logo img {
+        width: 50px;
+        height: 38px;
+    }
+
+    .cabecalho nav {
+        order: 3;
+
+        width: 100%;
+
+        justify-content: center;
+        gap: 25px;
+
+        margin: 0;
+    }
+
+    .cabecalho nav a {
+        font-size: 11px;
+    }
+
+    .header-buttons {
+        gap: 6px;
+    }
+
+    .header-buttons a {
+        min-height: 36px;
+        padding: 0 9px;
+
+        font-size: 9px;
+    }
+
+
+    /* Conteúdo */
+
+    .artigo-container {
+        margin: 30px auto;
+        padding: 0 16px;
+    }
+
+    .breadcrumb {
+        margin-bottom: 25px;
+        font-size: 11px;
+    }
+
+    .artigo-cabecalho h1 {
+        font-size: 29px;
+        letter-spacing: -0.5px;
+    }
+
+    .descricao {
+        font-size: 13px;
+    }
+
+    .autor-artigo {
+        gap: 10px;
+    }
+
+
+    /* Imagem */
+
+    .imagem-capa {
+        height: 240px;
+
+        margin-bottom: 25px;
+
+        border-radius: 12px;
+    }
+
+
+    /* Texto */
+
+    .texto-artigo {
+        padding: 27px 20px;
+        border-radius: 12px;
+    }
+
+    .texto-artigo .introducao {
+        font-size: 14px;
+    }
+
+    .texto-artigo h2 {
+        font-size: 19px;
+    }
+
+    .texto-artigo p {
+        font-size: 13px;
+        text-align: left;
+    }
+
+    .texto-artigo blockquote {
+        padding: 18px;
+        font-size: 13px;
+    }
+
+
+    /* Rodapé */
+
+    .rodape {
+        padding: 35px 7% 22px;
+    }
+}
+
+
+/* =====================================================
+   CELULARES PEQUENOS
+===================================================== */
+
+@media (max-width: 380px) {
+
+    .artigo-cabecalho h1 {
+        font-size: 25px;
+    }
+
+    .imagem-capa {
+        height: 200px;
+    }
+
+    .autor-artigo span {
+        font-size: 10px;
+    }
+
+    .header-buttons a {
+        padding: 0 7px;
+        font-size: 8px;
+    }
+}
+
+
+/* =====================================================
+   ACESSIBILIDADE
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}

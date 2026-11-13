@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WN57 - Sua corrida</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/corrida/corrida.css">
+</head>
+
+<body>
+
+  <header>
+    <div class="esq">
+      <a class="logo" href="../../index.html" aria-label="WN57 início">WN<span>57</span></a>
+      <a class="link" href="../../index.html">Início</a>
+      <a class="link" href="#">Viajar</a>
+    </div>
+    <div class="dir">
+      <a href="#" aria-label="Compartilhar">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff">
+          <circle cx="18" cy="5" r="3.2" />
+          <circle cx="6" cy="12" r="3.2" />
+          <circle cx="18" cy="19" r="3.2" />
+          <path d="M8.5 10.6l7-4M8.5 13.4l7 4" stroke="#fff" stroke-width="2" fill="none" />
+        </svg>
+      </a>
+      <a class="login" href="#">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+          <circle cx="12" cy="8" r="4" />
+          <path d="M4 21c0-4.4 3.6-7 8-7s8 2.600 8 7" />
+        </svg>
+        Fazer login
+      </a>
+      <a class="cadastro" href="#">Cadastre-se</a>
+    </div>
+  </header>
+
+  <div id="mapa" aria-label="Mapa da rota">
+    <div class="info-rota" id="infoRota"><b>-- km</b><small>calculando…</small></div>
+  </div>
+
+  <main class="painel">
+    <div class="alca"></div>
+    <div class="conteudo">
+      <span class="tag">WN57</span>
+      <h1>Para onde vamos?</h1>
+      <p class="sub">Confira os dados da sua viagem.</p>
+
+      <div class="trajeto">
+        <div class="ponto">
+          <div class="icone"><svg width="12" height="12">
+              <circle cx="6" cy="6" r="6" fill="#fff" />
+            </svg></div>
+          <div class="txt"><small>Localização atual</small><strong id="origemTxt">Rua Malásia, Pineville -
+              Pinhais</strong></div>
+        </div>
+        <div class="linha-v"></div>
+        <div class="ponto">
+          <div class="icone rosa"><svg width="18" height="18" viewBox="0 0 24 24" fill="var(--rosa)">
+              <path
+                d="M12 2a7 7 0 00-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 00-7-7zm0 9.500A2.500 2.500 0 1112 6.500a2.500 2.500 0 010 5z" />
+            </svg></div>
+          <div class="txt"><small>Destino</small><strong id="destinoTxt">rua rio negro 403</strong></div>
+        </div>
+        <button class="editar" id="editar" type="button" aria-label="Editar destino">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--rosa)">
+            <path
+              d="M3 17.250V21h3.750L17.800 9.940l-3.750-3.750L3 17.250zM20.700 7.040a1 1 0 000-1.410l-2.340-2.340a1 1 0 00-1.410 0l-1.830 1.830 3.750 3.750 1.830-1.830z" />
+          </svg>
+        </button>
+      </div>
+
+      <h2>Escolha seu veículo</h2>
+      <div class="veiculos" id="veiculos" role="listbox" aria-label="Escolha seu veículo"></div>
+
+      <h2>Pagamento</h2>
+      <div class="abas" id="abas">
+        <button type="button" class="aba ativo" data-pg="Cartão">
+          <span class="quad"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+              <rect x="2" y="5" width="20" height="14" rx="3" />
+              <path d="M2 10h20" />
+            </svg></span>Cartão</button>
+        <button type="button" class="aba" data-pg="Pix">
+          <span class="quad"><svg width="20" height="20" viewBox="0 0 24 24" fill="#ddd">
+              <path
+                d="M12 2l4.500 4.500L12 11 7.500 6.500zM2 12l4.500-4.500L11 12l-4.500 4.500zM22 12l-4.500 4.500L13 12l4.500-4.500zM12 22l-4.500-4.500L12 13l4.500 4.500z" />
+            </svg></span>Pix</button>
+        <button type="button" class="aba" data-pg="Dinheiro">
+          <span class="quad"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ddd" stroke-width="2">
+              <rect x="2" y="6" width="20" height="12" rx="2" />
+              <circle cx="12" cy="12" r="3" />
+            </svg></span>Dinheiro</button>
+      </div>
+
+      <div class="form" id="formCartao">
+        <div class="campo"><label for="numero">Número do cartão</label>
+          <input id="numero" inputmode="numeric" autocomplete="cc-number" placeholder="0000 0000 0000 0000"
+            maxlength="19">
+        </div>
+        <div class="campo"><label for="nome">Nome impresso no cartão</label>
+          <input id="nome" autocomplete="cc-name" placeholder="Como está no cartão">
+        </div>
+        <div class="duas">
+          <div class="campo"><label for="validade">Validade</label>
+            <input id="validade" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/AA" maxlength="5">
+          </div>
+          <div class="campo"><label for="cvv">CVV</label>
+            <input id="cvv" inputmode="numeric" autocomplete="cc-csc" placeholder="123" maxlength="4">
+          </div>
+        </div>
+      </div>
+      <div class="form oculto" id="formPix">
+        <p class="aviso">O código Pix será gerado depois que você confirmar a corrida.</p>
+      </div>
+      <div class="form oculto" id="formDinheiro">
+        <p class="aviso">Pague o valor da corrida em dinheiro direto ao motorista.</p>
+      </div>
+
+      <div class="resumo">
+        <div><small>Categoria escolhida</small><strong id="rCat">WN</strong></div>
+        <div><small>Valor estimado</small><strong id="rValor">R$ 15,00</strong></div>
+        <div><small>Pagamento</small><strong id="rPg">Cartão</strong></div>
+      </div>
+
+      <button class="confirmar" id="confirmar" type="button">
+        <span id="confirmarTxt">Confirmar corrida</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.500"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M13 6l6 6-6 6" />
+        </svg>
+      </button>
+      <p class="erro" id="erro" role="alert"></p>
+    </div>
+  </main>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="/javascript/corrida/corrida.js"></script>
+</body>
+
+</html>

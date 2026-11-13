@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Suporte • WN57</title>
+
+    <!-- fonte do Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/ajuda/suporte.css">
+</head>
+
+<body>
+
+    <!-- Cabeçalho principal do site -->
+    <header>
+        <div class="header-container">
+
+            <!-- Logo da empresa WN57 -->
+            <img src="/img/logo/logo1.jpg" class="logo" alt="WN57">
+
+            <!-- Menu de navegação principal -->
+            <nav>
+                <a href="/html/principal/inicial.html">Inicial</a>
+                <a href="/html/corrida/solicitar.html">Viajar</a>
+                <a href="/html/">Sobre-nós</a>
+            </nav>
+
+            <!-- Links de suporte, login e cadastro -->
+            <div class="header-right">
+                <a href="/html/ajuda/suporte.html" aria-current="page">Suporte</a>
+                <a href="/html/login/login.html">Fazer login</a>
+                <a href="/html/login/cadastro.html" class="btn-menu">Cadastre-se</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Conteúdo principal da página -->
+    <main>
+
+        <!-- Apresentação da assistente virtual -->
+        <section>
+
+            <!-- Título e descrição da área de suporte -->
+            <h1>Tire sua dúvida agora, sem esperar atendente.</h1>
+
+            <p class="lead">
+                A assistente de suporte da WN57 responde na hora as perguntas mais comuns dos clientes.
+                Teste ao lado: clique em uma pergunta ou escreva a sua.
+            </p>
+
+            <!-- Área que apresenta as funções e limitações da assistente -->
+            <div class="scope">
+
+                <!-- Lista de assuntos que a assistente consegue responder -->
+                <div>
+                    <h2>O que a assistente responde</h2>
+                    <ul>
+                        <li>Como pedir, cancelar e acompanhar uma corrida</li>
+                        <li>Formas de pagamento, cobranças e reembolso</li>
+                        <li>Diferença entre WN Black, Comfort e Econômico</li>
+                        <li>Segurança, objetos esquecidos e problemas com o app</li>
+                        <li>Login, cadastro e senha</li>
+                    </ul>
+                </div>
+
+                <!-- Área de apresentação do vídeo explicativo -->
+                <div class="video-suporte">
+                    <h2>🎬 Como usar a WN57</h2>
+
+                    <p>
+                        Assista ao vídeo para conhecer melhor a plataforma
+                        e aprender a utilizar nossos serviços.
+                    </p>
+
+                    <!-- Container que organiza o vídeo na página -->
+                    <div class="video-container">
+
+                        <!-- Vídeo demonstrativo da plataforma -->
+                        <video controls preload="metadata" playsinline>
+                            <source src="/img/VID_20261019_143506.mp4" type="video/mp4">
+
+                            <!-- Mensagem exibida caso o navegador não reproduza o vídeo -->
+                            Seu navegador não consegue reproduzir este vídeo.
+                        </video>
+                    </div>
+                </div>
+
+                <!-- Lista de limitações da assistente virtual -->
+                <div class="no">
+                    <h2>O que ela não faz</h2>
+                    <ul>
+                        <li>Não responde assuntos fora da WN57</li>
+                        <li>Não pede senha nem dados de cartão</li>
+                        <li>Não altera corridas nem cobranças: encaminha para o suporte humano</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Área do chat de suporte -->
+        <section class="chat" aria-label="Chat de suporte WN57">
+
+            <!-- Cabeçalho do chat com identificação da assistente -->
+            <div class="chat-head">
+
+                <!-- Avatar da assistente -->
+                <div class="avatar">WN</div>
+
+                <!-- Nome e status de disponibilidade -->
+                <div>
+                    Assistente WN57
+                    <small>
+                        <span class="dot"></span>
+                        Online • responde em segundos
+                    </small>
+                </div>
+            </div>
+
+            <!-- Área onde as mensagens do chat serão exibidas -->
+            <div id="msgs" role="log" aria-live="polite"></div>
+
+            <!-- Área das perguntas sugeridas ao usuário -->
+            <div class="chips" id="chips"></div>
+
+            <!-- Formulário para enviar dúvidas à assistente -->
+            <form class="input" id="form">
+
+                <!-- Campo para digitar a pergunta -->
+                <input id="campo" placeholder="Escreva sua dúvida..." autocomplete="off" aria-label="Sua dúvida" />
+
+                <!-- Botão para enviar uma pergunta por áudio -->
+                <button type="button" id="microfone" class="btn-microfone" title="Perguntar por áudio"
+                    aria-label="Perguntar por áudio">
+                    🎙️
+                </button>
+
+                <!-- Botão para enviar a mensagem digitada -->
+                <button type="submit">Enviar</button>
+
+            </form>
+        </section>
+    </main>
+
+    <!-- Aviso informando que o chat utiliza respostas de demonstração -->
+    <p class="note">
+        Esta é uma demonstração com respostas de exemplo. Para ligar à IA de verdade, preencha
+        <code>API_URL</code> no script desta página com o endereço do seu servidor.
+    </p>
+
+    <!-- Rodapé da página -->
+    <footer>
+        © 2026 WN57 • Todos os direitos reservados
+    </footer>
+
+    <!-- Arquivo JavaScript responsável pelas funcionalidades do chat -->
+    <script src="/javascript/ajuda/suport.js"></script>
+
+</body>
+
+</html>

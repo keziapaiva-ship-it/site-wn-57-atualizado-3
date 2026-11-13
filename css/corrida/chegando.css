@@ -1,0 +1,681 @@
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --pink: #ff2d78;
+  --pink-dark: #d91d61;
+  --dark: #171717;
+  --gray: #777;
+  --ok: #20c55e;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+body {
+  font-family: "DM Sans", Arial, sans-serif;
+  background: linear-gradient(135deg, #ec9cbd, #f5a0c2);
+  background-attachment: fixed;
+  color: #000;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+button {
+  font-family: inherit;
+}
+
+
+/* =========================================================
+   HEADER (igual às outras páginas)
+========================================================= */
+
+header {
+  width: 100%;
+  height: 58px;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+
+  background: #000;
+}
+
+.logo {
+  margin-left: max(30px, calc((100% - 1280px) / 2));
+  margin-right: 42px;
+}
+
+.logo img {
+  width: 105px;
+  display: block;
+}
+
+nav {
+  display: flex;
+  gap: 30px;
+}
+
+nav a,
+.menu-direita a {
+  color: #fff;
+  text-decoration: none;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  transition: .2s;
+}
+
+nav a:hover,
+.menu-direita a:hover {
+  color: var(--pink);
+}
+
+.menu-direita {
+  margin-left: auto;
+  margin-right: max(30px, calc((100% - 1280px) / 2));
+
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.idioma-btn {
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.idioma-btn:hover {
+  color: var(--pink);
+}
+
+.btn-menu {
+  background: var(--pink);
+  padding: 10px 20px;
+  border-radius: 30px;
+}
+
+.btn-menu:hover {
+  color: #fff !important;
+  background: var(--pink-dark);
+}
+
+
+/* =========================================================
+   TELA: PAINEL + MAPA
+========================================================= */
+
+.tela {
+  display: grid;
+  grid-template-columns: 420px minmax(0, 1fr);
+  height: calc(100vh - 58px);
+  margin-top: 58px;
+}
+
+.painel {
+  background: #fff;
+  padding: 26px 26px 30px;
+  overflow-y: auto;
+  box-shadow: 6px 0 30px rgba(0, 0, 0, .15);
+  position: relative;
+  z-index: 5;
+}
+
+.arrastar {
+  display: none;
+}
+
+.mapa-wrap {
+  position: relative;
+  min-height: 0;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+  background: #e4e4e4;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.tag {
+  display: block;
+  color: var(--pink);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  margin-bottom: 8px;
+}
+
+.status-topo h1 {
+  font-size: 26px;
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.status-topo p {
+  color: #555;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.barra {
+  height: 5px;
+  margin: 16px 0 22px;
+  background: #eee;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+#barraFill {
+  width: 0;
+  height: 100%;
+  background: var(--pink);
+  border-radius: 10px;
+  transition: width .4s linear;
+}
+
+.barra.buscando #barraFill {
+  width: 35%;
+  animation: buscar 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes buscar {
+  from {
+    margin-left: 0;
+  }
+
+  to {
+    margin-left: 65%;
+  }
+}
+
+
+/* =========================================================
+   MOTORISTA
+========================================================= */
+
+.motorista {
+  margin-bottom: 20px;
+  padding: 16px;
+  background: #f6f6f6;
+  border-radius: 16px;
+  animation: entrar .4s ease;
+}
+
+@keyframes entrar {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+.motorista-linha {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 54px;
+  height: 54px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff2d78, #5a0f2d);
+  color: #fff;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.motorista-dados {
+  flex: 1;
+  min-width: 0;
+}
+
+.motorista-dados strong {
+  display: block;
+  font-size: 16px;
+}
+
+.motorista-dados small {
+  color: var(--gray);
+  font-size: 13px;
+}
+
+.carro-dados {
+  text-align: right;
+}
+
+.carro-dados strong {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+.placa {
+  display: inline-block;
+  padding: 3px 10px;
+  background: #fff;
+  border: 2px solid #222;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.pin-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding: 12px 14px;
+  background: #000;
+  color: #fff;
+  border-radius: 12px;
+}
+
+.pin-box span {
+  font-size: 13px;
+  color: #ccc;
+}
+
+.pin-box strong {
+  font-size: 22px;
+  letter-spacing: 6px;
+}
+
+
+/* =========================================================
+   ROTA E PAGAMENTO
+========================================================= */
+
+.rota {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  padding: 4px 0 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.rota::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 18px;
+  bottom: 38px;
+  width: 2px;
+  background: #ccc;
+}
+
+.rota-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.rota-item small,
+.pagto small {
+  display: block;
+  color: var(--gray);
+  font-size: 11px;
+  margin-bottom: 2px;
+}
+
+.rota-item strong {
+  font-size: 14px;
+  line-height: 1.35;
+  word-break: break-word;
+}
+
+.bolinha,
+.quadrado {
+  position: relative;
+  z-index: 1;
+  width: 14px;
+  height: 14px;
+  margin-top: 4px;
+  flex-shrink: 0;
+  background: #000;
+}
+
+.bolinha {
+  border-radius: 50%;
+}
+
+.quadrado {
+  background: var(--pink);
+}
+
+.pagto {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.pagto strong {
+  font-size: 14px;
+}
+
+.pagto-valor {
+  text-align: right;
+}
+
+.pagto-valor strong {
+  font-size: 22px;
+}
+
+
+/* =========================================================
+   AÇÕES
+========================================================= */
+
+.acoes {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.acoes button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+
+  padding: 12px 4px;
+
+  background: #f1f1f1;
+  border: none;
+  border-radius: 12px;
+
+  font-size: 12px;
+  font-weight: 700;
+  color: #111;
+
+  cursor: pointer;
+  transition: .2s;
+}
+
+.acoes button span {
+  font-size: 18px;
+}
+
+.acoes button:hover:not(:disabled) {
+  background: #e6e6e6;
+}
+
+.acoes button.perigo {
+  color: #c4175a;
+}
+
+.acoes button:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+
+/* =========================================================
+   FINAL (AVALIAÇÃO)
+========================================================= */
+
+.final {
+  margin-top: 22px;
+  padding: 22px 18px;
+  background: #f6f6f6;
+  border-radius: 16px;
+  text-align: center;
+  animation: entrar .4s ease;
+}
+
+.final h2 {
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.estrelas {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+
+.estrelas button {
+  border: none;
+  background: transparent;
+  font-size: 36px;
+  line-height: 1;
+  color: #ccc;
+  cursor: pointer;
+  transition: .15s;
+}
+
+.estrelas button.ativa {
+  color: #f5b301;
+}
+
+.estrelas button:hover {
+  transform: scale(1.15);
+}
+
+.btn-primario {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  background: var(--pink);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-primario:hover {
+  background: var(--pink-dark);
+}
+
+
+/* =========================================================
+   MARCADORES DO MAPA
+========================================================= */
+
+.pin-car,
+.pin-embarque,
+.pin-destino {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pin-car {
+  width: 44px;
+  height: 44px;
+  font-size: 26px;
+  background: #000;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .45);
+}
+
+.pin-embarque {
+  width: 22px;
+  height: 22px;
+  background: #000;
+  border: 4px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(255, 45, 120, .6);
+  animation: onda 1.8s infinite;
+}
+
+@keyframes onda {
+  to {
+    box-shadow: 0 0 0 22px rgba(255, 45, 120, 0);
+  }
+}
+
+.pin-destino {
+  width: 34px;
+  height: 34px;
+  font-size: 20px;
+  background: var(--pink);
+  border: 3px solid #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .35);
+}
+
+
+/* =========================================================
+   SEM VIAGEM + TOAST
+========================================================= */
+
+.sem-viagem {
+  min-height: 100vh;
+  padding: 110px 20px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sem-viagem-card {
+  width: 440px;
+  max-width: 100%;
+  padding: 40px 30px;
+  background: #171717;
+  color: #fff;
+  border-radius: 22px;
+  text-align: center;
+}
+
+.sem-viagem-card h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.sem-viagem-card p {
+  color: #aaa;
+  margin-bottom: 24px;
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 30px;
+  z-index: 10000;
+  padding: 12px 22px;
+  background: #000;
+  color: #fff;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 600;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 20px);
+  transition: .3s;
+}
+
+.toast.mostrar {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+
+/* =========================================================
+   RESPONSIVO
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .menu-direita {
+    gap: 12px;
+  }
+
+  nav {
+    gap: 15px;
+  }
+
+  .tela {
+    display: flex;
+    flex-direction: column-reverse;
+    height: auto;
+  }
+
+  .mapa-wrap {
+    height: calc(100vh - 58px - 330px);
+    min-height: 260px;
+  }
+
+  .painel {
+    margin-top: -24px;
+    border-radius: 24px 24px 0 0;
+    overflow: visible;
+    box-shadow: 0 -8px 30px rgba(0, 0, 0, .18);
+  }
+
+  .arrastar {
+    display: block;
+    width: 44px;
+    height: 5px;
+    margin: -10px auto 16px;
+    background: #ddd;
+    border-radius: 10px;
+  }
+}
+
+@media (max-width: 650px) {
+
+  header {
+    padding: 0 15px;
+  }
+
+  .logo {
+    margin-left: 0;
+    margin-right: 15px;
+  }
+
+  .logo img {
+    width: 75px;
+  }
+
+  nav a {
+    font-size: 11px;
+  }
+
+  .menu-direita a,
+  .idioma-btn {
+    font-size: 11px;
+  }
+
+  .btn-menu {
+    padding: 8px 12px;
+  }
+}
