@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+ 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="./cadastro-api.js"></script>
+  <script type="module" src="/javascript/login/reconhecimento-facial.js"></script>
+  <link rel="stylesheet" href="/css/login/reconhecimento-facial.css">
+  <title>Reconhecimento Facial</title>
+</head>
+ 
+<body>
+  <main class="pagina">
+ 
+    <header class="topo">
+      <a class="voltar" href="javascript:history.back()" aria-label="Voltar">‹</a>
+      <span>voltar</span>
+    </header>
+ 
+    <h1>Reconhecimento Facial</h1>
+ 
+    <section class="conteudo">
+ 
+      <div class="camera">
+ 
+        <video id="video" autoplay muted playsinline></video>
+ 
+        <button id="iniciar" class="inicio-camera" aria-label="Ativar câmera">
+ 
+          <svg class="icone-camera" viewBox="0 0 120 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+ 
+            <path d="M10 27
+                     Q10 17 20 17
+                     H40 L47 8
+                     H72 L79 17
+                     H100 Q110 17 110 27
+                     V83 Q110 92 100 92
+                     H20 Q10 92 10 82 Z" stroke="white" stroke-width="6" stroke-linejoin="round" />
+ 
+            <circle cx="60" cy="54" r="28" stroke="white" stroke-width="6" />
+ 
+            <circle cx="60" cy="54" r="20" fill="#161616" />
+ 
+            <circle cx="27" cy="31" r="6" stroke="white" stroke-width="4" />
+ 
+          </svg>
+ 
+          <span>Toque para iniciar</span>
+        </button>
+ 
+        <div id="guia" class="guia"></div>
+ 
+      </div>
+ 
+      <div class="pontos">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+ 
+      <section class="instrucoes">
+ 
+        <div>
+          <h2>
+            Posicione o rosto no centro da câmera
+          </h2>
+ 
+          <ul>
+            <li>Mantenha o cabelo para trás ou preso.</li>
+            <li>Limpe a câmera para garantir melhor qualidade na verificação.</li>
+            <li>Fique em um local bem iluminado, sozinha na imagem.</li>
+            <li>Retire qualquer objeto do rosto.</li>
+            <li>Você será orientada a virar o rosto para os lados, para confirmar que é uma pessoa real.</li>
+          </ul>
+        </div>
+ 
+        <div>
+          <img class="exemplo"
+            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80"
+            alt="Exemplo de rosto posicionado de frente">
+ 
+          <p class="legenda">
+            Exemplo de posicionamento do rosto
+          </p>
+        </div>
+ 
+      </section>
+ 
+      <p id="status" aria-live="polite">
+        Marque a autorização abaixo e toque no ícone da câmera para começar.
+      </p>
+      <label class="consentimento">
+        <input type="checkbox" id="consentir">
+        <span>
+          <p> Autorizo o uso da minha imagem para a finalidade de verificação de identidade informada.</p>
+        </span>
+      </label>
+ 
+      <div id="resultado-foto" class="resultado-foto" hidden>
+        <img id="previa" alt="Prévia da foto capturada">
+        <button type="button" id="refazer" class="botao-secundario">
+          Tirar outra foto
+        </button>
+      </div>
+      <button id="capturar" class="botao" hidden disabled>
+        Capturar foto
+      </button>
+      <button type="button" id="verificar" class="botao" disabled>
+        Verificar identidade
+      </button>
+ 
+      <canvas id="canvas" hidden></canvas>
+ 
+    </section>
+ 
+    <footer class="privacidade">
+      A câmera será utilizada para detectar o rosto e realizar
+      a captura solicitada. O tratamento das imagens deve respeitar
+      a política de privacidade e o consentimento do usuário.
+    </footer>
+ 
+  </main>
+ 
+</body>
+ 
+</html>

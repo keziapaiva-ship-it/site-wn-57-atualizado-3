@@ -1,0 +1,63 @@
+:root{
+  --blue:#c3d3ff; --blue-soft:#dfe7ff; --ink:#111; --muted:#6f7fa8;
+  --purple:#8b5cf6; --pink:#ffb3ec; --ok:#7be0a4; --cam:#161616;
+}
+*{box-sizing:border-box}
+/* faz o atributo hidden funcionar mesmo em elementos com display definido */
+[hidden]{display:none !important}
+ 
+body{margin:0;padding:10px;background:#fff;color:var(--ink);font-family:"Poppins","Segoe UI",system-ui,sans-serif;font-size:14px}
+.pagina{min-height:calc(100vh - 20px);border:2px solid var(--purple);padding:24px 56px 40px}
+ 
+.topo{display:flex;align-items:center;gap:8px;border-bottom:1px solid #eee;padding-bottom:10px}
+.voltar{color:var(--ink);text-decoration:none;font-size:22px;line-height:1}
+.topo span{font-size:14px}
+ 
+h1{text-align:center;font-size:22px;font-weight:600;margin:40px 0 28px}
+.conteudo{max-width:760px;margin:0 auto}
+ 
+/* ---------- Câmera ---------- */
+.camera{position:relative;width:min(520px,100%);aspect-ratio:4/3;margin:0 auto;border-radius:12px;background:var(--cam);overflow:hidden}
+#video{display:none;width:100%;height:100%;object-fit:cover;transform:scaleX(-1)} /* espelhado, como um espelho */
+.inicio-camera{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;width:100%;border:0;background:var(--cam);color:#fff;font:inherit;font-size:13px;cursor:pointer}
+.inicio-camera:disabled{cursor:progress;opacity:.7}
+.inicio-camera:focus-visible,.botao:focus-visible,.botao-secundario:focus-visible{outline:3px solid var(--purple);outline-offset:3px}
+.icone-camera{width:84px;height:auto}
+ 
+.guia{display:none;position:absolute;left:50%;top:50%;width:46%;aspect-ratio:3/4;max-height:88%;transform:translate(-50%,-50%);border:3px dashed rgba(255,255,255,.85);border-radius:50%;pointer-events:none;transition:border-color .2s}
+.guia.centralizado{border-style:solid;border-color:var(--ok)}
+ 
+.pontos{display:flex;justify-content:center;gap:6px;margin:14px 0 28px}
+.pontos span{width:22px;height:3px;border-radius:2px;background:#ccc}
+.pontos span:last-child{background:var(--pink)}
+ 
+/* ---------- Instruções ---------- */
+.instrucoes{display:grid;grid-template-columns:1fr 200px;gap:32px;align-items:start;margin-bottom:24px}
+.instrucoes h2{font-size:15px;font-weight:600;margin:0 0 12px}
+.instrucoes ul{margin:0;padding-left:18px;font-size:12px;line-height:1.7}
+.exemplo{display:block;width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;background:var(--blue)}
+.legenda{font-size:10px;color:var(--muted);text-align:center;margin:6px 0 0}
+ 
+/* ---------- Status, consentimento, resultado ---------- */
+#status{min-height:40px;margin:0 0 12px;padding:10px 14px;border-radius:8px;background:var(--blue-soft);font-size:12px;line-height:1.4;text-align:center}
+.consentimento{display:flex;align-items:flex-start;gap:10px;margin:0 0 20px;font-size:12px;cursor:pointer}
+.consentimento input{width:18px;height:18px;margin:2px 0 0;accent-color:var(--purple);flex:none}
+.consentimento p{margin:0;line-height:1.4}
+ 
+.resultado-foto{display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:16px}
+.resultado-foto img{width:min(260px,70%);aspect-ratio:4/3;object-fit:cover;border-radius:10px;background:var(--blue)}
+ 
+.botao,.botao-secundario{display:block;width:min(320px,100%);height:38px;margin:0 auto 12px;border:0;border-radius:8px;font:inherit;font-size:12px;cursor:pointer}
+.botao{background:#000;color:#fff}
+.botao:disabled{background:var(--blue);color:var(--muted);cursor:not-allowed}
+.botao-secundario{background:var(--blue);color:var(--ink)}
+.botao-secundario:disabled{opacity:.6;cursor:not-allowed}
+ 
+.privacidade{max-width:760px;margin:32px auto 0;font-size:9px;line-height:1.5;color:var(--muted);text-align:justify}
+ 
+@media(max-width:720px){
+  .pagina{padding:16px 20px 32px}
+  .instrucoes{grid-template-columns:1fr}
+  .exemplo{max-width:200px;margin:0 auto}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none !important}}

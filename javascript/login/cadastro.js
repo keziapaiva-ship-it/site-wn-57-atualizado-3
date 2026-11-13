@@ -5,12 +5,15 @@
    - Validação dos campos (nome, e-mail, data, telefone, senha)
    - Botão de olho nas senhas e medidor de força
    - Salva a conta no back (api.js) e envia o e-mail de boas-vindas
+   - Depois de criar a conta, leva a pessoa ao Reconhecimento Facial
 
    Ordem dos scripts no cadastro.html:
-   api.js, email-cadastro.js e cadastro.js
+   perfil.js, api.js, email-cadastro.js e cadastro.js
 ====================================================== */
 
-const PAGINA_INICIAL = "/site-de-corrida-wn-57-main/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/inicial.html";
+// Próxima página do fluxo. CONFIRA o caminho/nome do arquivo no seu projeto:
+// abra o endereço direto no navegador; se a página abrir, está certo.
+const PAGINA_RECONHECIMENTO = "/html/reconhecimento-facial.html";
 
 function reduzirFoto(arquivo) {
   return new Promise((resolve) => {
@@ -257,6 +260,8 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // 1) Salva a conta no back-end
+    let usuarioCriado = null;
+
     try {
       const resp = await api("/usuarios", "POST", dadosApi);
       console.log("Resposta do back:", resp);
@@ -266,6 +271,8 @@ document.addEventListener("DOMContentLoaded", () => {
         btnEnviar.disabled = false;
         return;
       }
+
+      usuarioCriado = resp.usuario;
     } catch (erro) {
       console.error(erro);
       mostrarStatus("Não foi possível conectar ao servidor. Confira se o back está rodando.", "erro");
@@ -291,9 +298,15 @@ document.addEventListener("DOMContentLoaded", () => {
       ]);
     }
 
-    mostrarStatus("Conta criada com sucesso!", "ok");
+    // 4) Guarda quem acabou de se cadastrar, para o reconhecimento facial
+    //    saber a qual conta pertence a verificação
+    sessionStorage.setItem("cadastroUsuario", JSON.stringify(usuarioCriado));
+
+    // 5) Segue para o Reconhecimento Facial
+    mostrarStatus("Conta criada! Vamos verificar sua identidade.", "ok");
     setTimeout(() => {
-      window.location.href = PAGINA_INICIAL;
+      // replace: o botão "voltar" não traz a pessoa de volta ao formulário
+      window.location.replace(PAGINA_RECONHECIMENTO);
     }, 1200);
   });
 });

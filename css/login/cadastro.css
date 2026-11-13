@@ -12,6 +12,11 @@
     --campo: #fdfafb;
     --erro: #d93025;
     --ok: #1e8e3e;
+
+    /* Medidas que se adaptam à altura da tela (ver seção 16) */
+    --altura-menu: 58px;
+    --espaco: clamp(10px, 1.8vh, 16px);
+    --altura-campo: clamp(40px, 5.4vh, 48px);
 }
 
 *,
@@ -22,12 +27,25 @@
     padding: 0;
 }
 
+html {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+}
+
 body {
+    width: 100%;
+    max-width: 100%;
     min-height: 100vh;
+    min-height: 100dvh;
     font-family: 'DM Sans', sans-serif;
     color: var(--texto);
-    background: linear-gradient(135deg, #ec9cbd, #f5a0c2) fixed;
+    background-color: #f5a0c2;
+    background-image: linear-gradient(135deg, #ec9cbd, #f5a0c2);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
 }
 
 a {
@@ -35,55 +53,82 @@ a {
     text-decoration: none;
 }
 
+img,
+input,
+button {
+    max-width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.01ms !important;
+    }
+}
 
 /* =====================================================
    02. CARTÃO DO CADASTRO
 ====================================================== */
 
+/* O container ocupa a tela toda; o cartão se centraliza na área
+   que sobra abaixo do menu. Se o conteúdo não couber, o auto-margin
+   do main deixa o cartão no topo e a página rola normalmente. */
 .container {
     display: flex;
     justify-content: center;
     align-items: flex-start;
     width: 100%;
-    padding: 100px 20px 40px;
+    max-width: 100%;
+    min-width: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: calc(var(--altura-menu) + 8px) 20px 8px;
 }
 
 main {
     width: 100%;
-    max-width: 984px;
+    max-width: 1040px;
+    min-width: 0;
+    margin: auto 0;
     background: #ffffff;
     border-radius: 20px;
-    padding: 48px 56px 40px;
+    padding: clamp(18px, 3vh, 34px) clamp(20px, 4vw, 52px);
     box-shadow:
         0 2px 6px rgba(90, 20, 55, 0.08),
         0 24px 60px rgba(120, 20, 70, 0.2);
 }
 
+.sessao,
+.sessao form {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+}
+
 .sessao form {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: var(--espaco);
 }
-
 
 /* =====================================================
    03. TÍTULO
 ====================================================== */
 
 .sessao-topo h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.1rem;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: clamp(1.45rem, 3.9vh, 2rem);
     font-weight: 700;
     line-height: 1.15;
     color: var(--tinta);
 }
 
 .sessao-topo p {
-    margin-top: 8px;
+    margin-top: 4px;
     font-size: 1rem;
     color: var(--texto-suave);
 }
-
 
 /* =====================================================
    04. LOGIN COM GOOGLE + DIVISOR
@@ -92,7 +137,17 @@ main {
 .google-area {
     display: flex;
     justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
     min-height: 44px;
+    overflow: hidden;
+}
+
+.google-area > div,
+.google-area iframe {
+    max-width: 100% !important;
 }
 
 .divisor {
@@ -101,6 +156,7 @@ main {
     gap: 14px;
     font-size: 0.85rem;
     color: var(--texto-suave);
+    text-align: center;
 }
 
 .divisor::before,
@@ -111,7 +167,6 @@ main {
     background: var(--borda);
 }
 
-
 /* =====================================================
    05. CAMPOS
 ====================================================== */
@@ -119,18 +174,21 @@ main {
 .informacoes {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px 24px;
+    gap: var(--espaco) 20px;
     align-items: start;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
 }
 
-.informacoes>div {
+.informacoes > div {
     display: flex;
     flex-direction: column;
     min-width: 0;
 }
 
 .informacoes label {
-    margin-bottom: 6px;
+    margin-bottom: 5px;
     font-size: 0.85rem;
     font-weight: 600;
     color: var(--texto);
@@ -138,10 +196,10 @@ main {
 
 .informacoes input {
     width: 100%;
-    height: 48px;
+    height: var(--altura-campo);
     padding: 0 14px;
     font-family: inherit;
-    font-size: 0.95rem;
+    font-size: 0.98rem;
     color: var(--texto);
     background: var(--campo);
     border: 1.5px solid var(--borda);
@@ -165,7 +223,20 @@ main {
     box-shadow: 0 0 0 4px rgba(255, 47, 139, 0.15);
 }
 
-/* Campo de data: ícone de calendário à direita */
+/* Estados de validação (depois do :focus, para vencer sem !important) */
+
+.informacoes input.input-erro {
+    border-color: var(--erro);
+    box-shadow: 0 0 0 4px rgba(217, 48, 37, 0.12);
+}
+
+.informacoes input.input-certo {
+    border-color: var(--ok);
+    box-shadow: none;
+}
+
+/* Campo de data */
+
 .informacoes #date {
     padding-right: 44px;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23ff2f8b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='3'/%3E%3Cpath d='M16 2v4M8 2v4M3 10h18'/%3E%3C/svg%3E");
@@ -174,23 +245,13 @@ main {
     background-size: 20px;
 }
 
-/* Estados criados pelo JavaScript */
-.informacoes input.input-erro {
-    border-color: var(--erro) !important;
-    box-shadow: 0 0 0 4px rgba(217, 48, 37, 0.12) !important;
-}
-
-.informacoes input.input-certo {
-    border-color: var(--ok) !important;
-    box-shadow: none !important;
-}
-
+/* Regras da senha: sempre visíveis, a pessoa precisa delas antes de errar */
 .dica-senha {
-    margin-top: -8px;
-    font-size: 0.82rem;
+    margin-top: -2px;
+    font-size: 0.8rem;
+    line-height: 1.35;
     color: var(--texto-suave);
 }
-
 
 /* =====================================================
    06. BOTÃO PRINCIPAL
@@ -198,9 +259,9 @@ main {
 
 .btn-enviar {
     width: 100%;
-    height: 52px;
+    height: clamp(44px, 5.9vh, 54px);
     font-family: inherit;
-    font-size: 1rem;
+    font-size: 1.05rem;
     font-weight: 700;
     color: #ffffff;
     background: var(--tinta);
@@ -210,8 +271,9 @@ main {
     transition: background 0.2s, transform 0.2s;
 }
 
+/* rosa-escuro dá contraste melhor com o texto branco */
 .btn-enviar:hover {
-    background: var(--rosa);
+    background: var(--rosa-escuro);
 }
 
 .btn-enviar:active {
@@ -228,15 +290,14 @@ main {
     cursor: not-allowed;
 }
 
-
 /* =====================================================
    07. RODAPÉ DO FORMULÁRIO
 ====================================================== */
 
 .termos {
-    margin-top: -8px;
-    font-size: 0.82rem;
-    line-height: 1.5;
+    margin-top: -2px;
+    font-size: 0.8rem;
+    line-height: 1.4;
     text-align: center;
     color: var(--texto-suave);
 }
@@ -255,46 +316,21 @@ main {
 }
 
 .ja-tem-conta {
-    padding-top: 20px;
+    padding-top: var(--espaco);
     font-size: 0.92rem;
     text-align: center;
     color: var(--texto);
     border-top: 1px solid var(--borda);
 }
 
-
 /* =====================================================
-   08. CELULAR
+   08. MENU (CABEÇALHO)
 ====================================================== */
 
-@media (max-width: 700px) {
-    .container {
-        padding: 90px 14px 24px;
-    }
-
-    main {
-        padding: 32px 22px 28px;
-        border-radius: 16px;
-    }
-
-    .informacoes {
-        grid-template-columns: 1fr;
-    }
-
-    .sessao-topo h1 {
-        font-size: 1.75rem;
-    }
-}
-
-
-/* =====================================================
-   09. MENU (cabeçalho)
-====================================================== */
-
-/* ---------- Cabeçalho ---------- */
 header {
     width: 100%;
-    height: 70px;
+    max-width: 100%;
+    height: var(--altura-menu);
     padding: 0 45px;
     display: flex;
     align-items: center;
@@ -302,12 +338,11 @@ header {
     top: 0;
     left: 0;
     z-index: 1000;
-    background: #12070d;
+    background: var(--tinta);
     border-bottom: 1px solid rgba(255, 255, 255, 0.04);
     font-family: 'DM Sans', sans-serif;
 }
 
-/* ---------- Logo ---------- */
 header .logo {
     display: flex;
     align-items: center;
@@ -316,12 +351,13 @@ header .logo {
 }
 
 header .logo img {
-    height: 45px;
+    height: 40px;
     width: auto;
     display: block;
 }
 
-/* ---------- Navegação (ao lado da logo) ---------- */
+/* O cadastro não tem links de navegação no meio do menu,
+   mas as regras ficam aqui para as outras páginas que usam <nav>. */
 header nav {
     display: flex;
     align-items: center;
@@ -330,51 +366,41 @@ header nav {
     margin-right: auto;
 }
 
-header nav a {
+header nav a,
+header .menu-direita a {
     color: #ffffff;
-    text-decoration: none;
     font-family: 'DM Sans', sans-serif;
     font-size: 15px;
     font-weight: 700;
     white-space: nowrap;
-    opacity: 1;
-    animation: none;
     transition: color 0.3s;
 }
 
-header nav a:hover {
-    color: #ff2f8b;
+header nav a {
+    opacity: 1;
+    animation: none;
 }
 
-/* ---------- Lado direito: idioma, ajuda, login e cadastro ---------- */
+header nav a:hover,
+header .menu-direita a:hover {
+    color: var(--rosa);
+}
+
 header .menu-direita {
     display: flex;
     align-items: center;
     gap: 24px;
     margin-left: auto;
-    flex-shrink: 0;
-}
-
-header .menu-direita a {
-    color: #ffffff;
-    text-decoration: none;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    white-space: nowrap;
-    transition: color 0.3s;
-}
-
-header .menu-direita a:hover {
-    color: #ff2f8b;
+    flex-shrink: 1;
+    min-width: 0;
 }
 
 header #usuarioArea {
     display: flex;
     align-items: center;
+    min-width: 0;
 }
 
-/* ---------- Botão de idioma ---------- */
 header .idioma-btn {
     color: #ffffff;
     background: transparent;
@@ -386,13 +412,13 @@ header .idioma-btn {
     white-space: nowrap;
 }
 
-/* ---------- Botão Cadastre-se ---------- */
+/* Botão rosa que o perfil.js coloca quando a pessoa está logada */
 header .menu-direita .btn-menu {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: auto;
-    height: 38px;
+    height: 36px;
     padding: 0 22px;
     border-radius: 30px;
     background: linear-gradient(135deg, #ff2f8b, #ff4fa1);
@@ -412,46 +438,32 @@ header .menu-direita .btn-menu:hover {
     box-shadow: 0 12px 30px rgba(255, 47, 139, 0.45);
 }
 
-/* ---------- Espaço para o header fixo ---------- */
-.container {
-    padding-top: 100px;
-    padding-bottom: 40px;
+header a:focus-visible,
+header .idioma-btn:focus-visible {
+    outline: 2px solid var(--rosa);
+    outline-offset: 3px;
 }
-
-/* ---------- Celular ---------- */
-@media (max-width: 900px) {
-    header {
-        padding: 0 16px;
-    }
-
-    header nav {
-        display: none;
-    }
-
-    header .menu-direita {
-        gap: 12px;
-    }
-}
-
 
 /* =====================================================
-   10. VALIDAÇÃO DO CADASTRO (gerado pelo JS)
+   09. VALIDAÇÃO DO CADASTRO
 ====================================================== */
 
-/* ---------- Mensagem de erro embaixo do campo ---------- */
+/* Elementos criados pelo cadastro.js. O espaço da mensagem de erro
+   fica reservado (12px) para o formulário não "pular" ao errar. */
 .erro-msg {
     display: block;
-    min-height: 16px;
-    margin-top: 6px;
+    min-height: 13px;
+    margin-top: 1px;
     font-size: 12px;
-    color: #d93025;
+    line-height: 13px;
+    color: var(--erro);
 }
 
-/* ---------- Campo de senha com botão de olho ---------- */
 .campo-senha {
     position: relative;
     display: block;
     width: 100%;
+    min-width: 0;
 }
 
 .campo-senha input {
@@ -459,30 +471,38 @@ header .menu-direita .btn-menu:hover {
     padding-right: 48px !important;
 }
 
+/* Seletor longo e !important mantidos de propósito: o botão precisa
+   vencer estilos genéricos de "form button" de outros arquivos. */
 .container .sessao form .toggle-senha {
     position: absolute;
     top: 50%;
-    right: 10px;
+    right: 8px;
     transform: translateY(-50%);
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     padding: 0 !important;
     background: transparent !important;
     box-shadow: none !important;
+    border: 0;
     border-radius: 6px;
     font-size: 16px;
     line-height: 1;
+    cursor: pointer;
 }
 
-/* ---------- Medidor de força da senha ---------- */
+.container .sessao form .toggle-senha:focus-visible {
+    outline: 2px solid var(--rosa);
+    outline-offset: 2px;
+}
+
 .forca-senha {
-    margin-top: 6px;
+    margin-top: 4px;
     width: 100%;
 }
 
 .forca-barra {
-    height: 6px;
-    border-radius: 6px;
+    height: 4px;
+    border-radius: 4px;
     background: rgba(0, 0, 0, 0.12);
     overflow: hidden;
 }
@@ -491,34 +511,39 @@ header .menu-direita .btn-menu:hover {
     display: block;
     height: 100%;
     width: 0;
-    border-radius: 6px;
-    transition: width .25s, background .25s;
+    border-radius: 4px;
+    transition: width 0.25s, background 0.25s;
 }
 
 .forca-texto {
     display: block;
-    margin-top: 4px;
+    margin-top: 2px;
     font-size: 12px;
-    color: #444;
+    line-height: 14px;
+    color: var(--texto-suave);
 }
 
-/* ---------- Mensagem geral (sucesso / erro) ---------- */
+/* Só ocupa espaço quando tem mensagem */
 #cadastro-status {
-    min-height: 20px;
     text-align: center;
-    font-size: 14px;
+    font-size: 13px;
+    line-height: 16px;
     font-weight: 600;
 }
 
+#cadastro-status:empty {
+    display: none;
+}
+
 #cadastro-status.status-erro {
-    color: #d93025;
+    color: var(--erro);
 }
 
 #cadastro-status.status-ok {
-    color: #1e8e3e;
+    color: var(--ok);
 }
 
-/* ---------- Campo isca anti-robô (invisível) ---------- */
+/* Campo-isca (anti-bot): fora da tela, invisível e não clicável */
 .campo-isca {
     position: absolute !important;
     left: -9999px !important;
@@ -528,22 +553,33 @@ header .menu-direita .btn-menu:hover {
     pointer-events: none !important;
 }
 
-.foto {
+/* =====================================================
+   10. FOTO DE PERFIL
+====================================================== */
+
+/* O ".foto" é um <div> filho direto de ".informacoes", e a regra
+   ".informacoes > div" (seção 05) o deixaria em coluna. Por isso o
+   seletor ".informacoes > .foto" e os ".informacoes .foto-*" abaixo:
+   eles ganham de qualquer regra genérica, inclusive de um <style>
+   que ainda esteja dentro do HTML. */
+.informacoes > .foto {
+    position: relative; /* ancora o input escondido dentro do bloco */
     grid-column: 1 / -1;
-    /* ocupa a largura toda do formulário */
-    display: flex;
+    flex-direction: row;
     align-items: center;
-    gap: 22px;
-    padding: 20px 22px;
-    margin-bottom: 6px;
+    gap: 16px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding: clamp(9px, 1.6vh, 14px) 18px;
     background: #fff5fa;
     border: 1.5px dashed #f0b6d2;
-    border-radius: 16px;
+    border-radius: 14px;
 }
 
-.foto img {
-    width: 92px;
-    height: 92px;
+.informacoes .foto img {
+    width: clamp(50px, 7.4vh, 72px);
+    height: clamp(50px, 7.4vh, 72px);
     flex-shrink: 0;
     border-radius: 50%;
     object-fit: cover;
@@ -555,45 +591,47 @@ header .menu-direita .btn-menu:hover {
 .foto-texto {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    min-width: 0
+    gap: 2px;
+    min-width: 0;
+    max-width: 100%;
 }
 
 .foto-titulo {
     font-weight: 700;
     font-size: 16px;
-    color: #4a0d2e
+    color: #4a0d2e;
 }
 
 .foto-dica {
     margin: 0;
-    font-size: 13.5px;
+    font-size: 13px;
     color: #7a5568;
-    line-height: 1.4
+    line-height: 1.35;
 }
 
 .foto-acoes {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     flex-wrap: wrap;
-    margin-top: 6px
+    margin-top: 4px;
 }
 
-.foto-botao {
+.informacoes .foto-botao {
     display: inline-block;
-    padding: 10px 18px;
+    margin-bottom: 0;
+    padding: 8px 18px;
     border-radius: 999px;
     background: #c2185b;
     color: #fff;
     font-weight: 600;
     font-size: 14px;
     cursor: pointer;
-    transition: background .15s;
+    transition: background 0.15s;
 }
 
-.foto-botao:hover {
-    background: #4a0d2e
+.informacoes .foto-botao:hover {
+    background: #4a0d2e;
 }
 
 .foto-nome {
@@ -602,30 +640,248 @@ header .menu-direita .btn-menu:hover {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: 220px
+    max-width: 220px;
 }
 
-/* esconde o input feio, mas continua acessível pelo teclado */
-.foto-input {
+.informacoes .foto-input {
     position: absolute;
     width: 1px;
     height: 1px;
+    padding: 0;
+    border: 0;
     opacity: 0;
-    pointer-events: none
+    pointer-events: none;
 }
 
 .foto:focus-within .foto-botao {
     outline: 3px solid #e91e8c;
-    outline-offset: 2px
+    outline-offset: 2px;
 }
 
-@media (max-width:560px) {
-    .foto {
-        flex-direction: column;
-        text-align: center
+/* =====================================================
+   11. TABLETS E TELAS MÉDIAS
+====================================================== */
+
+@media (max-width: 900px) {
+    .container {
+        padding-left: 24px;
+        padding-right: 24px;
     }
 
-    .foto-acoes {
-        justify-content: center
+    main {
+        max-width: 750px;
+    }
+
+    header {
+        padding: 0 20px;
+    }
+
+    header nav {
+        display: none;
+    }
+
+    header .menu-direita {
+        gap: 16px;
+    }
+}
+
+/* =====================================================
+   12. CELULARES
+====================================================== */
+
+/* Os campos continuam em 2 colunas aqui, para economizar altura. */
+@media (max-width: 700px) {
+    :root {
+        --espaco: clamp(8px, 1.5vh, 14px);
+        --altura-campo: clamp(36px, 4.8vh, 44px);
+    }
+
+    .informacoes label {
+        font-size: 0.8rem;
+    }
+
+    .dica-senha {
+        font-size: 0.76rem;
+    }
+
+    .informacoes .foto img {
+        width: clamp(44px, 6.5vh, 64px);
+        height: clamp(44px, 6.5vh, 64px);
+    }
+
+    .container {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    main {
+        border-radius: 16px;
+    }
+
+    .informacoes {
+        gap: var(--espaco) 12px;
+    }
+
+    .informacoes > .foto {
+        gap: 12px;
+        padding: 8px 12px;
+    }
+
+    .foto-dica {
+        display: none;
+    }
+
+    .foto-nome {
+        max-width: 140px;
+    }
+}
+
+/* =====================================================
+   13. CELULARES PEQUENOS
+====================================================== */
+
+@media (max-width: 480px) {
+    :root {
+        --altura-menu: 52px;
+    }
+
+    header {
+        padding: 0 12px;
+    }
+
+    header .logo img {
+        height: 32px;
+    }
+
+    header .menu-direita {
+        gap: 10px;
+    }
+
+    header .menu-direita a,
+    header .idioma-btn {
+        font-size: 12px;
+    }
+
+    header .menu-direita .btn-menu {
+        height: 30px;
+        padding: 0 16px;
+        font-size: 12px;
+    }
+
+    .container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    main {
+        padding: 14px;
+    }
+
+    .sessao-topo p {
+        display: none;
+    }
+
+    .informacoes input {
+        padding: 0 10px;
+        font-size: 0.88rem;
+    }
+
+    .btn-enviar {
+        font-size: 0.95rem;
+    }
+
+    .divisor {
+        font-size: 0.72rem;
+    }
+
+    .termos {
+        font-size: 0.72rem;
+    }
+
+    .ja-tem-conta {
+        font-size: 0.82rem;
+    }
+}
+
+/* =====================================================
+   14. CELULARES MUITO ESTREITOS
+====================================================== */
+
+/* Só aqui os campos passam para 1 coluna: abaixo de ~380px
+   duas colunas deixam cada campo apertado demais. */
+@media (max-width: 380px) {
+    header {
+        padding: 0 10px;
+    }
+
+    header .menu-direita {
+        gap: 7px;
+    }
+
+    header .menu-direita a,
+    header .idioma-btn {
+        font-size: 11px;
+    }
+
+    main {
+        padding: 12px;
+    }
+
+    .informacoes {
+        grid-template-columns: 1fr;
+    }
+
+    .sessao-topo h1 {
+        font-size: 1.25rem;
+    }
+}
+
+/* =====================================================
+   15. TELAS GRANDES
+====================================================== */
+
+/* Computador: 3 colunas (nome | e-mail | nascimento, telefone | senha |
+   confirmação). Uma linha a menos de campos = menos altura. */
+@media (min-width: 1000px) {
+    .informacoes {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 1400px) {
+    main {
+        max-width: 1120px;
+    }
+}
+
+/* =====================================================
+   16. TELAS BAIXAS (CABER SEM ROLAGEM)
+====================================================== */
+
+/* Notebooks e janelas pequenas: some só o texto de apoio.
+   As regras da senha (.dica-senha) continuam visíveis. */
+@media (max-height: 820px) {
+    .sessao-topo p,
+    .foto-dica {
+        display: none;
+    }
+}
+
+/* Telas bem baixas: menu ainda menor. */
+@media (max-height: 700px) {
+    :root {
+        --altura-menu: 50px;
+    }
+
+    header .logo img {
+        height: 30px;
+    }
+
+    header .menu-direita .btn-menu {
+        height: 30px;
+    }
+
+    .foto-titulo {
+        font-size: 14px;
     }
 }

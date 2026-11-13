@@ -6,42 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Criar conta - WN57</title>
 
-    <!-- Estilos da página (um único arquivo) -->
-    <link rel="stylesheet"
-        href="/css/login/cadastro.css">
-
     <!-- Fontes (Google Fonts) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap"
         rel="stylesheet" />
 
-    <!-- Estilo do campo de foto (novo) -->
-    <style>
-        .foto {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 8px;
-        }
-
-        .foto label {
-            font-weight: 600;
-        }
-
-        .foto img {
-            width: 84px;
-            height: 84px;
-            border-radius: 50%;
-            object-fit: cover;
-            background: #f9c6de;
-            border: 3px solid #fde8f2;
-        }
-
-        .foto input[type="file"] {
-            font-size: 14px;
-            max-width: 100%;
-        }
-    </style>
+    <!-- Estilos da página (um único arquivo, inclui o campo de foto) -->
+    <link rel="stylesheet" href="/css/login/cadastro.css">
 </head>
 
 <body>
@@ -84,7 +57,7 @@
         <main>
             <section class="sessao">
 
-                <form action="/enviar-dados" method="post" novalidate>
+                <form novalidate onsubmit="return false">
 
                     <!-- ---------- Título ---------- -->
                     <div class="sessao-topo">
@@ -144,7 +117,7 @@
                     <!-- ---------- Campos ---------- -->
                     <div class="informacoes">
 
-                        <!-- NOVO: foto de perfil -->
+                        <!-- Foto de perfil -->
                         <div class="foto">
                             <img id="previaFoto" alt="Prévia da foto"
                                 src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23f9c6de'/%3E%3Ccircle cx='32' cy='25' r='11' fill='%23c2185b'/%3E%3Cpath d='M10 64c0-14 10-22 22-22s22 8 22 22z' fill='%23c2185b'/%3E%3C/svg%3E">
@@ -161,33 +134,38 @@
 
                         <div class="nome">
                             <label for="nome">Nome completo</label>
-                            <input type="text" id="nome" name="nome" placeholder="Ex.: Maria da Silva" required>
+                            <input type="text" id="nome" name="nome" placeholder="Ex.: Maria da Silva"
+                                autocomplete="name" required>
                         </div>
 
                         <div class="email">
                             <label for="email">E-mail</label>
-                            <input type="email" id="email" name="email" placeholder="voce@email.com" required>
+                            <input type="email" id="email" name="email" placeholder="voce@email.com"
+                                autocomplete="email" required>
                         </div>
 
                         <div class="date">
                             <label for="date">Data de nascimento</label>
-                            <input type="text" id="date" name="date" placeholder="dd/mm/aaaa" required>
+                            <input type="text" id="date" name="date" placeholder="dd/mm/aaaa" inputmode="numeric"
+                                autocomplete="off" required>
                         </div>
 
                         <div class="telefone">
                             <label for="telefone">Telefone</label>
-                            <input type="tel" id="telefone" name="telefone" placeholder="(11) 99999-9999" required>
+                            <input type="tel" id="telefone" name="telefone" placeholder="(11) 99999-9999"
+                                autocomplete="tel" required>
                         </div>
 
                         <div class="senha">
                             <label for="senha">Senha</label>
-                            <input type="password" id="senha" name="senha" placeholder="Crie uma senha" required>
+                            <input type="password" id="senha" name="senha" placeholder="Crie uma senha"
+                                autocomplete="new-password" required>
                         </div>
 
                         <div class="confirmacao-senha">
                             <label for="confirmacao-senha">Confirmar senha</label>
                             <input type="password" id="confirmacao-senha" name="confirmacao_senha"
-                                placeholder="Repita a senha" required>
+                                placeholder="Repita a senha" autocomplete="new-password" required>
                         </div>
 
                     </div>
@@ -228,9 +206,9 @@
 
     <!-- 3) Lógica do cadastro -->
     <script
-        src="/site-de-corrida-wn-57-main/site-de-corrida-wn-57-main/site-wn-57-corrida-main/javascript/api.js"></script>
+        src="/javascript/login/api.js"></script>
     <script
-        src="/site-de-corrida-wn-57-main/site-de-corrida-wn-57-main/site-wn-57-corrida-main/javascript/cadastro.js"></script>
+        src="/javascript/login/cadastro.js"></script>
 
 </body>
 
