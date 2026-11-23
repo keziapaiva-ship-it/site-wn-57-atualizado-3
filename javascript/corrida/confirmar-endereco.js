@@ -3,6 +3,7 @@
 // ====== AJUSTES DA SIMULAÇÃO ======
 const VELOCIDADE_KMH = 55;   // velocidade do carro na cidade
 const ACELERACAO = 1;        // 1 = tempo real | 2 = 2x mais rápido | 0.5 = mais devagar
+const ESPERA_PIN_MS = 7000;  // tempo parado com "Seu motorista chegou" antes de iniciar a viagem
 // ==================================
 
 // ====== AJUSTES DO PIX ======
@@ -63,10 +64,24 @@ function formatarReais(n) {
 
 // ----- busca de coordenadas -----
 
+// aceita [lat, lng] ou {lat, lng} / {lat, lon} / {latitude, longitude}
 function coordsSalvas(nome) {
     try {
         const c = JSON.parse(localStorage.getItem(nome));
-        if (Array.isArray(c) && c.length === 2) return c;
+
+        if (Array.isArray(c) && c.length === 2) {
+            const a = Number(c[0]);
+            const b = Number(c[1]);
+            if (isFinite(a) && isFinite(b)) return [a, b];
+        }
+
+        if (c && typeof c === "object") {
+            const lat = Number(c.lat != null ? c.lat : c.latitude);
+            const lng = Number(
+                c.lng != null ? c.lng : (c.lon != null ? c.lon : c.longitude)
+            );
+            if (isFinite(lat) && isFinite(lng)) return [lat, lng];
+        }
     } catch (e) { }
     return null;
 }
@@ -97,6 +112,35 @@ function geocodificar(texto) {
             localStorage.setItem(chave, JSON.stringify(coords));
             return coords;
         });
+}
+
+// procura o destino: usa as coordenadas salvas e, se não houver,
+// tenta o endereço completo e depois versões mais curtas dele
+function obterDestino() {
+    const salvas = coordsSalvas("destinoCoords");
+    if (salvas) return Promise.resolve(salvas);
+
+    const partes = String(destino || "")
+        .split(",")
+        .map(function (s) { return s.trim(); })
+        .filter(Boolean);
+
+    const tentativas = [String(destino || "")];
+
+    if (partes.length > 2) tentativas.push(partes.slice(0, 3).join(", "));
+    if (partes.length > 1) tentativas.push(partes.slice(0, 2).join(", ") + ", Curitiba");
+    if (partes.length) tentativas.push(partes[0] + ", Pinhais, Paraná");
+
+    let cadeia = Promise.resolve(null);
+
+    tentativas.forEach(function (t) {
+        cadeia = cadeia.then(function (achou) {
+            if (achou) return achou;
+            return geocodificar(t).catch(function () { return null; });
+        });
+    });
+
+    return cadeia;
 }
 
 let precisaoMetros = null;
@@ -424,6 +468,7 @@ const MOTOS = [
 ];
 
 let timerBusca = null;
+let timerPin = null;
 let animacao = null;
 let radar = null;
 let carro = null;
@@ -805,7 +850,7 @@ function encontrarMotorista() {
     rotaAteEmbarque().then(function (rota) {
         if (radar) mapa.removeLayer(radar);
 
-        // tempo: ~ 25 km/h na cidade, no mínimo 2 min
+        // tempo de chegada até o embarque, no mínimo 2 min
         const minutos = Math.max(2, Math.round(rota.km / VELOCIDADE_KMH * 60));
 
         // preenche o painel
@@ -828,6 +873,10 @@ function encontrarMotorista() {
         el("resValor").textContent = "R$ " + valor.toFixed(2).replace(".", ",");
         el("resPagamento").textContent = pagamento || "-";
 
+        // FASE 1: motorista a caminho (o PIN e o cancelar ficam visíveis)
+        el("pinBox").hidden = false;
+        el("btnCancelarCorrida").hidden = false;
+
         mostrarEstado("estadoMotorista");
 
         // moto: troca o ícone do carro do cartão pelo da moto
@@ -842,7 +891,7 @@ function encontrarMotorista() {
             categoria: categoria
         });
 
-        // veículo no mapa (começa no primeiro ponto da rua da rota)
+        // veículo no mapa (começa no primeiro ponto da rua da rota, longe de você)
         carro = L.marker(rota.caminho[0], {
             interactive: false,
             keyboard: false,
@@ -862,7 +911,10 @@ function encontrarMotorista() {
             paddingBottomRight: [40, 400]
         });
 
-        // procura os semáforos reais do caminho e começa a andar
+        // mostra "a caminho" já no primeiro instante
+        atualizarTextos("buscar", minutos, false);
+
+        // começa a andar até você
         buscarSemaforos(rota.caminho).then(function (semaforos) {
             percorrer(rota.caminho, minutos, semaforos, "buscar");
         });
@@ -1042,7 +1094,7 @@ function percorrer(caminho, minutos, semaforos, fase) {
     animacao = requestAnimationFrame(quadro);
 }
 
-// ---------- motorista chegou -> viagem até o destino ----------
+// ---------- FASE 2: motorista chegou -> espera o PIN -> FASE 3: viagem até o destino ----------
 
 function motoristaChegou() {
     el("etaTitulo").textContent = "Seu motorista chegou";
@@ -1052,7 +1104,8 @@ function motoristaChegou() {
     el("etaBolha").classList.add("chegou");
     el("etaBolha").innerHTML = '<i class="fa-solid fa-check"></i>';
 
-    setTimeout(iniciarViagem, 7000);
+    clearTimeout(timerPin);
+    timerPin = setTimeout(iniciarViagem, ESPERA_PIN_MS);
 }
 
 function iniciarViagem() {
@@ -1063,18 +1116,20 @@ function iniciarViagem() {
     el("etaBolha").classList.remove("chegou");
     el("etaBolha").innerHTML = '<b id="etaMin">-</b><small>min</small>';
     el("etaTitulo").textContent = "Viagem iniciada";
-    el("etaTexto").textContent = "Boa viagem!";
+    el("etaTexto").textContent = ehMoto()
+        ? "Indo para o seu destino. Boa viagem!"
+        : "Indo para o seu destino. Boa viagem!";
 
-    const salvas = coordsSalvas("destinoCoords");
-    const busca = salvas ? Promise.resolve(salvas) : geocodificar(destino);
-
-    busca
+    obterDestino()
         .then(function (coordsDestino) {
             if (!coordsDestino) throw new Error("destino");
 
             L.marker(coordsDestino).addTo(mapa).bindPopup("🏁 " + destino);
 
-            return rotaMotorista(posicao, coordsDestino);
+            // a viagem sai de onde o veículo está agora (o ponto de embarque)
+            const saida = carro ? [carro.getLatLng().lat, carro.getLatLng().lng] : posicao;
+
+            return rotaMotorista(saida, coordsDestino);
         })
         .then(function (rota) {
             if (linhaRota) mapa.removeLayer(linhaRota);
@@ -1095,12 +1150,20 @@ function iniciarViagem() {
 
             const minutos = Math.max(2, Math.round(rota.km / VELOCIDADE_KMH * 60));
 
+            atualizarTextos("viagem", minutos, false);
+
             return buscarSemaforos(rota.caminho).then(function (semaforos) {
                 percorrer(rota.caminho, minutos, semaforos, "viagem");
             });
         })
-        .catch(function () {
-            viagemConcluida(); // sem rota até o destino: encerra a demonstração
+        .catch(function (erro) {
+            console.error("WN57: não foi possível traçar a viagem até o destino:", erro);
+
+            // avisa na tela em vez de pular direto para o pagamento
+            el("etaTitulo").textContent = "Não foi possível traçar o destino";
+            el("etaTexto").textContent = "Encerrando a demonstração...";
+
+            setTimeout(viagemConcluida, 4000);
         });
 }
 
@@ -1702,6 +1765,7 @@ el("btnConcluir").addEventListener("click", function () {
 el("btnCancelarCorrida").addEventListener("click", function () {
     if (!window.confirm("Deseja cancelar esta corrida?")) return;
 
+    clearTimeout(timerPin);
     if (animacao) cancelAnimationFrame(animacao);
     if (viagemId) removerViagem(viagemId);
 
