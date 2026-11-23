@@ -1,4 +1,9 @@
-require("dotenv").config();
+require('dotenv').config({ path: __dirname + '/.env' });
+
+if (!process.env.JWT_SECRET) {
+    console.error("ERRO: JWT_SECRET não definido no arquivo .env");
+    process.exit(1);
+}
 
 const express = require("express");
 const cors = require("cors");
