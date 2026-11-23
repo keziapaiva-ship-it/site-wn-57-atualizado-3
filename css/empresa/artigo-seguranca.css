@@ -1,0 +1,586 @@
+
+/* =====================================================
+   WN57 - ARTIGO DO BLOG
+   Página: Segurança durante suas viagens
+===================================================== */
+
+/* 1. CONFIGURAÇÕES GERAIS */
+
+:root {
+    --pink: #ff2d78;
+    --pink-dark: #d91f65;
+    --black: #0d0d0d;
+    --dark: #191919;
+    --white: #ffffff;
+    --background: #f6f7f9;
+    --gray: #777777;
+    --border: #e8e8e8;
+    --font: 'Poppins', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font);
+    background: var(--background);
+    color: var(--black);
+    line-height: 1.7;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+
+/* 2. BARRA DE PROGRESSO DA LEITURA */
+
+.progresso-leitura {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 4px;
+    background: var(--pink);
+    z-index: 2000;
+    transition: width 0.1s linear;
+}
+
+
+/* 3. CABEÇALHO */
+
+header {
+    width: 100%;
+    min-height: 85px;
+    padding: 15px 7%;
+    background: var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+}
+
+.logo img {
+    width: 65px;
+    height: 55px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+header nav {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+header nav a {
+    color: var(--white);
+    font-size: 13px;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+header nav a:hover {
+    color: var(--pink);
+}
+
+.header-buttons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-buttons a {
+    padding: 10px 19px;
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn-login {
+    color: var(--white);
+    border: 1px solid #555;
+}
+
+.btn-login:hover {
+    border-color: var(--pink);
+    color: var(--pink);
+}
+
+.btn-cadastro {
+    color: var(--white);
+    background: var(--pink);
+}
+
+.btn-cadastro:hover {
+    background: var(--pink-dark);
+    transform: translateY(-2px);
+}
+
+
+/* 4. CONTAINER PRINCIPAL */
+
+.artigo-container {
+    width: 100%;
+    max-width: 1100px;
+    margin: 50px auto;
+    padding: 0 25px;
+}
+
+/* Link de retorno */
+
+.voltar-blog {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--gray);
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 35px;
+    transition: 0.3s;
+}
+
+.voltar-blog:hover {
+    color: var(--pink);
+    transform: translateX(-4px);
+}
+
+
+/* 5. CABEÇALHO DO ARTIGO */
+
+.artigo-header {
+    max-width: 850px;
+    margin: 0 auto 35px;
+    text-align: center;
+}
+
+.artigo-categoria {
+    display: inline-block;
+    padding: 8px 17px;
+    margin-bottom: 22px;
+    border-radius: 30px;
+    background: #ffe4ee;
+    color: var(--pink-dark);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.artigo-header h1 {
+    color: var(--black);
+    font-size: clamp(30px, 5vw, 45px);
+    font-weight: 800;
+    line-height: 1.3;
+    letter-spacing: -1.2px;
+    margin-bottom: 18px;
+}
+
+.artigo-descricao {
+    max-width: 700px;
+    margin: 0 auto 25px;
+    color: var(--gray);
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+.artigo-informacoes {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    color: var(--gray);
+    font-size: 12px;
+}
+
+.artigo-informacoes span {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.artigo-informacoes i {
+    color: var(--pink);
+}
+
+
+/* 6. IMAGEM PRINCIPAL */
+
+.artigo-imagem {
+    width: 100%;
+    height: 440px;
+    overflow: hidden;
+    border-radius: 17px;
+    margin-bottom: 45px;
+    background: #e5e5e5;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.artigo-imagem img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s;
+}
+
+.artigo-imagem:hover img {
+    transform: scale(1.025);
+}
+
+
+/* 7. TEXTO DO ARTIGO */
+
+.artigo-conteudo {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 50px 60px;
+    background: var(--white);
+    border: 1px solid #eeeeee;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.035);
+}
+
+.artigo-conteudo p {
+    color: #4b4b4b;
+    font-size: 14px;
+    line-height: 2;
+    margin-bottom: 23px;
+    text-align: justify;
+}
+
+.artigo-conteudo h2 {
+    color: var(--black);
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-top: 38px;
+    margin-bottom: 16px;
+}
+
+.artigo-conteudo h3 {
+    color: var(--black);
+    font-size: 18px;
+    margin-top: 25px;
+    margin-bottom: 12px;
+}
+
+.artigo-conteudo strong {
+    color: var(--pink-dark);
+    font-weight: 700;
+}
+
+.artigo-conteudo ul,
+.artigo-conteudo ol {
+    padding-left: 25px;
+    margin-bottom: 25px;
+    color: #4b4b4b;
+}
+
+.artigo-conteudo li {
+    font-size: 14px;
+    line-height: 1.9;
+    margin-bottom: 10px;
+}
+
+.artigo-conteudo li::marker {
+    color: var(--pink);
+}
+
+
+/* 8. CITAÇÃO */
+
+.artigo-conteudo blockquote {
+    margin: 35px 0;
+    padding: 25px 28px;
+    background: #fff1f6;
+    border-left: 4px solid var(--pink);
+    border-radius: 0 10px 10px 0;
+}
+
+.artigo-conteudo blockquote p {
+    color: #333333;
+    font-size: 15px;
+    font-weight: 500;
+    font-style: italic;
+    margin: 0;
+}
+
+
+/* 9. BOTÃO VOLTAR AO BLOG */
+
+.artigo-acoes {
+    display: flex;
+    justify-content: center;
+    margin: 45px 0 65px;
+}
+
+.btn-voltar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 27px;
+    border-radius: 8px;
+    background: var(--pink);
+    color: var(--white);
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn-voltar:hover {
+    background: var(--pink-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255, 45, 120, 0.2);
+}
+
+
+/* 10. RODAPÉ */
+
+footer {
+    padding: 45px 7% 25px;
+    background: var(--black);
+    color: var(--white);
+}
+
+.footer-conteudo {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 35px;
+}
+
+.footer-logo img {
+    width: 65px;
+    height: 55px;
+    object-fit: contain;
+    margin-bottom: 15px;
+}
+
+.footer-logo p {
+    max-width: 270px;
+    color: #aaaaaa;
+    font-size: 12px;
+}
+
+.footer-links h3 {
+    margin-bottom: 17px;
+    font-size: 14px;
+}
+
+.footer-links a {
+    display: block;
+    margin-bottom: 10px;
+    color: #aaaaaa;
+    font-size: 12px;
+    transition: 0.3s;
+}
+
+.footer-links a:hover {
+    color: var(--pink);
+}
+
+.footer-final {
+    margin-top: 35px;
+    padding-top: 20px;
+    border-top: 1px solid #292929;
+    color: #888888;
+    font-size: 11px;
+    text-align: center;
+}
+
+
+/* 11. ANIMAÇÃO DE ENTRADA */
+
+.artigo-header,
+.artigo-imagem,
+.artigo-conteudo {
+    animation: aparecer 0.7s ease both;
+}
+
+.artigo-imagem {
+    animation-delay: 0.1s;
+}
+
+.artigo-conteudo {
+    animation-delay: 0.2s;
+}
+
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* 12. RESPONSIVIDADE - TABLETS */
+
+@media (max-width: 900px) {
+
+    header {
+        padding: 15px 4%;
+    }
+
+    header nav {
+        gap: 18px;
+    }
+
+    .artigo-imagem {
+        height: 350px;
+    }
+
+    .artigo-conteudo {
+        padding: 40px;
+    }
+}
+
+
+/* 13. RESPONSIVIDADE - CELULARES */
+
+@media (max-width: 650px) {
+
+    header {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 13px 5%;
+    }
+
+    header nav {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 18px;
+    }
+
+    header nav a {
+        font-size: 11px;
+    }
+
+    .header-buttons {
+        gap: 7px;
+    }
+
+    .header-buttons a {
+        padding: 8px 11px;
+        font-size: 10px;
+    }
+
+    .artigo-container {
+        margin: 30px auto;
+        padding: 0 16px;
+    }
+
+    .artigo-header h1 {
+        font-size: 29px;
+        letter-spacing: -0.5px;
+    }
+
+    .artigo-descricao {
+        font-size: 13px;
+    }
+
+    .artigo-informacoes {
+        gap: 10px;
+        font-size: 10px;
+    }
+
+    .artigo-imagem {
+        height: 240px;
+        margin-bottom: 25px;
+        border-radius: 12px;
+    }
+
+    .artigo-conteudo {
+        padding: 27px 20px;
+        border-radius: 12px;
+    }
+
+    .artigo-conteudo h2 {
+        font-size: 19px;
+    }
+
+    .artigo-conteudo p {
+        font-size: 13px;
+        text-align: left;
+    }
+
+    .artigo-conteudo blockquote {
+        padding: 18px;
+    }
+
+    .artigo-conteudo blockquote p {
+        font-size: 13px;
+    }
+
+    .footer-conteudo {
+        flex-direction: column;
+        gap: 28px;
+    }
+
+    footer {
+        padding: 35px 7% 20px;
+    }
+}
+
+
+/* 14. CELULARES PEQUENOS */
+
+@media (max-width: 380px) {
+
+    .artigo-header h1 {
+        font-size: 25px;
+    }
+
+    .header-buttons a {
+        padding: 7px 8px;
+        font-size: 9px;
+    }
+
+    .artigo-imagem {
+        height: 200px;
+    }
+}
+
+
+/* 15. ACESSIBILIDADE */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}

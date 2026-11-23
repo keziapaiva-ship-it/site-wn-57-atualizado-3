@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <!-- Configurações iniciais -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Solicitar uma corrida • WN57</title>
+
+    <!-- Otimização das fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Fonte Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Ícones Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- CSS da página -->
+    <link rel="stylesheet" href="/css/ajuda/corrida.ajuda.css">
+</head>
+
+<body>
+
+    <!-- CABEÇALHO -->
+    <header class="cabecalho">
+
+        <!-- Logo WN57 -->
+        <a href="/html/inicial.html" class="logo">
+            <img src="/img/logo/logo1.jpg" alt="Logo WN57">
+        </a>
+
+        <!-- Ações do cabeçalho -->
+        <div class="acoes-header">
+
+            <!-- Botão de idioma -->
+            <!-- Botão de idioma — mantém o estilo original -->
+            <a href="#" class="idioma" id="botaoIdioma">
+                🌐 <span id="textoIdioma">PT-BR</span>
+            </a>
+
+            <!-- Login -->
+            <a href="/html/login/login.html" class="btn-login" data-i18n="login">
+                Fazer Login
+            </a>
+
+            <!-- Cadastro -->
+            <a href="/html/login/cadastro.html" class="btn-cadastro" data-i18n="cadastro">
+                Cadastre-se
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="conteudo">
+
+        <!-- APRESENTAÇÃO -->
+        <section class="hero">
+
+            <div class="icone">
+                <i class="fa-solid fa-location-dot"></i>
+            </div>
+
+            <h1 data-i18n="titulo">Solicitar uma corrida</h1>
+
+            <p data-i18n="descricao">
+                Encontre respostas sobre como solicitar e acompanhar suas viagens.
+            </p>
+
+        </section>
+
+
+        <!-- PERGUNTAS FREQUENTES -->
+        <section class="faq">
+
+            <h2 data-i18n="faq">Perguntas frequentes</h2>
+
+            <!-- Controles das perguntas -->
+            <div class="controles-faq">
+
+                <button type="button" id="expandirTodas">
+                    <i class="fa-solid fa-plus"></i>
+                    <span data-i18n="expandir">Expandir todas</span>
+                </button>
+
+                <button type="button" id="recolherTodas">
+                    <i class="fa-solid fa-minus"></i>
+                    <span data-i18n="recolher">Recolher todas</span>
+                </button>
+
+            </div>
+
+
+            <!-- Lista de perguntas -->
+            <div class="perguntas">
+
+                <!-- Pergunta 1 -->
+                <details>
+                    <summary data-i18n="pergunta1">
+                        Como solicito uma corrida?
+                    </summary>
+
+                    <p data-i18n="resposta1">
+                        Entre na sua conta, informe o local de partida e o destino,
+                        confira os dados e confirme a solicitação.
+                    </p>
+                </details>
+
+
+                <!-- Pergunta 2 -->
+                <details>
+                    <summary data-i18n="pergunta2">
+                        Posso alterar meu destino?
+                    </summary>
+
+                    <p data-i18n="resposta2">
+                        Se a corrida já começou, entre em contato com o motorista
+                        e verifique se a alteração é possível.
+                    </p>
+                </details>
+
+
+                <!-- Pergunta 3 -->
+                <details>
+                    <summary data-i18n="pergunta3">
+                        Por que não encontro um motorista?
+                    </summary>
+
+                    <p data-i18n="resposta3">
+                        A disponibilidade pode variar conforme a região e o horário.
+                        Tente novamente após alguns instantes.
+                    </p>
+                </details>
+
+
+                <!-- Pergunta 4 -->
+                <details>
+                    <summary data-i18n="pergunta4">
+                        Como cancelo uma corrida?
+                    </summary>
+
+                    <p data-i18n="resposta4">
+                        Acesse os detalhes da corrida e procure a opção de cancelamento.
+                        Confira se há alguma condição aplicável antes de confirmar.
+                    </p>
+                </details>
+
+            </div>
+
+        </section>
+
+
+        <!-- SEÇÃO DE CONTATO -->
+        <section class="contato">
+
+            <div class="contato-icone">
+                <i class="fa-solid fa-headset"></i>
+            </div>
+
+            <h2 data-i18n="ajudaTitulo">
+                Precisa de mais ajuda?
+            </h2>
+
+            <p data-i18n="ajudaDescricao">
+                Acesse nossa página de suporte para buscar outras orientações.
+            </p>
+
+            <a href="/html/ajuda/suporte.html" class="btn-contato" data-i18n="suporte">
+                Acessar suporte
+            </a>
+
+        </section>
+
+    </main>
+
+
+    <!-- RODAPÉ -->
+    <footer class="rodape">
+
+        <!-- Parte superior -->
+        <div class="rodape-superior">
+
+            <div class="rodape-marca">
+                <h2>WN57</h2>
+
+                <p data-i18n="fraseRodape">
+                    Estamos aqui para ajudar você.
+                </p>
+            </div>
+
+            <!-- Links -->
+            <nav class="rodape-menu">
+
+                <a href="/html/ajuda/suporte.html" data-i18n="linkSuporte">
+                    Suporte
+                </a>
+
+                <a href="/html/login/cadastro.html" data-i18n="linkCadastro">
+                    Cadastre-se
+                </a>
+
+            </nav>
+
+        </div>
+
+
+        <!-- Parte inferior -->
+        <div class="rodape-inferior">
+
+            <span class="copyright">
+                © 2026 WN57
+            </span>
+
+            <div class="rodape-links">
+
+                <a href="/html/termos/privacidade.html" data-i18n="privacidade">
+                    Privacidade
+                </a>
+
+                <a href="/html/termos/termos.html" data-i18n="termos">
+                    Termos
+                </a>
+
+                <a href="/html/termos/acessibilidade.html" data-i18n="acessibilidade">
+                    Acessibilidade
+                </a>
+
+            </div>
+
+
+            <!-- Idioma e localização -->
+            <div class="rodape-local">
+
+                <span>
+                    <i class="fa-solid fa-globe"></i>
+                    <span id="idiomaRodape">Português (Brasil)</span>
+                </span>
+
+                <span>·</span>
+
+                <span>
+                    <i class="fa-solid fa-location-dot"></i>
+                    <span data-i18n="cidade">Curitiba</span>
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- Botão voltar ao topo -->
+        <button class="voltar-topo" id="voltarTopo" aria-label="Voltar ao topo">
+            <i class="fa-solid fa-arrow-up"></i>
+        </button>
+
+    </footer>
+
+
+    <!-- JavaScript -->
+    <script src="/javascript/ajuda/corrida.ajuda.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WN57 - Gerenciar conta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=Fraunces:opsz,wght@9..144,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet" href="/site-de-corrida-wn-57-main/site-de-corrida-wn-57-main/site-wn-57-corrida-main/css/gerenciar.conta.css">
+</head>
+<body>
+<header>
+  <div class="topo">
+    <a class="logo" href="inicial.html"><img src="/site-de-corrida-wn-57-main/site-de-corrida-wn-57-main/site-wn-57-corrida-main/img/logo/logown57.png" alt="WN57" onerror="this.parentNode.classList.add('sem-img');this.remove()"><span class="logo-txt">WN<sup>57</sup></span></a>
+
+    <nav aria-label="Principal">
+      <a href="/site-de-corrida-wn-57-main/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/inicial.html">Inicial</a>
+    </nav>
+
+    <div class="direita">
+      <span class="idioma"><i class="fa-solid fa-globe"></i>PT-BR</span>
+
+      <div class="perfil">
+        <button class="perfil-btn" id="perfilBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="perfilMenu">
+          <span class="foto" id="fotoMini">K</span>
+          <span id="nomeMini">Conta</span>
+          <i class="fa-solid fa-caret-down seta"></i>
+        </button>
+
+        <div class="menu" id="perfilMenu">
+          <div class="menu-topo">
+            <div>
+              <h3 id="nomeCompleto">Usuário</h3>
+              <span class="nota-tag"><i class="fa-solid fa-star" style="font-size:.7rem"></i> 5,00</span>
+            </div>
+            <div class="foto-grande" id="fotoGrande">K</div>
+          </div>
+
+          <div class="atalhos">
+            <a href="/site-de-corrida-wn-57-main/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/ajuda.html"><i class="fa-solid fa-circle-xmark"></i>Ajuda</a>
+            <a href="/site-de-corrida-wn-57-main/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/carteira.html"><i class="fa-solid fa-wallet"></i>Carteira</a>
+            <a href="/site-de-corrida-wn-57-main/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/atividade.html"><i class="fa-solid fa-receipt"></i>Atividade</a>
+          </div>
+
+          <div class="lista-menu">
+            <a href="/site-de-corrida-wn-57-main/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/gerenciar.conta.html"><i class="fa-solid fa-user"></i>Gerenciar conta</a>
+            <a href="/site-de-corrida-wn-57-main/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/solicitar.html"><i class="fa-solid fa-route"></i>Pedir corrida</a>
+            <a href="/site-de-corrida-wn-57-main/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/ajuda/suporte.html"><i class="fa-solid fa-comment"></i>Suporte</a>
+          </div>
+
+          <button class="sair" type="button" id="sair">Sair</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="conta">
+  <aside class="lateral" aria-label="Conta">
+    <a href="#inicio" data-v="inicio"><i class="fa-solid fa-house"></i>Página inicial</a>
+    <a href="#dados" data-v="dados"><i class="fa-regular fa-user"></i>Dados pessoais</a>
+    <a href="#seguranca" data-v="seguranca"><i class="fa-solid fa-shield-halved"></i>Segurança</a>
+    <a href="#privacidade" data-v="privacidade"><i class="fa-solid fa-lock"></i>Privacidade e dados</a>
+  </aside>
+
+  <main class="conteudo" id="conteudo">
+
+    <section class="vista" id="v-inicio">
+      <div class="cab">
+        <div class="foto-g" id="fotoInicio">K</div>
+        <h1 id="nomeInicio">—</h1>
+        <p id="emailInicio"></p>
+      </div>
+      <div class="atalho">
+        <a href="#dados"><i class="fa-regular fa-user"></i>Dados pessoais</a>
+        <a href="#seguranca"><i class="fa-solid fa-shield-halved"></i>Segurança</a>
+        <a href="#privacidade"><i class="fa-solid fa-lock"></i>Privacidade e dados</a>
+      </div>
+      <h2>Sugestões</h2>
+      <div class="card" id="sugestao"></div>
+    </section>
+
+    <section class="vista" id="v-dados">
+      <h1>Informações pessoais</h1>
+      <div class="foto-edit">
+        <div class="foto-g" id="fotoDados">K</div>
+        <div>
+          <button class="btn sec" type="button" id="trocarFoto">Alterar foto</button>
+          <input type="file" id="arquivoFoto" accept="image/*" hidden>
+        </div>
+      </div>
+      <div class="lista" id="listaDados"></div>
+    </section>
+
+    <section class="vista" id="v-seguranca">
+      <h1>Segurança</h1>
+      <h2>Fazer login na WN57</h2>
+      <div class="lista">
+        <div class="item" id="itemSenha">
+          <button type="button" aria-expanded="false"><div><b>Senha</b><span class="v" id="infoSenha">••••••••</span></div><i class="fa-solid fa-chevron-right seta"></i></button>
+          <div class="editor">
+            <label for="senhaAtual">Senha atual</label><input type="password" id="senhaAtual" autocomplete="current-password">
+            <label for="senhaNova">Nova senha (mínimo 6 caracteres)</label><input type="password" id="senhaNova" autocomplete="new-password">
+            <label for="senhaConf">Confirmar nova senha</label><input type="password" id="senhaConf" autocomplete="new-password">
+            <p class="msg" id="msgSenha"></p>
+            <div class="acoes"><button class="btn" type="button" id="salvarSenha">Salvar senha</button><button class="btn sec" type="button" data-fechar>Cancelar</button></div>
+          </div>
+        </div>
+      </div>
+      <h2>Atividade de login</h2>
+      <p class="sub">Dispositivo em que você está conectado agora.</p>
+      <div class="card sessao">
+        <i class="fa-solid fa-laptop"></i>
+        <div><b id="dispositivo">Navegador</b><br><span class="atual">Seu login atual</span><br><span class="sub">Página da plataforma WN57</span></div>
+      </div>
+      <div class="acoes" style="margin-top:18px"><button class="btn perigo" type="button" id="sair2"><i class="fa-solid fa-right-from-bracket"></i> Sair da conta</button></div>
+    </section>
+
+    <section class="vista" id="v-privacidade">
+      <h1>Privacidade e dados</h1>
+      <div class="card">
+        <h3>Baixar meus dados</h3>
+        <p>Receba um arquivo com seus dados de cadastro e o histórico de viagens. A senha nunca é incluída.</p>
+        <button class="btn" type="button" id="baixar"><i class="fa-solid fa-download"></i> Baixar arquivo</button>
+      </div>
+      <div class="card">
+        <h3>Excluir conta</h3>
+        <p>Remove seu cadastro deste navegador e encerra sua sessão. Essa ação não pode ser desfeita.</p>
+        <button class="btn perigo" type="button" id="excluir">Excluir minha conta</button>
+      </div>
+    </section>
+
+  </main>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="/site-de-corrida-wn-57-main/site-de-corrida-wn-57-main/site-wn-57-corrida-main/javascript/gerenciar.conta.js"></script>
+</body>
+</html>

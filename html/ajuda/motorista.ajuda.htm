@@ -1,0 +1,186 @@
+<!DOCTYPE html> 
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Motoristas • WN57</title>
+
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/ajuda/motorista.ajuda.css">
+</head>
+
+<body>
+
+    <!-- CABEÇALHO -->
+    <header class="cabecalho">
+
+        <a href="/html/principal/inicial.html" class="logo">
+            <img src="/img/logo/logo1.jpg" alt="Logo WN57">
+        </a>
+
+
+
+        <div class="acoes-header">
+            <a href="#" class="idioma">🌐 PT-BR</a>
+            <a href="/html/login/login.html" class="btn-login">Fazer Login</a>
+            <a href="/html/login/cadastro.html" class="btn-cadastro">Cadastre-se</a>
+        </div>
+
+    </header>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="conteudo">
+
+        <!-- APRESENTAÇÃO -->
+        <section class="hero">
+
+            <div class="icone">
+                <i class="fa-solid fa-car-side"></i>
+            </div>
+
+            <h1>Motoristas</h1>
+
+            <p>
+                Orientações para dúvidas relacionadas ao motorista e à viagem.
+            </p>
+
+        </section>
+
+        <!-- PERGUNTAS FREQUENTES -->
+        <section class="faq">
+
+            <h2>Perguntas frequentes</h2>
+
+            <!-- CONTROLES -->
+            <div class="controles-faq">
+
+                <button type="button" id="expandirTodas">
+                    <i class="fa-solid fa-plus"></i>
+                    Expandir todas
+                </button>
+
+                <button type="button" id="recolherTodas">
+                    <i class="fa-solid fa-minus"></i>
+                    Recolher todas
+                </button>
+
+            </div>
+
+            <div class="perguntas">
+
+                <details>
+                    <summary>Como confiro os dados do motorista?</summary>
+                    <p>
+                        Antes de entrar no veículo, confira os dados e as
+                        informações exibidas no aplicativo ou site.
+                    </p>
+                </details>
+
+                <details>
+                    <summary>O motorista ainda não chegou. O que faço?</summary>
+                    <p>
+                        Confira o local de embarque e as informações da corrida.
+                        Se necessário, utilize os canais de contato disponíveis.
+                    </p>
+                </details>
+
+                <details>
+                    <summary>Como relato um problema com o motorista?</summary>
+                    <p>
+                        Registre o ocorrido com informações objetivas e envie
+                        o relato pelo suporte da WN57.
+                    </p>
+                </details>
+
+                <details>
+                    <summary>Posso avaliar o motorista?</summary>
+                    <p>
+                        Se houver uma opção de avaliação após a viagem, use-a
+                        para compartilhar sua experiência de forma respeitosa.
+                    </p>
+                </details>
+
+            </div>
+
+        </section>
+
+        <!-- CONTATO -->
+        <section class="contato">
+
+            <div class="contato-icone">
+                <i class="fa-solid fa-headset"></i>
+            </div>
+
+            <h2>Precisa de mais ajuda?</h2>
+
+            <p>
+                Conte ao suporte o que aconteceu para receber orientação.
+            </p>
+
+            <a href="/html/ajuda/suporte.html" class="btn-contato">
+                Acessar suporte
+            </a>
+
+        </section>
+
+    </main>
+
+    <!-- RODAPÉ -->
+    <footer class="rodape">
+
+        <div class="rodape-superior">
+
+            <div class="rodape-marca">
+                <h2>WN57</h2>
+                <p>Estamos aqui para ajudar você.</p>
+            </div>
+
+            <nav class="rodape-menu">
+                <a href="/html/ajuda/suporte.html">Suporte</a>
+                <a href="/html/login/cadastro.html">Cadastre-se</a>
+            </nav>
+
+        </div>
+
+        <div class="rodape-inferior">
+
+            <span class="copyright">© 2026 WN57</span>
+
+            <div class="rodape-links">
+                <a href="/html/termos/privacidade.html">Privacidade</a>
+                <a href="/html/termos/termos.html">Termos</a>
+                <a href="/html/termos/acessibilidade.html">Acessibilidade</a>
+            </div>
+
+            <div class="rodape-local">
+                <span><i class="fa-solid fa-globe"></i> Português (Brasil)</span>
+                <span>·</span>
+                <span><i class="fa-solid fa-location-dot"></i> Curitiba</span>
+            </div>
+
+        </div>
+
+        <button class="voltar-topo" id="voltarTopo" aria-label="Voltar ao topo">
+            <i class="fa-solid fa-arrow-up"></i>
+        </button>
+
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script src="/javascript/ajuda/motorista.ajuda.js"></script>
+
+</body>
+
+</html>
