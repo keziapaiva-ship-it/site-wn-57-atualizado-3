@@ -36,7 +36,8 @@ function nomeCategoria(c) {
 
 // true quando a categoria escolhida em corrida.html é a moto ("WN Moto")
 function ehMoto() {
-    return /moto/i.test(String(categoria || ""));
+    const salva = localStorage.getItem("categoriaCorrida") || "";
+    return /moto/i.test(String(categoria || "")) || /moto/i.test(salva);
 }
 
 function mostrarErro(msg) {
@@ -286,6 +287,9 @@ document.addEventListener("DOMContentLoaded", function () {
     categoria = localStorage.getItem("categoriaCorrida") || "WN";
     valor = Number(localStorage.getItem("valorCorrida")) || 0;
     pagamento = localStorage.getItem("pagamentoCorrida") || "";
+
+    // teste: mostra no console qual veículo foi escolhido (pode apagar depois)
+    console.log("WN57 categoria:", categoria, "| ehMoto:", ehMoto());
 
     // sem dados da corrida: volta ao começo
     if (!origem || !destino) {
@@ -703,10 +707,10 @@ function criarIconeMoto() {
         className: "wn57-carro-mapa",
 
         html: `
-            <div class="wn57-carro-topo" style="width:20px;height:45px;will-change:transform;">
+            <div class="wn57-carro-topo" style="width:26px;height:58px;will-change:transform;">
                 <svg viewBox="0 0 16 36"
-                     width="20"
-                     height="45"
+                     width="26"
+                     height="58"
                      xmlns="http://www.w3.org/2000/svg">
 
                     <!-- Sombra -->
@@ -752,8 +756,8 @@ function criarIconeMoto() {
             </div>
         `,
 
-        iconSize: [20, 45],
-        iconAnchor: [10, 22]
+        iconSize: [26, 58],
+        iconAnchor: [13, 29]
     });
 }
 
