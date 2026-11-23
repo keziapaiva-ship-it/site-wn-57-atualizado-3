@@ -16,6 +16,24 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Garante que o ícone da moto/carro não seja deformado pelo CSS -->
+    <style>
+        .wn57-carro-mapa {
+            background: transparent;
+            border: 0;
+        }
+
+        .wn57-carro-topo {
+            transition: transform .15s linear;
+        }
+
+        .wn57-carro-topo svg {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 </head>
 
 <body>
@@ -426,7 +444,8 @@
     <!-- SCRIPTS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-    <script src="/javascript/corrida/confirmar-endereco.js"></script>
+    <!-- ?v=2 força o navegador a carregar o JS novo (aumente o número a cada mudança) -->
+    <script src="/javascript/corrida/confirmar-endereco.js?v=2"></script>
 
 </body>
 </html>
