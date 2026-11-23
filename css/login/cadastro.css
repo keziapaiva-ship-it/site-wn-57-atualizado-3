@@ -74,7 +74,7 @@ button {
 /* O container ocupa a tela toda; o cartão se centraliza na área
    que sobra abaixo do menu. Se o conteúdo não couber, o auto-margin
    do main deixa o cartão no topo e a página rola normalmente. */
-.container {
+   .container {
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -91,7 +91,7 @@ main {
     max-width: 1040px;
     min-width: 0;
     margin: auto 0;
-    background: #ffffff;
+    background: #f6f6f6;
     border-radius: 20px;
     padding: clamp(18px, 3vh, 34px) clamp(20px, 4vw, 52px);
     box-shadow:
@@ -327,20 +327,28 @@ main {
    08. MENU (CABEÇALHO)
 ====================================================== */
 
-header {
-    width: 100%;
-    max-width: 100%;
-    height: var(--altura-menu);
-    padding: 0 45px;
-    display: flex;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    background: var(--tinta);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-    font-family: 'DM Sans', sans-serif;
+header.menu{
+    width: calc(100% - 60px);
+  max-width: 1250px;
+  height: 70px;
+
+  position: fixed;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 25px;
+  border-radius: 13px;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.822);
+
+  .menu-direita a{
+    color: black;
+  }
 }
 
 header .logo {
@@ -402,7 +410,7 @@ header #usuarioArea {
 }
 
 header .idioma-btn {
-    color: #ffffff;
+    color: #000000;
     background: transparent;
     border: none;
     cursor: pointer;

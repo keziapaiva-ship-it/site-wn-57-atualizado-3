@@ -13,7 +13,7 @@
 
 // Próxima página do fluxo. CONFIRA o caminho/nome do arquivo no seu projeto:
 // abra o endereço direto no navegador; se a página abrir, está certo.
-const PAGINA_RECONHECIMENTO = "/html/reconhecimento-facial.html";
+const PAGINA_RECONHECIMENTO = "/html/login/reconhecimento-facial.html";
 
 function reduzirFoto(arquivo) {
   return new Promise((resolve) => {

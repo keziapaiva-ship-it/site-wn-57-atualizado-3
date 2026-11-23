@@ -506,11 +506,12 @@ verificar.addEventListener("click", async () => {
  
   try {
     // A comparação com o documento acontece no SERVIDOR.
-    const resposta = await window.WN57.enviarSelfie({
-      selfie: fotoBlob,
-      frames: framesVivacidade,
-      token: desafio.token
-    });
+  const resposta = await window.WN57.enviarSelfie({
+    selfie: fotoBlob,
+    frames: framesVivacidade,
+    token: desafio.token,
+    consentimento: consentir.checked
+  });
  
     tratarResultado(resposta);
   } catch (erro) {

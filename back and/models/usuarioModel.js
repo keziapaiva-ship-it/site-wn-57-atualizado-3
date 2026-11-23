@@ -1,28 +1,55 @@
+
+const db = require("../database");
+
 class UsuarioModel {
 
-    constructor() {
-        this.usuarios = [];
+    async criar(usuario) {
+        const resultado = await db.query(
+            `INSERT INTO usuarios
+            (nome_completo, email, data_nascimento, telefone, senha_hash)
+            VALUES ($1, $2, $3, $4, $5)
+            RETURNING
+                id,
+                nome_completo AS nome,
+                email,
+                telefone,
+                data_nascimento AS nascimento`,
+            [
+                usuario.nome,
+                usuario.email,
+                usuario.nascimento || null,
+                usuario.telefone || null,
+                usuario.senha
+            ]
+        );
+
+        return resultado.rows[0];
     }
 
-    criar(usuario) {
-        const novoUsuario = {
-            id: this.usuarios.length + 1,
-            nome: usuario.nome,
-            email: usuario.email,
-            senha: usuario.senha
-        };
+    async listar() {
+        const resultado = await db.query(
+            `SELECT
+                id,
+                nome_completo AS nome,
+                email,
+                telefone,
+                data_nascimento AS nascimento
+             FROM usuarios
+             ORDER BY criado_em DESC`
+        );
 
-        this.usuarios.push(novoUsuario);
-
-        return novoUsuario;
+        return resultado.rows;
     }
 
-    listar() {
-        return this.usuarios;
-    }
+    async buscarPorEmail(email) {
+        const resultado = await db.query(
+            `SELECT id, nome_completo AS nome, email
+             FROM usuarios
+             WHERE email = $1`,
+            [email]
+        );
 
-    buscarPorEmail(email) {
-        return this.usuarios.find(usuario => usuario.email === email);
+        return resultado.rows[0] || null;
     }
 }
 

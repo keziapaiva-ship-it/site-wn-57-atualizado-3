@@ -1,3 +1,4 @@
+
 const usuarioModel = require("../models/usuarioModel");
 
 const validarEmail = require("../utils/validarEmail");
@@ -7,7 +8,7 @@ const bcrypt = require("bcrypt");
 
 async function criar(req, res) {
     try {
-        const { nome, email, senha } = req.body;
+        const { nome, email, senha, telefone, nascimento } = req.body;
 
         if (!nome || !email || !senha) {
             return res.status(400).json({
@@ -27,7 +28,7 @@ async function criar(req, res) {
             });
         }
 
-        const usuarioExistente = usuarioModel.buscarPorEmail(email);
+        const usuarioExistente = await usuarioModel.buscarPorEmail(email);
 
         if (usuarioExistente) {
             return res.status(400).json({
@@ -37,26 +38,27 @@ async function criar(req, res) {
 
         const senhaHash = await bcrypt.hash(senha, 10);
 
-        const usuario = usuarioModel.criar({
+        const usuario = await usuarioModel.criar({
             nome,
             email,
+            telefone,
+            nascimento,
             senha: senhaHash
         });
 
-        // Não enviar a senha protegida na resposta
-        const usuarioResposta = {
-            id: usuario.id,
-            nome: usuario.nome,
-            email: usuario.email
-        };
-
         res.status(201).json({
             mensagem: "Usuário cadastrado com sucesso!",
-            usuario: usuarioResposta
+            usuario
         });
 
     } catch (erro) {
-        console.error(erro);
+        console.error("Erro ao cadastrar usuário:", erro);
+
+        if (erro.code === "23505") {
+            return res.status(400).json({
+                erro: "Este email já está cadastrado."
+            });
+        }
 
         res.status(500).json({
             erro: "Erro ao cadastrar usuário."
@@ -66,19 +68,15 @@ async function criar(req, res) {
 
 async function listar(req, res) {
     try {
-        const usuarios = usuarioModel.listar();
-
-        const usuariosResposta = usuarios.map(usuario => ({
-            id: usuario.id,
-            nome: usuario.nome,
-            email: usuario.email
-        }));
+        const usuarios = await usuarioModel.listar();
 
         res.status(200).json({
-            usuarios: usuariosResposta
+            usuarios
         });
 
     } catch (erro) {
+        console.error("Erro ao listar usuários:", erro);
+
         res.status(500).json({
             erro: "Erro ao listar usuários."
         });
