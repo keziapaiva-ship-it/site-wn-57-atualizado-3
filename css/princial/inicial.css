@@ -1,0 +1,730 @@
+/* ==================================================
+   WN57 - PÁGINA INICIAL
+   (o cabeçalho e o menu de perfil ficam em
+   /css/login/cabecalho.css)
+================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+:root {
+    --pink: #ff2f8b;
+    --pink2: #ff5db1;
+    --dark: #0f0f12;
+    --white: #ffffff;
+    --gray: #bdbdbd;
+}
+
+body {
+    background: #fff7fb;
+    overflow-x: hidden;
+    color: white;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button,
+a,
+.feature-card,
+.ride-option,
+.review {
+    transition: .35s ease;
+}
+
+::selection {
+    background: var(--pink);
+    color: white;
+}
+
+
+/* ================= BOTÕES ================= */
+
+.btn {
+    padding: 14px 34px;
+    border: none;
+    border-radius: 40px;
+    background: linear-gradient(45deg, var(--pink), var(--pink2));
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: .3s;
+    box-shadow: 0 10px 30px rgba(255, 47, 139, 0.4);
+}
+
+.btn:hover {
+    transform: translateY(-4px);
+}
+
+.secondary-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+}
+
+
+/* ================= TELA DE IDIOMA (modal) ================= */
+
+#abrirIdioma {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+#modalIdioma {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    z-index: 9999;
+}
+
+.conteudo-idioma {
+    max-width: 1000px;
+    margin: auto;
+    padding: 100px 30px;
+}
+
+.conteudo-idioma h1 {
+    font-size: 32px;
+    margin-bottom: 80px;
+}
+
+#fecharIdioma {
+    position: fixed;
+    top: 25px;
+    right: 40px;
+    background: none;
+    border: none;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.idiomas {
+    display: flex;
+    gap: 150px;
+}
+
+.idioma {
+    background: none;
+    border: none;
+    font-size: 17px;
+    cursor: pointer;
+    text-align: left;
+    padding: 10px;
+}
+
+.idioma:hover {
+    text-decoration: underline;
+}
+
+
+/* ================= HERO ================= */
+
+.hero {
+    min-height: calc(100vh - 79px);
+    padding: 60px 8%;
+    gap: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    background:
+        linear-gradient(rgba(0, 0, 0, .55), rgba(0, 0, 0, .65)),
+        url("/img/carro.rosa.png") center/cover;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: rgba(255, 47, 139, 0.2);
+    filter: blur(120px);
+    top: -200px;
+    right: -100px;
+}
+
+.hero-text {
+    flex: 1;
+    max-width: 540px;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-text h1 {
+    font-size: clamp(48px, 5vw, 68px);
+    line-height: 1.08;
+    margin-bottom: 24px;
+    letter-spacing: -1.5px;
+}
+
+.hero-text h1 span {
+    color: var(--pink);
+}
+
+.hero-text p {
+    color: #dddddd;
+    font-size: 17px;
+    line-height: 1.7;
+    max-width: 470px;
+}
+
+.hero-buttons {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 36px;
+}
+
+.hero-buttons a:hover {
+    transform: translateY(-3px);
+}
+
+
+/* ================= CELULAR (prévia do app) ================= */
+
+.hero-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+}
+
+.phone {
+    width: 390px;
+    max-width: 100%;
+    border-radius: 45px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    transform: rotate(-5deg);
+    animation: float 4s ease-in-out infinite;
+    box-shadow: 0 20px 80px rgba(255, 47, 139, 0.25);
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: rotate(-5deg) translateY(0);
+    }
+
+    50% {
+        transform: rotate(-5deg) translateY(-15px);
+    }
+}
+
+.screen {
+    height: 720px;
+    border-radius: 35px;
+    overflow: hidden;
+    position: relative;
+}
+
+.map {
+    width: 100%;
+    height: 100%;
+    background:
+        linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+        url('/img/imagem\ do\ celular.png') center/cover;
+}
+
+.ride-card {
+    position: absolute;
+    left: 18px;
+    right: 18px;
+    bottom: 18px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(18px);
+    border-radius: 30px;
+    padding: 24px;
+    color: #111;
+}
+
+.ride-card h3 {
+    color: var(--pink);
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+.ride-card p {
+    color: #555;
+    margin-bottom: 18px;
+}
+
+.driver {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.driver img {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.driver h4 {
+    font-size: 15px;
+}
+
+.driver span {
+    color: #777;
+    font-size: 13px;
+}
+
+
+/* ================= ESTATÍSTICAS ================= */
+
+.stats {
+    padding: 80px 8%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 30px;
+    background: linear-gradient(180deg, #181818, #101010);
+}
+
+.stat-box {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 30px;
+    padding: 40px;
+    text-align: center;
+    backdrop-filter: blur(14px);
+}
+
+.stat-box h2 {
+    color: #e4e4e4;
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+
+
+/* ================= FUNCIONALIDADES ================= */
+
+.features {
+    padding: 120px 8%;
+    background: linear-gradient(180deg, #111, #191919);
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 70px;
+}
+
+.section-title h2 {
+    font-size: 52px;
+    margin-bottom: 15px;
+}
+
+.section-title p {
+    color: #cfcfcf;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+}
+
+.feature-card {
+    padding: 35px;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(16px);
+    cursor: pointer;
+    transition: .3s;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+}
+
+.icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    margin-bottom: 24px;
+    background: linear-gradient(45deg, var(--pink), var(--pink2));
+}
+
+.feature-card h3 {
+    margin-bottom: 10px;
+}
+
+.feature-card p {
+    color: #cfcfcf;
+    line-height: 1.6;
+}
+
+
+/* ================= CATEGORIAS DE CORRIDA ================= */
+
+.rides {
+    padding: 120px 8%;
+    background: #121212;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.ride-option {
+    height: 340px;
+    border-radius: 35px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding: 30px;
+    background-size: cover;
+    background-position: center;
+    transition: .4s;
+}
+
+.ride-option:hover {
+    transform: scale(1.03);
+}
+
+.ride-option::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top,
+            rgba(0, 0, 0, 0.85),
+            transparent);
+}
+
+.ride-content {
+    position: relative;
+    z-index: 2;
+}
+
+.ride-content h3 {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+
+/* ================= AVALIAÇÕES ================= */
+
+.reviews {
+    padding: 120px 8%;
+    background: linear-gradient(180deg, #151515, #0d0d0d);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.review {
+    padding: 35px;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.review p {
+    line-height: 1.7;
+    color: #ddd;
+    margin-bottom: 20px;
+}
+
+.review h4 {
+    color: var(--pink);
+}
+
+
+/* ================= DOWNLOAD ================= */
+
+.download {
+    padding: 100px 8%;
+    background: linear-gradient(45deg, #ff2f8b, #ff5db1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.download h2 {
+    font-size: 54px;
+    margin-bottom: 15px;
+}
+
+.download p {
+    max-width: 550px;
+    line-height: 1.7;
+}
+
+
+/* ================= RODAPÉ ================= */
+
+footer {
+    padding: 35px;
+    text-align: center;
+    background: #0b0b0b;
+    color: #999;
+}
+
+
+/* ================= VOLTAR AO TOPO ================= */
+
+#topBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background: #ff2f8b;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 30px;
+    cursor: pointer;
+    z-index: 99999;
+}
+
+
+/* ================= AVISO DE COOKIES ================= */
+
+.cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    min-height: 150px;
+    background: #fff;
+    color: #222;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px 7%;
+    z-index: 999999;
+    box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.12);
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.cookie-texto {
+    max-width: 800px;
+}
+
+.cookie-texto h3 {
+    font-size: 19px;
+    margin-bottom: 25px;
+    color: #222;
+}
+
+.cookie-texto p {
+    font-size: 17px;
+    line-height: 1.5;
+    color: #333;
+    margin: 0;
+}
+
+.cookie-texto strong {
+    font-weight: 700;
+}
+
+.cookie-botoes {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-left: 40px;
+}
+
+.cookie-aceitar,
+.cookie-recusar {
+    height: 76px;
+    padding: 0 38px;
+    border-radius: 24px;
+    font-size: 23px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.cookie-aceitar {
+    background: #ff2f8b;
+    color: white;
+    border: 2px solid #ff2f8b;
+}
+
+.cookie-aceitar:hover {
+    transform: translateY(-2px);
+}
+
+.cookie-recusar {
+    background: white;
+    color: #222;
+    border: 2px solid #ff2f8b;
+}
+
+.cookie-recusar:hover {
+    background: #d1d0cd;
+}
+
+.cookie-fechar {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    background: none;
+    border: none;
+    font-size: 35px;
+    font-weight: 400;
+    color: #222;
+    cursor: pointer;
+}
+
+.cookie-fechar:hover {
+    color: #ff2f8b;
+}
+
+.cookie-banner.esconder {
+    opacity: 0;
+    transform: translateY(100%);
+    pointer-events: none;
+}
+
+
+/* ================= RESPONSIVO ================= */
+
+@media (max-width: 980px) {
+
+    .hero {
+        min-height: auto;
+        padding: 70px 6%;
+        gap: 45px;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-text {
+        max-width: 600px;
+    }
+
+    .hero-text h1 {
+        font-size: clamp(42px, 7vw, 58px);
+    }
+
+    .hero-text p {
+        margin: 0 auto;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+    }
+
+    .phone {
+        width: 340px;
+    }
+
+    .download {
+        text-align: center;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 800px) {
+
+    .cookie-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 30px 25px;
+        gap: 25px;
+    }
+
+    .cookie-texto {
+        max-width: 100%;
+    }
+
+    .cookie-texto h3 {
+        margin-bottom: 15px;
+    }
+
+    .cookie-texto p {
+        font-size: 15px;
+    }
+
+    .cookie-botoes {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .cookie-aceitar,
+    .cookie-recusar {
+        flex: 1;
+        height: 55px;
+        font-size: 17px;
+    }
+
+    .cookie-fechar {
+        right: 15px;
+        top: 10px;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .hero {
+        padding: 50px 22px;
+    }
+
+    .hero-text h1 {
+        font-size: 42px;
+        letter-spacing: -1px;
+    }
+
+    .hero-text p {
+        font-size: 15px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        width: 100%;
+        gap: 12px;
+    }
+
+    .hero-buttons a {
+        width: 100%;
+        max-width: 280px;
+        text-align: center;
+    }
+
+    .phone {
+        width: min(100%, 300px);
+    }
+
+    .section-title h2,
+    .download h2 {
+        font-size: 36px;
+    }
+}

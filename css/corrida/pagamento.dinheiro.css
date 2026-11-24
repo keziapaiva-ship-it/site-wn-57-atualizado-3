@@ -1,0 +1,479 @@
+/* ================= RESET ================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'DM Sans', sans-serif;
+}
+
+body {
+    background: #eee;
+    overflow: hidden;
+}
+
+/* ================= HEADER / MENU ================= */
+
+.header {
+    width: 100%;
+    height: 64px;
+    background: #000;
+    display: flex;
+    align-items: center;
+    padding: 0 max(4%, calc((100% - 1370px) / 2));
+    position: relative;
+    z-index: 1000;
+    color: white;
+}
+
+/* ================= LOGO ================= */
+
+.logo {
+    width: 75px;
+    height: 56px;
+    border: 1px solid #292929;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    text-decoration: none;
+    flex-shrink: 0;
+}
+
+.logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* ================= MENU CENTRAL ================= */
+
+.header nav {
+    display: flex;
+    align-items: center;
+    gap: 35px;
+    margin-left: 75px;
+    position: static;
+    transform: none;
+}
+
+.header nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.header nav a:hover {
+    color: #ff2d78;
+}
+
+/* ================= MENU DIREITA ================= */
+
+.menu-direita {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    margin-left: auto;
+}
+
+.menu-direita a {
+    color: white;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.menu-direita a:hover {
+    color: #ff2d78;
+}
+
+/* ================= IDIOMA ================= */
+
+.idioma {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.idioma:hover {
+    color: #ff2d78;
+}
+
+/* ================= CADASTRE-SE ================= */
+
+.btn-cadastro {
+    background: #ff2d78 !important;
+    color: #fff !important;
+    padding: 14px 25px;
+    border-radius: 15px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.btn-cadastro:hover {
+    background: #e91e68 !important;
+    transform: translateY(-1px);
+}
+
+/* ================= MAPA ================= */
+
+#map {
+    width: 100%;
+    height: calc(100vh - 64px);
+}
+
+/* ================= PAINEL ================= */
+
+.painel {
+    position: fixed;
+    z-index: 1000;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 480px;
+    max-width: 95%;
+    max-height: 88vh;
+    overflow-y: auto;
+    background: #242424;
+    color: white;
+    padding: 22px 24px 25px;
+    border-radius: 25px 25px 0 0;
+    box-shadow: 0 -10px 35px #0005;
+}
+
+/* ================= BARRA ================= */
+
+.barra {
+    width: 45px;
+    height: 5px;
+    border-radius: 10px;
+    background: #777;
+    margin: 0 auto 20px;
+}
+
+/* ================= TAG ================= */
+
+.tag {
+    display: inline-block;
+    background: #49202f;
+    color: #ff2d78;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+/* ================= TÍTULO ================= */
+
+h2 {
+    font-size: 21px;
+    margin-bottom: 7px;
+}
+
+.descricao {
+    color: #aaa;
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+/* ================= VALOR ================= */
+
+.valor-box {
+    background: #303030;
+    padding: 18px;
+    border-radius: 13px;
+    text-align: center;
+    margin-bottom: 17px;
+}
+
+.valor-box small {
+    color: #aaa;
+}
+
+.valor-box h1 {
+    color: #ff2d78;
+    font-size: 30px;
+    margin-top: 7px;
+}
+
+/* ================= QR CODE ================= */
+
+.qr {
+    background: white;
+    width: 190px;
+    height: 190px;
+    padding: 8px;
+    border-radius: 12px;
+    margin: 18px auto;
+}
+
+.qr img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* ================= INSTRUÇÃO ================= */
+
+.instrucao {
+    text-align: center;
+    font-size: 13px;
+    color: #bbb;
+    line-height: 1.5;
+    margin-bottom: 14px;
+}
+
+/* ================= CÓDIGO PIX ================= */
+
+.codigo {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.codigo input {
+    flex: 1;
+    min-width: 0;
+    background: #171717;
+    border: 1px solid #555;
+    border-radius: 8px;
+    padding: 12px;
+    color: white;
+    font-size: 11px;
+}
+
+.codigo button {
+    border: 1px solid #ff2d78;
+    background: transparent;
+    color: #ff2d78;
+    border-radius: 8px;
+    padding: 0 13px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: 0.2s;
+}
+
+.codigo button:hover {
+    background: #ff2d78;
+    color: white;
+}
+
+/* ================= STATUS ================= */
+
+.status {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: #ffbd65;
+    font-size: 12px;
+    margin: 17px 0;
+}
+
+.bolinha {
+    width: 9px;
+    height: 9px;
+    background: #ffbd65;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* ================= AVISO ================= */
+
+.aviso {
+    background: #303030;
+    padding: 17px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+
+.aviso strong {
+    font-size: 14px;
+}
+
+.aviso p {
+    color: #aaa;
+    font-size: 13px;
+    line-height: 1.6;
+    margin-top: 9px;
+}
+
+/* ================= ÍCONE PAGAMENTO ================= */
+
+.icone-pagamento {
+    text-align: center;
+    margin: 20px;
+}
+
+.icone-pagamento i {
+    background: #49202f;
+    color: #ff2d78;
+    padding: 23px;
+    border-radius: 50%;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 800;
+}
+
+/* ================= RESUMO ================= */
+
+.resumo {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-bottom: 1px solid #414141;
+    font-size: 13px;
+}
+
+.resumo span {
+    color: #aaa;
+}
+
+.resumo strong {
+    color: white;
+}
+
+/* ================= CARTÃO ================= */
+
+.cartao {
+    background: linear-gradient(135deg, #161616, #444);
+    border: 1px solid #555;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 20px 0;
+    min-height: 145px;
+}
+
+.cartao-topo,
+.cartao-rodape {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cartao-topo span {
+    color: #ff2d78;
+    font-weight: 800;
+}
+
+.numero-cartao {
+    margin: 25px 0;
+    letter-spacing: 3px;
+    font-size: 16px;
+}
+
+.cartao-rodape {
+    color: #aaa;
+    font-size: 11px;
+}
+
+/* ================= BOTÃO ================= */
+
+.botao {
+    width: 100%;
+    background: #ff2d78;
+    border: none;
+    color: white;
+    padding: 17px;
+    border-radius: 12px;
+    margin-top: 18px;
+    font-weight: 800;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.botao:hover {
+    background: #e91e68;
+}
+
+.botao i {
+    margin-left: 8px;
+    font-style: normal;
+}
+
+/* ================= VOLTAR ================= */
+
+.voltar {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    color: #aaa;
+    font-size: 12px;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.voltar:hover {
+    color: #ff2d78;
+}
+
+/* ================= SCROLL PAINEL ================= */
+
+.painel::-webkit-scrollbar {
+    width: 5px;
+}
+
+.painel::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 10px;
+}
+
+/* ================= RESPONSIVO ================= */
+
+@media (max-width: 1100px) {
+
+    .header {
+        padding: 0 25px;
+    }
+
+    .header nav {
+        margin-left: 35px;
+        gap: 22px;
+    }
+
+    .menu-direita {
+        gap: 15px;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .header nav {
+        display: none;
+    }
+
+    .menu-direita {
+        gap: 10px;
+    }
+
+    .menu-direita a:not(.btn-cadastro) {
+        display: none;
+    }
+
+    .logo {
+        width: 65px;
+        height: 50px;
+    }
+
+    .painel {
+        width: 100%;
+        max-width: 100%;
+        max-height: 88vh;
+    }
+
+    #map {
+        height: calc(100vh - 64px);
+    }
+}
