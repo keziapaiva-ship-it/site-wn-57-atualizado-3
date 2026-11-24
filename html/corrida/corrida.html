@@ -11,19 +11,25 @@
 
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+  <!-- Reserva: garante que o cabeçalho fique acima do mapa (Leaflet usa z-index até ~1000).
+       Fica ANTES dos outros CSS, então o cabecalho.css continua mandando se definir position. -->
+  <style>
+    header { position: relative; z-index: 2000; }
+  </style>
+
   <!-- CSS DA PÁGINA -->
-    <link rel="stylesheet" href="/css/corrida/corrida.css">
+  <link rel="stylesheet" href="/css/corrida/corrida.css">
 
-    <!-- CSS DO CABEÇALHO (depois do CSS da página para ter prioridade) -->
-    <link rel="stylesheet" href="/css/login/cabecalho.css">
-
+  <!-- CSS DO CABEÇALHO (depois do CSS da página para ter prioridade) -->
+  <link rel="stylesheet" href="/css/login/cabecalho.css">
 
 </head>
 
 <body>
- <!-- CABEÇALHO (menu + perfil) — gerado pelo cabecalho.js -->
-    <script src="/javascript/login/cabecalho.js"></script>
 
+  <!-- CABEÇALHO (menu + perfil) — gerado pelo cabecalho.js.
+       Precisa ser o primeiro item do body e NÃO pode ter defer/async/module. -->
+  <script src="/javascript/login/cabecalho.js"></script>
 
   <!-- MAPA -->
 
@@ -275,7 +281,7 @@
 
         <div>
           <small>Pagamento</small>
-          <strong id="rPg">Cartao</strong>
+          <strong id="rPg">Cartão</strong>
         </div>
 
       </div>
@@ -348,13 +354,14 @@
 
   </main>
 
-  <!-- SCRIPTS -->
+  <!-- SCRIPTS (ordem importante: Leaflet, api.js e depois corrida.js) -->
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-  <script src="/javascript/corrida/corrida.js" type="module"></script>
   <script src="/javascript/api.js"></script>
-  
+
+  <script src="/javascript/corrida/corrida.js"></script>
+
 </body>
 
 </html>
