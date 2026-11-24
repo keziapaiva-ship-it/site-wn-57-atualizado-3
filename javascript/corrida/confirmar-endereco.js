@@ -1,33 +1,50 @@
-// Página de confirmar endereço: mapa + botão de confirmar
+// Página de confirmar endereço: mapa + procurar motorista + acompanhar a viagem
 
 // ====== AJUSTES DA SIMULAÇÃO ======
-const VELOCIDADE_KMH = 55;   // velocidade do carro na cidade
+const VELOCIDADE_KMH = 55;   // velocidade do veículo na cidade
 const ACELERACAO = 1;        // 1 = tempo real | 2 = 2x mais rápido | 0.5 = mais devagar
 const ESPERA_PIN_MS = 7000;  // tempo parado com "Seu motorista chegou" antes de iniciar a viagem
 // ==================================
 
-// ====== AJUSTES DO PIX ======
-// Troque pela SUA chave Pix (CPF, e-mail, telefone com +55 ou chave aleatória).
-const CHAVE_PIX = "00000000-0000-0000-0000-000000000000";
-const NOME_RECEBEDOR = "WN57";      // até 25 caracteres, sem acento
-const CIDADE_RECEBEDOR = "PINHAIS"; // até 15 caracteres, sem acento
-const PAGINA_FINAL = "atividade.html"; // para onde ir depois de pagar
-// ============================
+// ====== CAMINHOS DAS PÁGINAS ======
+const PAG_SOLICITAR = "/html/corrida/solicitar.html";
+const PAG_CORRIDA = "/html/corrida/corrida.html";
+const PAG_PET_AVISO = "/html/corrida/petaviso.html";
+const PAG_PIX = "/html/corrida/pagamento.pix.html";
+const PAG_DINHEIRO = "/html/corrida/pagamento.dinheiro.html";
+const PAG_CARTAO = "/html/corrida/pagamento.cartao.html";
+// ==================================
 
 const el = function (id) {
     return document.getElementById(id);
 };
 
+// ----- estado da corrida -----
 let categoria = "WN";
 let valor = 0;
 let pagamento = "";
 let destino = "";
 
+// ----- mapa -----
 let mapa = null;
 let pino = null;
 let posicao = null;
 let enderecoAtual = "";
 let enderecoMudou = false;
+let precisaoMetros = null;
+let circulo = null;
+
+// ----- simulação -----
+let timerBusca = null;
+let timerPin = null;
+let animacao = null;
+let radar = null;
+let carro = null;
+let linhaRota = null;
+let viagemId = null;
+let nomeMotorista = "";
+let viagemFinalizada = false;
+let nota = 0;
 
 function nomeCategoria(c) {
     if (c === "Pet") return "WN Pet";
@@ -43,16 +60,6 @@ function ehMoto() {
 
 function mostrarErro(msg) {
     el("erroMapa").textContent = msg || "";
-}
-
-// evita HTML injetado em textos que vão para innerHTML
-function escaparHTML(texto) {
-    return String(texto == null ? "" : texto)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#39;");
 }
 
 function formatarReais(n) {
@@ -143,8 +150,6 @@ function obterDestino() {
     return cadeia;
 }
 
-let precisaoMetros = null;
-
 function localizacaoDoNavegador() {
     return new Promise(function (resolve, reject) {
         if (!navigator.geolocation) {
@@ -198,8 +203,6 @@ function enderecoDasCoords(coords) {
 }
 
 // ----- mapa -----
-
-let circulo = null;
 
 function desenharPrecisao(coords) {
     if (circulo) {
@@ -269,6 +272,7 @@ function registrarViagem(viagem) {
 
     try {
         lista = JSON.parse(localStorage.getItem(CHAVE) || "[]");
+        if (!Array.isArray(lista)) lista = [];
     } catch (e) {
         lista = [];
     }
@@ -322,36 +326,70 @@ function atualizarViagem(id, campos) {
     localStorage.setItem(CHAVE, JSON.stringify(lista));
 }
 
-// ----- início -----
+// lê o primeiro valor que existir entre vários nomes de chave
+// (localStorage primeiro, depois sessionStorage); ignora "null"/"undefined"/vazio
+function lerDado(chaves) {
+    const lojas = [localStorage, sessionStorage];
+
+    for (let i = 0; i < lojas.length; i++) {
+        for (let j = 0; j < chaves.length; j++) {
+            let v = null;
+
+            try { v = lojas[i].getItem(chaves[j]); } catch (e) { }
+
+            if (v && v !== "null" && v !== "undefined" && v.trim()) {
+                return v.trim();
+            }
+        }
+    }
+
+    return "";
+}
+
+// ----- início da página -----
 
 document.addEventListener("DOMContentLoaded", function () {
-    const origem = localStorage.getItem("origemCorrida");
-    destino = localStorage.getItem("destinoCorrida");
+    const origem = lerDado(["origemCorrida", "origem", "partida", "embarque"]);
+    destino = lerDado(["destinoCorrida", "destino", "chegada"]);
 
-    categoria = localStorage.getItem("categoriaCorrida") || "WN";
-    valor = Number(localStorage.getItem("valorCorrida")) || 0;
-    pagamento = localStorage.getItem("pagamentoCorrida") || "";
+    categoria = lerDado(["categoriaCorrida", "categoria"]) || "WN";
+    valor = Number(lerDado(["valorCorrida", "valor", "preco"])) || 0;
+    pagamento = lerDado(["pagamentoCorrida", "pagamento", "formaPagamento"]) || "";
 
-    // teste: mostra no console qual veículo foi escolhido (pode apagar depois)
-    console.log("WN57 categoria:", categoria, "| ehMoto:", ehMoto());
+    // iniciarMapa() cria o mapa mesmo se faltarem dados, para a tela não ficar vazia
+    iniciarMapa();
 
-    // sem dados da corrida: volta ao começo
+    // sem dados da corrida: NÃO redireciona em silêncio, mostra o motivo
     if (!origem || !destino) {
-        window.location.href = "solicitar.html";
+        console.warn("WN57: faltam dados da corrida →", {
+            origem: origem,
+            destino: destino,
+            todasAsChaves: Object.keys(localStorage)
+        });
+
+        el("tagCategoria").textContent = nomeCategoria(categoria);
+        el("textoEndereco").textContent = origem || "Embarque não informado";
+        mostrarErro(
+            "Não encontramos os dados da corrida (" +
+            (!origem ? "embarque" : "destino") +
+            "). Toque no lápis para escolher de novo."
+        );
         return;
     }
 
+    // guarda com os nomes que esta página usa, para as próximas telas
+    localStorage.setItem("origemCorrida", origem);
+    localStorage.setItem("destinoCorrida", destino);
+
     // corrida Pet precisa ter passado pelo aviso
     if (categoria === "Pet" && !localStorage.getItem("petAvisoAceito")) {
-        window.location.href = "petaviso.html";
+        window.location.href = PAG_PET_AVISO;
         return;
     }
 
     el("tagCategoria").textContent = nomeCategoria(categoria);
     enderecoAtual = origem;
     el("textoEndereco").textContent = origem;
-
-    iniciarMapa();
 
     obterOrigem(origem)
         .then(function (coords) {
@@ -382,7 +420,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 });
 
-// ----- botões -----
+// ----- botões da tela de confirmar -----
 
 el("btnGps").addEventListener("click", function () {
     mostrarErro("");
@@ -404,7 +442,7 @@ el("btnGps").addEventListener("click", function () {
 });
 
 el("btnEditar").addEventListener("click", function () {
-    window.location.href = "solicitar.html";
+    window.location.href = PAG_SOLICITAR;
 });
 
 el("btnConfirmar").addEventListener("click", function () {
@@ -467,18 +505,9 @@ const MOTOS = [
     ["Yamaha Fazer 250", "Azul"]
 ];
 
-let timerBusca = null;
-let timerPin = null;
-let animacao = null;
-let radar = null;
-let carro = null;
-let viagemId = null;
-
 function sortear(lista) {
     return lista[Math.floor(Math.random() * lista.length)];
 }
-
-let nomeMotorista = "";
 
 function pinAleatorio() {
     return String(Math.floor(1000 + Math.random() * 9000));
@@ -664,7 +693,7 @@ function iniciarBusca() {
     el("btnCancelarBusca").onclick = function () {
         clearTimeout(timerBusca);
         clearInterval(trocaFrase);
-        window.location.href = "corrida.html";
+        window.location.href = PAG_CORRIDA;
     };
 }
 
@@ -843,9 +872,11 @@ function girarCarro(graus) {
 function encontrarMotorista() {
     const mot = sortear(MOTORISTAS);
     const moto = ehMoto();
-    const [modelo, cor] = moto
+    const veiculo = moto
         ? sortear(MOTOS)
         : sortear(CARROS[categoria] || CARROS.WN);
+    const modelo = veiculo[0];
+    const cor = veiculo[1];
 
     rotaAteEmbarque().then(function (rota) {
         if (radar) mapa.removeLayer(radar);
@@ -870,7 +901,7 @@ function encontrarMotorista() {
         el("detDestino").textContent = destino;
         nomeMotorista = mot.nome.split(" ")[0];
         el("resCategoria").textContent = nomeCategoria(categoria);
-        el("resValor").textContent = "R$ " + valor.toFixed(2).replace(".", ",");
+        el("resValor").textContent = formatarReais(valor);
         el("resPagamento").textContent = pagamento || "-";
 
         // FASE 1: motorista a caminho (o PIN e o cancelar ficam visíveis)
@@ -915,9 +946,7 @@ function encontrarMotorista() {
         atualizarTextos("buscar", minutos, false);
 
         // começa a andar até você
-        buscarSemaforos(rota.caminho).then(function (semaforos) {
-            percorrer(rota.caminho, minutos, semaforos, "buscar");
-        });
+        percorrer(rota.caminho, minutos, "buscar");
     }).catch(function () {
         if (radar) mapa.removeLayer(radar);
         mostrarEstado("estadoConfirmar");
@@ -926,10 +955,7 @@ function encontrarMotorista() {
     });
 }
 
-// ---------- semáforos reais (OpenStreetMap / Overpass) ----------
-
-let linhaRota = null;
-let semaforoMarcadores = [];
+// ---------- distâncias ao longo do caminho ----------
 
 function distanciasAcumuladas(caminho) {
     const cum = [0];
@@ -939,21 +965,6 @@ function distanciasAcumuladas(caminho) {
     }
 
     return cum;
-}
-
-function buscarSemaforos(caminho) {
-    // Desativa a consulta pesada ao serviço Overpass.
-    // A animação continuará funcionando normalmente.
-    return Promise.resolve([]);
-}
-
-function iconeSemaforo(estado) {
-    return L.divIcon({
-        className: "",
-        html: '<div class="semaforo ' + estado + '"><span></span><span></span></div>',
-        iconSize: [18, 34],
-        iconAnchor: [9, 17]
-    });
 }
 
 // ---------- textos conforme a fase ----------
@@ -984,10 +995,10 @@ function atualizarTextos(fase, restam, parado) {
     if (min) min.textContent = Math.max(restam, 1);
 }
 
-// ---------- o veículo anda pelas ruas, vira nas curvas e para nos semáforos ----------
+// ---------- o veículo anda pelas ruas e vira nas curvas ----------
 // (velocidade definida em VELOCIDADE_KMH e ACELERACAO, no topo do arquivo)
 
-function percorrer(caminho, minutos, semaforos, fase) {
+function percorrer(caminho, minutos, fase) {
 
     // Evita duas animações simultâneas
     if (animacao) {
@@ -1006,7 +1017,7 @@ function percorrer(caminho, minutos, semaforos, fase) {
     let ultimo = performance.now();
     let anguloAtual = direcaoGraus(caminho[0], caminho[1]);
 
-    // acha o trecho (segmento da rua) em que o carro está
+    // acha o trecho (segmento da rua) em que o veículo está
     function trecho(distancia) {
         let i = 1;
 
@@ -1045,7 +1056,7 @@ function percorrer(caminho, minutos, semaforos, fase) {
     }
 
     function suavizar(de, para) {
-        let diferenca = ((para - de + 540) % 360) - 180;
+        const diferenca = ((para - de + 540) % 360) - 180;
         return (de + diferenca * 0.15 + 360) % 360;
     }
 
@@ -1116,9 +1127,7 @@ function iniciarViagem() {
     el("etaBolha").classList.remove("chegou");
     el("etaBolha").innerHTML = '<b id="etaMin">-</b><small>min</small>';
     el("etaTitulo").textContent = "Viagem iniciada";
-    el("etaTexto").textContent = ehMoto()
-        ? "Indo para o seu destino. Boa viagem!"
-        : "Indo para o seu destino. Boa viagem!";
+    el("etaTexto").textContent = "Indo para o seu destino. Boa viagem!";
 
     obterDestino()
         .then(function (coordsDestino) {
@@ -1151,10 +1160,7 @@ function iniciarViagem() {
             const minutos = Math.max(2, Math.round(rota.km / VELOCIDADE_KMH * 60));
 
             atualizarTextos("viagem", minutos, false);
-
-            return buscarSemaforos(rota.caminho).then(function (semaforos) {
-                percorrer(rota.caminho, minutos, semaforos, "viagem");
-            });
+            percorrer(rota.caminho, minutos, "viagem");
         })
         .catch(function (erro) {
             console.error("WN57: não foi possível traçar a viagem até o destino:", erro);
@@ -1168,10 +1174,59 @@ function iniciarViagem() {
 }
 
 // =====================================================
-// CHEGOU NO DESTINO
+// CHEGOU NO DESTINO -> PÁGINA DE PAGAMENTO
 // =====================================================
 
+function preencherTelaFim() {
+    el("fimDestino").textContent = destino;
+    el("fimValor").textContent = formatarReais(valor);
+    el("fimPagamento").textContent = pagamento || "-";
+    el("fimMotorista").textContent = nomeMotorista || "Motorista";
+}
+
+// devolve "pix", "dinheiro", "cartao" ou "" (escolha feita em corrida.html)
+function formaDePagamento() {
+    const texto = String(
+        localStorage.getItem("pagamentoCorrida") || pagamento || ""
+    ).trim().toLowerCase();
+
+    if (texto.indexOf("pix") !== -1) return "pix";
+    if (texto.indexOf("dinheiro") !== -1) return "dinheiro";
+    if (texto.indexOf("cart") !== -1) return "cartao";
+    return "";
+}
+
+// salva os dados da corrida e abre a página de pagamento correta
+function irParaPagamento(avisarSeFalhar) {
+    const forma = formaDePagamento();
+
+    localStorage.setItem("valorCorrida", String(valor));
+    localStorage.setItem("destinoCorrida", destino);
+    localStorage.setItem("pagamentoCorrida", pagamento || forma);
+
+    // para a página de pagamento saber qual viagem atualizar em "Atividade"
+    if (viagemId) localStorage.setItem("viagemIdCorrida", String(viagemId));
+
+    if (forma === "pix") {
+        window.location.href = PAG_PIX;
+    } else if (forma === "dinheiro") {
+        window.location.href = PAG_DINHEIRO;
+    } else if (forma === "cartao") {
+        window.location.href = PAG_CARTAO;
+    } else {
+        console.error("Forma de pagamento não identificada:", pagamento);
+
+        if (avisarSeFalhar) {
+            alert("Forma de pagamento não identificada. Volte e selecione novamente.");
+        }
+    }
+}
+
 function viagemConcluida() {
+    // evita rodar duas vezes
+    if (viagemFinalizada) return;
+    viagemFinalizada = true;
+
     if (animacao) {
         cancelAnimationFrame(animacao);
         animacao = null;
@@ -1186,533 +1241,13 @@ function viagemConcluida() {
     preencherTelaFim();
     mostrarEstado("estadoFim");
 
-    // Recupera a forma de pagamento escolhida em corrida.js
-    const metodo = String(
-        localStorage.getItem("pagamentoCorrida") || pagamento || ""
-    ).trim().toLowerCase();
-
-    // Salva os dados da corrida
-    localStorage.setItem("valorCorrida", String(valor));
-    localStorage.setItem("destinoCorrida", destino);
-
-    // Redireciona para a página correspondente
-    if (metodo.includes("pix")) {
-        window.location.href = "/html/corrida/pagamento.pix.html";
-        return;
-    }
-
-    if (metodo.includes("dinheiro")) {
-        window.location.href = "/html/corrida/pagamento.dinheiro.html";
-        return;
-    }
-
-    if (metodo.includes("cart")) {
-        window.location.href = "/html/corrida/pagamento.cartao.html";
-        return;
-    }
-
-    console.error("Forma de pagamento não identificada:", metodo);
-}
-
-let pagamentoConfirmado = false;
-
-// "pix", "dinheiro", "cartao" ou "" (vem da escolha feita em corrida.html)
-function formaDePagamento() {
-    const texto = String(
-        pagamento || localStorage.getItem("pagamentoCorrida") || ""
-    ).toLowerCase();
-
-    if (texto.indexOf("pix") !== -1) return "pix";
-    if (texto.indexOf("dinheiro") !== -1) return "dinheiro";
-    if (texto.indexOf("cart") !== -1) return "cartao";
-    return "";
-}
-
-function preencherTelaFim() {
-    el("fimDestino").textContent = destino;
-    el("fimValor").textContent = formatarReais(valor);
-    el("fimPagamento").textContent = pagamento || "-";
-    el("fimMotorista").textContent = nomeMotorista || "Motorista";
-}
-
-// =====================================================
-// PIX REAL (BR Code / "copia e cola")
-// =====================================================
-
-function semAcento(texto) {
-    return String(texto || "")
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[^A-Za-z0-9 .\-]/g, "")
-        .toUpperCase();
-}
-
-function crc16(texto) {
-    let crc = 0xFFFF;
-
-    for (let i = 0; i < texto.length; i++) {
-        crc ^= texto.charCodeAt(i) << 8;
-
-        for (let j = 0; j < 8; j++) {
-            crc = (crc & 0x8000) ? ((crc << 1) ^ 0x1021) : (crc << 1);
-            crc &= 0xFFFF;
-        }
-    }
-
-    return crc.toString(16).toUpperCase().padStart(4, "0");
-}
-
-function campoPix(id, conteudo) {
-    return id + String(conteudo.length).padStart(2, "0") + conteudo;
-}
-
-function gerarCodigoPix(valorPix, identificador) {
-    const txid = String(identificador || "WN57")
-        .replace(/[^A-Za-z0-9]/g, "")
-        .substring(0, 25) || "WN57";
-
-    const conta =
-        campoPix("00", "br.gov.bcb.pix") +
-        campoPix("01", CHAVE_PIX.trim());
-
-    const dadosAdicionais = campoPix("05", txid);
-
-    const semCrc =
-        campoPix("00", "01") +
-        campoPix("26", conta) +
-        campoPix("52", "0000") +
-        campoPix("53", "986") +
-        campoPix("54", Number(valorPix).toFixed(2)) +
-        campoPix("58", "BR") +
-        campoPix("59", semAcento(NOME_RECEBEDOR).substring(0, 25) || "WN57") +
-        campoPix("60", semAcento(CIDADE_RECEBEDOR).substring(0, 15) || "CURITIBA") +
-        campoPix("62", dadosAdicionais) +
-        "6304";
-
-    return semCrc + crc16(semCrc);
-}
-
-function gerarQRCodeWN57() {
-
-    const codigo = gerarCodigoPix(valor, "WN57" + (viagemId || Date.now()));
-
-    el("wn57-codigo-pix").value = codigo;
-
-    const areaQR = el("wn57-qr");
-
-    function desenhar() {
-        if (typeof QRCode === "undefined") return;
-
-        areaQR.innerHTML = "";
-
-        new QRCode(areaQR, {
-            text: codigo,
-            width: 190,
-            height: 190,
-            correctLevel: QRCode.CorrectLevel.M
-        });
-    }
-
-    if (typeof QRCode !== "undefined") {
-        desenhar();
-        return;
-    }
-
-    const script = document.createElement("script");
-
-    script.src =
-        "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js";
-
-    script.onload = desenhar;
-
-    script.onerror = function () {
-        areaQR.innerHTML =
-            '<span style="color:#111;font-size:13px">QR Code indisponível. Use o código abaixo.</span>';
-    };
-
-    document.head.appendChild(script);
-}
-
-function copiarPixWN57() {
-
-    const campo = el("wn57-codigo-pix");
-    const botao = el("wn57-copiar-pix");
-
-    function avisar(texto) {
-        if (!botao) return;
-        const original = botao.innerHTML;
-        botao.textContent = texto;
-        setTimeout(function () { botao.innerHTML = original; }, 1800);
-    }
-
-    campo.select();
-    campo.setSelectionRange(0, 99999);
-
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(campo.value)
-            .then(function () { avisar("Código copiado!"); })
-            .catch(function () {
-                document.execCommand("copy");
-                avisar("Código copiado!");
-            });
-    } else {
-        document.execCommand("copy");
-        avisar("Código copiado!");
-    }
-}
-
-// =====================================================
-// PÁGINA DE PAGAMENTO (Pix e dinheiro) - aparece ao tocar em "Concluir"
-// =====================================================
-
-function abrirPagamentoFinal() {
-
-    const metodo = String(pagamento || "").toLowerCase().trim();
-    const ehPix = metodo.indexOf("pix") !== -1;
-    const valorTexto = formatarReais(valor);
-
-    const antiga = el("wn57-pagina-pagamento");
-    if (antiga) antiga.remove();
-
-    const pagina = document.createElement("div");
-    pagina.id = "wn57-pagina-pagamento";
-
-    pagina.innerHTML = `
-        <style>
-            #wn57-pagina-pagamento {
-                position: fixed;
-                inset: 0;
-                z-index: 999999;
-                overflow-y: auto;
-                background: #101010;
-                color: white;
-                font-family: 'DM Sans', sans-serif;
-                padding: 25px 18px;
-            }
-
-            #wn57-pagina-pagamento * {
-                box-sizing: border-box;
-            }
-
-            .pag-container {
-                max-width: 480px;
-                margin: 20px auto;
-            }
-
-            .pag-logo {
-                text-align: center;
-                font-size: 30px;
-                font-weight: 900;
-                margin-bottom: 30px;
-            }
-
-            .pag-logo span {
-                color: #ff2d8f;
-            }
-
-            .pag-card {
-                background: #1d1d1d;
-                border: 1px solid #333;
-                border-radius: 22px;
-                padding: 25px;
-                text-align: center;
-            }
-
-            .pag-icone {
-                width: 75px;
-                height: 75px;
-                background: #ff2d8f20;
-                color: #ff2d8f;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin: 0 auto 20px;
-                font-size: 32px;
-            }
-
-            .pag-card h1 {
-                font-size: 25px;
-                margin: 10px 0;
-            }
-
-            .pag-descricao {
-                color: #aaa;
-                font-size: 14px;
-                line-height: 1.6;
-            }
-
-            .pag-valor {
-                background: #111;
-                border-radius: 15px;
-                padding: 20px;
-                margin: 25px 0;
-            }
-
-            .pag-valor small {
-                display: block;
-                color: #aaa;
-                margin-bottom: 8px;
-            }
-
-            .pag-valor strong {
-                color: #ff2d8f;
-                font-size: 32px;
-            }
-
-            .pag-info {
-                text-align: left;
-                padding: 14px 0;
-                border-bottom: 1px solid #353535;
-            }
-
-            .pag-info span {
-                display: block;
-                font-size: 12px;
-                color: #999;
-                margin-bottom: 5px;
-            }
-
-            .pag-info strong {
-                font-size: 14px;
-                overflow-wrap: anywhere;
-            }
-
-            .pag-botao {
-                width: 100%;
-                padding: 17px;
-                background: #ff2d8f;
-                color: white;
-                border: none;
-                border-radius: 13px;
-                font-size: 15px;
-                font-weight: 800;
-                cursor: pointer;
-                margin-top: 20px;
-            }
-
-            .pag-botao:hover {
-                background: #e91e79;
-            }
-
-            .pag-secundario {
-                background: transparent;
-                border: 1px solid #555;
-                margin-top: 10px;
-            }
-
-            .pag-qr {
-                background: white;
-                border-radius: 14px;
-                width: 220px;
-                min-height: 220px;
-                padding: 12px;
-                margin: 20px auto;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .pag-codigo {
-                width: 100%;
-                min-height: 90px;
-                background: #111;
-                border: 1px solid #444;
-                border-radius: 10px;
-                padding: 12px;
-                color: white;
-                resize: none;
-                margin-top: 10px;
-                font-size: 12px;
-            }
-
-            .pag-aviso {
-                font-size: 11px;
-                color: #999;
-                line-height: 1.5;
-                margin-top: 18px;
-            }
-
-            .pag-sucesso {
-                color: #22c55e;
-                font-size: 65px;
-                margin-bottom: 15px;
-            }
-        </style>
-
-        <div class="pag-container">
-
-            <div class="pag-logo">
-                WN<span>57</span>
-            </div>
-
-            <div class="pag-card" id="wn57-card">
-
-                <div class="pag-icone">
-                    ${ehPix
-            ? '<i class="fa-brands fa-pix"></i>'
-            : '<i class="fa-solid fa-money-bill-wave"></i>'}
-                </div>
-
-                <h1>
-                    ${ehPix ? "Pagamento via Pix" : "Pagamento em dinheiro"}
-                </h1>
-
-                <p class="pag-descricao">
-                    Sua corrida chegou ao destino!
-                    Finalize o pagamento para concluir sua viagem.
-                </p>
-
-                <div class="pag-valor">
-                    <small>Valor total da corrida</small>
-                    <strong>${valorTexto}</strong>
-                </div>
-
-                <div class="pag-info">
-                    <span>Destino</span>
-                    <strong>${escaparHTML(destino)}</strong>
-                </div>
-
-                <div class="pag-info">
-                    <span>Motorista</span>
-                    <strong>${escaparHTML(nomeMotorista)}</strong>
-                </div>
-
-                <div class="pag-info">
-                    <span>Pagamento</span>
-                    <strong>${escaparHTML(pagamento)}</strong>
-                </div>
-
-                <div id="wn57-conteudo-pix" hidden>
-
-                    <h3>Escaneie o QR Code</h3>
-
-                    <div class="pag-qr" id="wn57-qr"></div>
-
-                    <p class="pag-descricao">
-                        Ou copie o código Pix e cole no app do seu banco.
-                    </p>
-
-                    <textarea
-                        class="pag-codigo"
-                        id="wn57-codigo-pix"
-                        readonly
-                    ></textarea>
-
-                    <button
-                        class="pag-botao pag-secundario"
-                        id="wn57-copiar-pix"
-                        type="button">
-                        <i class="fa-regular fa-copy"></i>
-                        Copiar código Pix
-                    </button>
-
-                    <p class="pag-aviso">
-                        O código é um Pix real para a chave configurada. Como o site
-                        ainda não está ligado a um provedor de pagamentos, a
-                        confirmação abaixo é feita por você.
-                    </p>
-
-                </div>
-
-                <div id="wn57-conteudo-dinheiro" hidden>
-
-                    <div style="padding:25px 0">
-
-                        <i class="fa-solid fa-money-bill-wave"
-                           style="font-size:55px;color:#22c55e">
-                        </i>
-
-                        <h2>Pagamento ao motorista</h2>
-
-                        <p class="pag-descricao">
-                            Entregue ${valorTexto} diretamente
-                            ao motorista.
-                        </p>
-
-                        <p style="color:#22c55e;font-weight:700">
-                            Após realizar o pagamento, confirme abaixo.
-                        </p>
-
-                    </div>
-
-                </div>
-
-                <button
-                    class="pag-botao"
-                    id="wn57-finalizar-pagamento"
-                    type="button">
-                    ${ehPix ? "Já paguei" : "Confirmar dinheiro entregue"}
-                </button>
-
-            </div>
-        </div>
-    `;
-
-    document.body.appendChild(pagina);
-
-    if (ehPix) {
-        el("wn57-conteudo-pix").hidden = false;
-        gerarQRCodeWN57();
-    } else {
-        el("wn57-conteudo-dinheiro").hidden = false;
-    }
-
-    el("wn57-finalizar-pagamento").addEventListener("click", function () {
-        const mensagem = ehPix
-            ? "Você já realizou o pagamento via Pix?"
-            : "Confirma que entregou o dinheiro ao motorista?";
-
-        if (!window.confirm(mensagem)) return;
-
-        concluirPagamentoWN57();
-    });
-
-    const botaoCopiar = el("wn57-copiar-pix");
-    if (botaoCopiar) botaoCopiar.addEventListener("click", copiarPixWN57);
-}
-
-// pagamento confirmado: salva e mostra a tela de sucesso
-function concluirPagamentoWN57() {
-
-    atualizarViagem(viagemId, {
-        status: "concluida",
-        pagamentoConfirmado: true,
-        dataPagamento: new Date().toISOString()
-    });
-
-    pagamentoConfirmado = true;
-
-    const card = el("wn57-card");
-    if (!card) return;
-
-    card.innerHTML = `
-        <div class="pag-sucesso"><i class="fa-solid fa-circle-check"></i></div>
-        <h1>Pagamento confirmado!</h1>
-        <p class="pag-descricao">
-            Obrigado por viajar com a WN57.
-            Sua corrida de ${formatarReais(valor)} foi concluída.
-        </p>
-        <button class="pag-botao" id="wn57-avaliar" type="button">
-            Avaliar viagem
-        </button>
-    `;
-
-    el("wn57-avaliar").addEventListener("click", function () {
-        const pagina = el("wn57-pagina-pagamento");
-        if (pagina) pagina.remove();
-
-        preencherTelaFim();
-        mostrarEstado("estadoFim");
-    });
+    irParaPagamento(false);
 }
 
 
 // =====================================================
 // AVALIAÇÃO + BOTÃO CONCLUIR
 // =====================================================
-
-let nota = 0;
 
 el("estrelas").addEventListener("click", function (e) {
     const botao = e.target.closest("button");
@@ -1726,40 +1261,11 @@ el("estrelas").addEventListener("click", function (e) {
 });
 
 el("btnConcluir").addEventListener("click", function () {
-
     if (nota) {
         localStorage.setItem("avaliacaoCorrida", String(nota));
     }
 
-    // Pagamento já feito na tela anterior: só encerra a corrida
-    if (pagamentoConfirmado) {
-        window.location.href = PAGINA_FINAL;
-        return;
-    }
-
-    // Recupera a escolha feita na página corrida.html.
-    const metodo = String(
-        localStorage.getItem("pagamentoCorrida") || pagamento || ""
-    ).trim().toLowerCase();
-
-    // guarda os dados caso a pessoa precise de outra página de pagamento
-    localStorage.setItem("valorCorrida", String(valor));
-    localStorage.setItem("destinoCorrida", destino);
-    localStorage.setItem("pagamentoCorrida", pagamento || metodo);
-
-    if (metodo.indexOf("pix") !== -1 || metodo.indexOf("dinheiro") !== -1) {
-        // Pix e dinheiro são resolvidos aqui mesmo, na tela de pagamento
-        pagamento = pagamento || metodo;
-        abrirPagamentoFinal();
-        return;
-    }
-
-    if (metodo.indexOf("cart") !== -1) {
-        window.location.href = "pagamento-cartao.html";
-        return;
-    }
-
-    alert("Forma de pagamento não identificada. Volte e selecione novamente.");
+    irParaPagamento(true);
 });
 
 el("btnCancelarCorrida").addEventListener("click", function () {
@@ -1769,7 +1275,7 @@ el("btnCancelarCorrida").addEventListener("click", function () {
     if (animacao) cancelAnimationFrame(animacao);
     if (viagemId) removerViagem(viagemId);
 
-    window.location.href = "corrida.html";
+    window.location.href = PAG_CORRIDA;
 });
 
 el("btnDetalhes").addEventListener("click", function () {
@@ -1778,18 +1284,116 @@ el("btnDetalhes").addEventListener("click", function () {
     el("btnDetalhes").setAttribute("aria-expanded", String(!painel.hidden));
 });
 
-el("btnCompartilhar").addEventListener("click", function () {
-    const texto =
+
+// =====================================================
+// COMPARTILHAR CORRIDA
+// 1) tenta o compartilhamento do sistema (navigator.share)
+// 2) se não existir ou falhar, copia o texto
+// 3) se nem copiar der, mostra uma caixa para copiar à mão
+// =====================================================
+
+// aviso rápido na parte de baixo da tela (criado por aqui, não precisa de HTML)
+function mostrarAviso(msg) {
+    let t = document.getElementById("wn57Aviso");
+
+    if (!t) {
+        t = document.createElement("div");
+        t.id = "wn57Aviso";
+        t.setAttribute("role", "status");
+        t.style.cssText =
+            "position:fixed;left:50%;bottom:24px;transform:translateX(-50%);" +
+            "background:#222;color:#fff;padding:12px 18px;border-radius:12px;" +
+            "font:600 14px sans-serif;z-index:99999;max-width:90%;text-align:center;" +
+            "box-shadow:0 4px 16px rgba(0,0,0,.4);opacity:0;" +
+            "transition:opacity .2s;pointer-events:none;";
+        document.body.appendChild(t);
+    }
+
+    t.textContent = msg;
+    t.style.opacity = "1";
+
+    clearTimeout(t._timer);
+    t._timer = setTimeout(function () {
+        t.style.opacity = "0";
+    }, 2500);
+}
+
+// copia para a área de transferência (com plano B para páginas sem HTTPS)
+function copiarTexto(texto) {
+    if (navigator.clipboard && window.isSecureContext) {
+        return navigator.clipboard.writeText(texto);
+    }
+
+    return new Promise(function (resolve, reject) {
+        const area = document.createElement("textarea");
+        area.value = texto;
+        area.setAttribute("readonly", "");
+        area.style.position = "fixed";
+        area.style.opacity = "0";
+        document.body.appendChild(area);
+        area.select();
+
+        try {
+            if (document.execCommand("copy")) {
+                resolve();
+            } else {
+                reject(new Error("copiar"));
+            }
+        } catch (e) {
+            reject(e);
+        } finally {
+            document.body.removeChild(area);
+        }
+    });
+}
+
+function textoDaCorrida() {
+    return (
         "Minha viagem WN57\n\n" +
         "Motorista: " + el("motNome").textContent + "\n" +
         "Veículo: " + el("motCor").textContent + " " + el("motCarro").textContent + "\n" +
         "Placa: " + el("motPlaca").textContent + "\n" +
         "Embarque: " + enderecoAtual + "\n" +
-        "Destino: " + destino;
+        "Destino: " + destino
+    );
+}
 
-    if (navigator.share) {
-        navigator.share({ title: "Minha corrida WN57", text: texto }).catch(function () { });
-    } else {
-        alert(texto);
+function compartilharCorrida() {
+    const texto = textoDaCorrida();
+    const dados = { title: "Minha corrida WN57", text: texto };
+
+    function copiar() {
+        copiarTexto(texto)
+            .then(function () {
+                mostrarAviso("Dados da corrida copiados!");
+            })
+            .catch(function () {
+                window.prompt("Copie os dados da corrida:", texto);
+            });
     }
-});
+
+    const podeCompartilhar =
+        typeof navigator.share === "function" &&
+        (typeof navigator.canShare !== "function" || navigator.canShare(dados));
+
+    if (!podeCompartilhar) {
+        copiar();
+        return;
+    }
+
+    navigator.share(dados).catch(function (erro) {
+        // a pessoa só fechou a janela de compartilhar: não faz nada
+        if (erro && erro.name === "AbortError") return;
+
+        console.warn("WN57: navigator.share falhou, copiando o texto.", erro);
+        copiar();
+    });
+}
+
+const btnCompartilhar = el("btnCompartilhar");
+
+if (btnCompartilhar) {
+    btnCompartilhar.addEventListener("click", compartilharCorrida);
+} else {
+    console.error('WN57: botão com id="btnCompartilhar" não encontrado no HTML.');
+}
