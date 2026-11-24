@@ -1,0 +1,742 @@
+/* WN57 - Gerenciar conta (preto e rosa) */
+:root {
+    --rosa-900: #4a1230;
+    --rosa-700: #a81d63;
+    --rosa-500: #e0338a;
+    --rosa-200: #f8c9df;
+    --rosa-100: #fdeaf3;
+    --rosa-50: #fff7fb;
+    --texto: #2a1220;
+    --suave: #7d6272;
+    --linha: #f0d6e4;
+    --ok: #1f7a4d;
+    --erro: #b4234a;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0
+}
+
+body {
+    font-family: "DM Sans", system-ui, sans-serif;
+    background: var(--rosa-50);
+    color: var(--texto);
+    line-height: 1.5
+}
+
+a {
+    color: inherit;
+    text-decoration: none
+}
+
+:focus-visible {
+    outline: 3px solid var(--rosa-500);
+    outline-offset: 2px
+}
+
+header {
+    background: #000;
+    position: sticky;
+    top: 0;
+    z-index: 50
+}
+
+.topo {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    gap: 36px
+}
+
+.logo img {
+    height: 32px;
+    display: block
+}
+
+header nav {
+    display: flex;
+    gap: 28px;
+    flex: 1
+}
+
+header nav a {
+    color: #fff;
+    font-weight: 700;
+    font-size: .95rem;
+    padding: 6px 0;
+    border-bottom: 2px solid transparent
+}
+
+header nav a:hover,
+header nav a[aria-current] {
+    border-bottom-color: var(--rosa-500);
+    color: #fff
+}
+
+.direita {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    color: #fff;
+    font-weight: 500;
+    font-size: .95rem
+}
+
+.direita a:hover {
+    color: var(--rosa-200)
+}
+
+.idioma i {
+    color: #38bdf8;
+    margin-right: 6px
+}
+
+.perfil {
+    position: relative
+}
+
+.perfil-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #3b0f26;
+    border: 0;
+    color: #fff;
+    font: inherit;
+    font-weight: 700;
+    padding: 5px 12px 5px 6px;
+    border-radius: 999px;
+    cursor: pointer
+}
+
+.perfil-btn:hover {
+    background: #4d142f
+}
+
+.perfil-btn .seta {
+    font-size: .65rem;
+    transition: transform .15s
+}
+
+.perfil-btn[aria-expanded=true] .seta {
+    transform: rotate(180deg)
+}
+
+.foto {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #000;
+    border: 1px solid #5a5a5a;
+    display: grid;
+    place-items: center;
+    font-size: .8rem;
+    font-weight: 800;
+    color: var(--rosa-500);
+    overflow: hidden
+}
+
+.foto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover
+}
+
+.menu {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 10px);
+    width: 324px;
+    background: #fff;
+    color: var(--texto);
+    border-radius: 18px;
+    box-shadow: 0 18px 50px rgba(0, 0, 0, .35);
+    padding: 18px 16px 14px;
+    display: none
+}
+
+.menu.aberto {
+    display: block
+}
+
+.menu-topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px
+}
+
+.menu-topo h3 {
+    font-family: "DM Sans", system-ui, sans-serif;
+    font-weight: 800;
+    font-size: 1.3rem;
+    color: var(--rosa-900);
+    line-height: 1.2;
+    text-transform: capitalize
+}
+
+.nota-tag {
+    display: inline-block;
+    margin-top: 8px;
+    background: var(--rosa-100);
+    color: var(--rosa-900);
+    font-size: .8rem;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 999px
+}
+
+.menu .foto-grande {
+    width: 56px;
+    height: 56px;
+    flex: none;
+    border-radius: 50%;
+    background: #000;
+    color: var(--rosa-500);
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    font-size: 1.1rem;
+    overflow: hidden
+}
+
+.menu .foto-grande img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover
+}
+
+.atalhos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 16px
+}
+
+.atalhos a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 4px;
+    background: var(--rosa-100);
+    border-radius: 10px;
+    font-size: .85rem;
+    font-weight: 500;
+    color: var(--texto)
+}
+
+.atalhos a:hover,
+.atalhos a.ativo {
+    background: var(--rosa-200)
+}
+
+.atalhos i {
+    font-size: 1.1rem
+}
+
+.lista-menu {
+    margin-top: 10px;
+    border-top: 4px solid var(--rosa-100);
+    padding-top: 8px
+}
+
+.lista-menu a {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 11px 12px;
+    border-radius: 10px;
+    font-size: .92rem;
+    color: var(--texto)
+}
+
+.lista-menu a:hover {
+    background: var(--rosa-50)
+}
+
+.lista-menu i {
+    width: 18px;
+    text-align: center;
+    color: var(--rosa-700)
+}
+
+.sair {
+    display: block;
+    width: 100%;
+    margin-top: 8px;
+    padding: 12px;
+    border: 0;
+    border-radius: 10px;
+    background: var(--rosa-50);
+    color: #d4183d;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer
+}
+
+.sair:hover {
+    background: var(--rosa-100)
+}
+
+.logo-txt {
+    display: none;
+    font-family: "DM Sans", system-ui, sans-serif;
+    font-weight: 800;
+    font-size: 1.7rem;
+    letter-spacing: -1px;
+    color: #ff2d78;
+    line-height: 1
+}
+
+.logo-txt sup {
+    font-size: .5em;
+    color: #fff;
+    margin-left: 2px;
+    vertical-align: top;
+    position: relative;
+    top: -2px
+}
+
+.logo.sem-img .logo-txt {
+    display: block
+}
+
+body {
+    background: #0a0a0a;
+    color: #fff
+}
+
+.conta {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 250px minmax(0, 1fr);
+    gap: 40px;
+    min-height: calc(100vh - 52px)
+}
+
+.lateral {
+    padding: 36px 0;
+    position: sticky;
+    top: 52px;
+    align-self: start;
+    display: flex;
+    flex-direction: column;
+    gap: 4px
+}
+
+.lateral a {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    font-weight: 500;
+    color: #a8a8a8;
+    border-left: 3px solid transparent;
+    transition: background .15s, color .15s
+}
+
+.lateral a i {
+    width: 18px;
+    text-align: center
+}
+
+.lateral a:hover {
+    background: #151515;
+    color: #fff
+}
+
+.lateral a.on {
+    background: rgba(255, 45, 120, .12);
+    color: #ff2d78;
+    border-left-color: #ff2d78;
+    font-weight: 700
+}
+
+.conteudo {
+    padding: 44px 0 90px;
+    max-width: 720px
+}
+
+.vista {
+    display: none
+}
+
+.vista.on {
+    display: block
+}
+
+h1 {
+    font-family: "DM Sans", system-ui, sans-serif;
+    font-weight: 800;
+    font-size: 2rem;
+    letter-spacing: -.5px;
+    color: #fff;
+    margin-bottom: 24px
+}
+
+h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 36px 0 6px
+}
+
+.sub {
+    color: #9a9a9a;
+    font-size: .95rem
+}
+
+.cab {
+    text-align: center;
+    padding: 8px 0 4px
+}
+
+.foto-g {
+    width: 104px;
+    height: 104px;
+    border-radius: 50%;
+    background: #000;
+    color: #ff2d78;
+    border: 3px solid #ff2d78;
+    box-shadow: 0 0 0 7px rgba(255, 45, 120, .12);
+    display: grid;
+    place-items: center;
+    font-size: 2.4rem;
+    font-weight: 800;
+    overflow: hidden;
+    margin: 0 auto
+}
+
+.foto-g img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover
+}
+
+.cab h1 {
+    margin: 18px 0 4px;
+    text-transform: capitalize
+}
+
+.cab p {
+    color: #9a9a9a
+}
+
+.atalho {
+    margin-top: 28px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px
+}
+
+.atalho a {
+    background: #141414;
+    border: 1px solid #262626;
+    border-radius: 16px;
+    padding: 20px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+    font-size: .9rem;
+    text-align: center;
+    transition: border-color .15s, background .15s
+}
+
+.atalho a:hover {
+    border-color: #ff2d78;
+    background: #1a1a1a
+}
+
+.atalho i {
+    font-size: 1.3rem;
+    color: #ff2d78
+}
+
+.card {
+    background: #141414;
+    border: 1px solid #262626;
+    border-radius: 16px;
+    padding: 22px 24px;
+    margin-top: 14px
+}
+
+.card h3 {
+    font-size: 1.1rem;
+    color: #fff
+}
+
+.card p {
+    color: #9a9a9a;
+    margin: 6px 0 16px
+}
+
+#sugestao {
+    border-left: 3px solid #ff2d78
+}
+
+.btn {
+    font: inherit;
+    font-weight: 700;
+    border: 0;
+    border-radius: 999px;
+    padding: 11px 22px;
+    cursor: pointer;
+    background: #ff2d78;
+    color: #fff;
+    transition: background .15s
+}
+
+.btn:hover {
+    background: #e0205f
+}
+
+.btn.sec {
+    background: #262626;
+    color: #fff
+}
+
+.btn.sec:hover {
+    background: #333
+}
+
+.btn.perigo {
+    background: transparent;
+    color: #ff6b8a;
+    border: 1px solid #5a2433
+}
+
+.btn.perigo:hover {
+    background: rgba(255, 107, 138, .1)
+}
+
+.foto-edit {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 26px
+}
+
+.foto-edit .foto-g {
+    margin: 0
+}
+
+.lista {
+    background: #141414;
+    border: 1px solid #262626;
+    border-radius: 16px;
+    overflow: hidden
+}
+
+.item {
+    border-bottom: 1px solid #262626
+}
+
+.item:last-child {
+    border-bottom: 0
+}
+
+.item>button {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+    background: none;
+    border: 0;
+    font: inherit;
+    color: #fff;
+    padding: 18px 22px;
+    cursor: pointer;
+    transition: background .15s
+}
+
+.item>button:hover {
+    background: #1a1a1a
+}
+
+.item b {
+    display: block;
+    font-weight: 700
+}
+
+.item span.v {
+    color: #9a9a9a;
+    overflow-wrap: anywhere
+}
+
+.item i.seta {
+    color: #666;
+    font-size: .8rem;
+    transition: transform .15s
+}
+
+.editor {
+    display: none;
+    padding: 0 22px 22px
+}
+
+.item.aberto .editor {
+    display: block
+}
+
+.item.aberto i.seta {
+    transform: rotate(90deg);
+    color: #ff2d78
+}
+
+.editor label {
+    display: block;
+    font-size: .85rem;
+    font-weight: 500;
+    color: #bdbdbd;
+    margin: 12px 0 6px
+}
+
+.editor input {
+    width: 100%;
+    max-width: 420px;
+    font: inherit;
+    color: #fff;
+    padding: 12px 14px;
+    border: 1px solid #333;
+    border-radius: 12px;
+    background: #0c0c0c;
+    color-scheme: dark
+}
+
+.editor input:focus {
+    outline: none;
+    border-color: #ff2d78;
+    box-shadow: 0 0 0 3px rgba(255, 45, 120, .2)
+}
+
+.acoes {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px
+}
+
+.msg {
+    color: #ff6b8a;
+    font-size: .88rem;
+    margin-top: 8px;
+    min-height: 1.2em
+}
+
+.sessao {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start
+}
+
+.sessao i {
+    font-size: 1.3rem;
+    color: #ff2d78;
+    margin-top: 3px
+}
+
+.atual {
+    color: #ff2d78;
+    font-weight: 700
+}
+
+.toast {
+    position: fixed;
+    left: 50%;
+    bottom: 28px;
+    transform: translateX(-50%);
+    background: #ff2d78;
+    color: #fff;
+    padding: 12px 22px;
+    border-radius: 999px;
+    font-weight: 700;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s;
+    z-index: 100;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .5)
+}
+
+.toast.ver {
+    opacity: 1
+}
+
+.vazio {
+    background: #141414;
+    border: 1px dashed #3a3a3a;
+    border-radius: 16px;
+    padding: 44px 24px;
+    text-align: center
+}
+
+.vazio h1 {
+    font-size: 1.5rem
+}
+
+:focus-visible {
+    outline: 2px solid #ff2d78;
+    outline-offset: 2px
+}
+
+@media (max-width:760px) {
+    .conta {
+        grid-template-columns: 1fr;
+        gap: 0;
+        padding: 0 16px
+    }
+
+    .lateral {
+        position: static;
+        flex-direction: row;
+        overflow-x: auto;
+        padding: 16px 0 0;
+        gap: 6px
+    }
+
+    .lateral a {
+        white-space: nowrap;
+        border-left: 0;
+        border-bottom: 3px solid transparent;
+        border-radius: 10px 10px 0 0
+    }
+
+    .lateral a.on {
+        border-bottom-color: #ff2d78
+    }
+
+    .atalho {
+        grid-template-columns: 1fr
+    }
+
+    .conteudo {
+        padding-top: 28px
+    }
+}
+
+@media (max-width:760px) {
+
+    header nav,
+    .idioma {
+        display: none
+    }
+
+    .direita {
+        margin-left: auto;
+        gap: 14px
+    }
+
+    .menu {
+        width: min(324px, calc(100vw - 32px))
+    }
+}
