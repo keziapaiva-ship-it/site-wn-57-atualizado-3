@@ -2,11 +2,333 @@
 
 /* =========================================================
    WN57 - JAVASCRIPT COMPLETO CORRIGIDO
-   (agora conectado ao back-end: POST /corridas)
+   (conectado ao back-end: POST /corridas)
+   (agora com troca de idioma PT-BR / EN)
 
    Ordem dos scripts no corrida.html:
    api.js e corrida.js
 ========================================================= */
+
+/* =========================================================
+   0. IDIOMA (PT-BR / EN)
+   - Detecta sozinho o botão "PT-BR" do topo da página
+   - Salva a escolha em localStorage ("idioma")
+   - Traduz os textos fixos do HTML e os textos feitos por JS
+   - Para traduzir mais um texto, é só acrescentar uma linha
+     em DICIONARIO_EN:  "texto em português": "text in english",
+========================================================= */
+
+const DICIONARIO_EN = {
+    /* ----- menu / cabeçalho ----- */
+    "Inicial": "Home",
+    "Viajar": "Ride",
+    "Ajuda": "Help",
+    "Atividade": "Activity",
+    "Carteira": "Wallet",
+    "Sair": "Log out",
+
+    /* ----- tela da corrida ----- */
+    "Para onde vamos?": "Where to?",
+    "Confira os dados da sua viagem.": "Check your trip details.",
+    "Localização atual": "Current location",
+    "Origem": "Pickup",
+    "Destino": "Destination",
+    "Escolha seu veículo": "Choose your ride",
+
+    /* ----- categorias ----- */
+    "Rápido e econômico": "Fast and affordable",
+    "Para o dia a dia": "For everyday trips",
+    "Mais conforto": "More comfort",
+    "Experiência premium": "Premium experience",
+    "Viaje com seu pet": "Travel with your pet",
+
+    /* ----- pagamento ----- */
+    "Forma de pagamento": "Payment method",
+    "Pagamento": "Payment",
+    "Cartão": "Card",
+    "Pix": "Pix",
+    "Dinheiro": "Cash",
+    "Número do cartão": "Card number",
+    "Nome impresso no cartão": "Name on card",
+    "Nome no cartão": "Name on card",
+    "Validade": "Expiry date",
+    "Cadastrar cartão": "Add card",
+    "Seus cartões": "Your cards",
+    "Remover": "Remove",
+    "Nenhum cartão cadastrado.": "No cards added.",
+    "Categoria": "Category",
+    "Valor": "Amount",
+    "Resumo": "Summary",
+    "Resumo da corrida": "Ride summary",
+    "Preço base": "Base fare",
+    "Desconto": "Discount",
+    "Total": "Total",
+    "Confirmar": "Confirm",
+    "Confirmar corrida": "Confirm ride",
+    "Enviando...": "Sending...",
+
+    /* ----- erros e avisos (feitos por JavaScript) ----- */
+    "Informe a origem e o destino.": "Enter the pickup and destination.",
+    "Informe origem e destino.": "Enter the pickup and destination.",
+    "Informe um número de cartão válido.": "Enter a valid card number.",
+    "Informe o nome impresso no cartão.": "Enter the name printed on the card.",
+    "Informe a validade no formato MM/AA.": "Enter the expiry date as MM/YY.",
+    "O CVV do American Express deve ter 4 dígitos.": "The American Express CVV must have 4 digits.",
+    "Informe um CVV válido com 3 dígitos.": "Enter a valid 3-digit CVV.",
+    "O cartão está vencido.": "The card has expired.",
+    "Faça login para confirmar a corrida.": "Log in to confirm the ride.",
+    "Sua sessão expirou. Faça login novamente.": "Your session has expired. Please log in again.",
+    "Não foi possível registrar a corrida.": "Could not register the ride.",
+    "O servidor demorou demais para responder.": "The server took too long to respond.",
+    "Não foi possível conectar ao servidor. Ele está rodando na porta 3000?":
+        "Could not connect to the server. Is it running on port 3000?",
+    "Calculando trajeto...": "Calculating route...",
+    "Endereço não encontrado.": "Address not found.",
+    "Serviço de rotas indisponível.": "Route service unavailable.",
+    "Não foi encontrada uma rota.": "No route was found.",
+    "Tempo de cálculo esgotado.": "Route calculation timed out.",
+    "GPS não disponível. Usando endereço informado.": "GPS unavailable. Using the address provided.",
+    "Obtendo localização...": "Getting your location...",
+    "Localização fora da região atendida.": "Location outside the service area.",
+    "Permita o acesso à localização.": "Allow location access.",
+    "Localização indisponível.": "Location unavailable.",
+    "Tempo de localização esgotado.": "Location request timed out.",
+    "Usando endereço informado.": "Using the address provided.",
+
+    /* ----- cadastro de cartão ----- */
+    "Preencha todos os dados do cartão.": "Fill in all card details.",
+    "Número do cartão inválido.": "Invalid card number.",
+    "Cartão não reconhecido": "Card not recognized",
+    "Não conseguimos identificar a bandeira deste cartão. Confira o número digitado e tente novamente.":
+        "We could not identify this card's brand. Check the number and try again.",
+    "Número American Express inválido.": "Invalid American Express number.",
+    "Informe o nome impresso no cartão.": "Enter the name printed on the card.",
+    "Validade inválida. Use MM/AA.": "Invalid expiry date. Use MM/YY.",
+    "Este cartão está vencido.": "This card has expired.",
+    "O CVV deve ter 3 dígitos.": "The CVV must have 3 digits.",
+    "Este cartão já está cadastrado.": "This card is already added.",
+    "Erro ao cadastrar o cartão.": "Error adding the card.",
+    "Cartão validado e cadastrado!": "Card verified and added!",
+    "Bandeira": "Brand",
+    "Final": "Last digits",
+    "Forma de pagamento não identificada.": "Payment method not recognized."
+};
+
+let idiomaAtual = "pt";
+
+/* Traduz um texto escrito em português (só quando o idioma é EN) */
+function t(texto) {
+    if (idiomaAtual !== "en") return texto;
+
+    const chave = String(texto);
+
+    if (DICIONARIO_EN[chave]) return DICIONARIO_EN[chave];
+
+    // "aprox. 12 min" -> "approx. 12 min"
+    const tempo = chave.match(/^aprox\. (\d+) min$/);
+    if (tempo) return `approx. ${tempo[1]} min`;
+
+    return texto;
+}
+
+const REGEX_TEXTO_IDIOMA = /^(PT-BR|PT|EN|EN-US|ENG|PORTUGUÊS|ENGLISH)$/i;
+
+const SELETOR_BOTAO_IDIOMA =
+    "#btnIdioma, #idioma, #botaoIdioma, .idioma, .btn-idioma, " +
+    ".language, .lang-btn, [data-idioma], [data-lang]";
+
+const SELETOR_CLICAVEL =
+    SELETOR_BOTAO_IDIOMA + ", button, a, [role='button']";
+
+function textoLimpo(el) {
+    return (el.textContent || "").replace(/\s+/g, " ").trim();
+}
+
+function ehBotaoDeIdioma(el) {
+    if (!el) return false;
+
+    if (el.matches(SELETOR_BOTAO_IDIOMA)) return true;
+
+    return REGEX_TEXTO_IDIOMA.test(textoLimpo(el));
+}
+
+/* Procura o botão de idioma a partir do ponto clicado */
+function acharBotaoIdiomaClicado(alvo) {
+    let atual = alvo instanceof Element ? alvo.closest(SELETOR_CLICAVEL) : null;
+
+    while (atual) {
+        if (ehBotaoDeIdioma(atual)) return atual;
+
+        atual = atual.parentElement
+            ? atual.parentElement.closest(SELETOR_CLICAVEL)
+            : null;
+    }
+
+    return null;
+}
+
+/* Atualiza o texto do botão: PT-BR <-> EN */
+function atualizarBotoesIdioma() {
+    const rotulo = idiomaAtual === "en" ? "EN" : "PT-BR";
+
+    document.querySelectorAll(SELETOR_CLICAVEL).forEach(botao => {
+        if (!ehBotaoDeIdioma(botao)) return;
+
+        const walker = document.createTreeWalker(botao, NodeFilter.SHOW_TEXT);
+
+        while (walker.nextNode()) {
+            const no = walker.currentNode;
+
+            if (REGEX_TEXTO_IDIOMA.test(no.nodeValue.trim())) {
+                no.nodeValue = no.nodeValue.replace(
+                    no.nodeValue.trim(),
+                    rotulo
+                );
+            }
+        }
+
+        botao.setAttribute(
+            "aria-label",
+            idiomaAtual === "en"
+                ? "Language: English"
+                : "Idioma: Português (Brasil)"
+        );
+    });
+}
+
+/* Guarda o texto original de cada nó para poder voltar ao português */
+const TEXTOS_ORIGINAIS = new WeakMap();
+const ATRIBUTOS_TRADUZIVEIS = ["placeholder", "title", "aria-label"];
+
+function traduzirPagina() {
+    const raiz = document.body;
+    if (!raiz) return;
+
+    /* ----- textos soltos ----- */
+    const walker = document.createTreeWalker(raiz, NodeFilter.SHOW_TEXT, {
+        acceptNode(no) {
+            const pai = no.parentNode;
+
+            if (!pai) return NodeFilter.FILTER_REJECT;
+
+            const tag = pai.nodeName;
+
+            if (tag === "SCRIPT" || tag === "STYLE" || tag === "NOSCRIPT") {
+                return NodeFilter.FILTER_REJECT;
+            }
+
+            return NodeFilter.FILTER_ACCEPT;
+        }
+    });
+
+    const nos = [];
+    while (walker.nextNode()) nos.push(walker.currentNode);
+
+    nos.forEach(no => {
+        const registro = TEXTOS_ORIGINAIS.get(no);
+        const atual = no.nodeValue;
+
+        if (idiomaAtual === "en") {
+            // se o texto não foi mexido por outro código, parte do original
+            const base =
+                registro && registro.traduzido === atual
+                    ? registro.original
+                    : atual;
+
+            const trecho = base.trim();
+            const traduzido = DICIONARIO_EN[trecho];
+
+            if (traduzido) {
+                const novo = base.replace(trecho, traduzido);
+                TEXTOS_ORIGINAIS.set(no, { original: base, traduzido: novo });
+                no.nodeValue = novo;
+            }
+
+        } else if (registro && registro.traduzido === atual) {
+            no.nodeValue = registro.original;
+            TEXTOS_ORIGINAIS.delete(no);
+        }
+    });
+
+    /* ----- placeholder, title e aria-label ----- */
+    ATRIBUTOS_TRADUZIVEIS.forEach(attr => {
+        raiz.querySelectorAll("[" + attr + "]").forEach(item => {
+            const guardado = "wn57Orig" + attr.replace(/-/g, "");
+            const valorAtual = item.getAttribute(attr) || "";
+
+            if (idiomaAtual === "en") {
+                const base = item.dataset[guardado] || valorAtual;
+                const traduzido = DICIONARIO_EN[base.trim()];
+
+                if (traduzido) {
+                    item.dataset[guardado] = base;
+                    item.setAttribute(attr, traduzido);
+                }
+
+            } else if (item.dataset[guardado]) {
+                item.setAttribute(attr, item.dataset[guardado]);
+                delete item.dataset[guardado];
+            }
+        });
+    });
+
+    document.documentElement.lang = idiomaAtual === "en" ? "en" : "pt-BR";
+}
+
+/* Reaplica o idioma em tudo que o JavaScript desta página gera */
+function aoMudarIdioma() {
+    montarVeiculos();
+    atualizarResumo();
+    renderizarCartoes();
+
+    if (ultimoErroPT) {
+        mostrarErro(ultimoErroPT);
+    }
+
+    if (ultimaInfoMapa) {
+        atualizarInfoMapa(
+            ultimaInfoMapa.distancia,
+            ultimaInfoMapa.detalhe
+        );
+    }
+}
+
+function definirIdioma(novo) {
+    idiomaAtual = novo === "en" ? "en" : "pt";
+
+    try {
+        localStorage.setItem("idioma", idiomaAtual);
+    } catch { }
+
+    aoMudarIdioma();
+    traduzirPagina();
+    atualizarBotoesIdioma();
+}
+
+function configurarIdioma() {
+    try {
+        const salvo = (localStorage.getItem("idioma") || "").toLowerCase();
+        idiomaAtual = salvo.startsWith("en") ? "en" : "pt";
+    } catch {
+        idiomaAtual = "pt";
+    }
+
+    /*
+       Um único ouvinte no documento (fase de captura):
+       funciona mesmo que o cabeçalho seja montado depois
+       e evita que outro script trave a troca.
+    */
+    document.addEventListener("click", evento => {
+        const botao = acharBotaoIdiomaClicado(evento.target);
+
+        if (!botao) return;
+
+        evento.preventDefault();
+        evento.stopPropagation();
+
+        definirIdioma(idiomaAtual === "en" ? "pt" : "en");
+    }, true);
+}
 
 /* =========================================================
    1. CONFIGURAÇÕES
@@ -66,6 +388,10 @@ let filaNominatim = Promise.resolve();
 let veiculosAnimadosWN57 = [];
 let animacaoVeiculosWN57 = null;
 let veiculosAnimadosIniciados = false;
+
+/* últimos textos mostrados (para retraduzir ao trocar de idioma) */
+let ultimoErroPT = "";
+let ultimaInfoMapa = null;
 
 /* =========================================================
    3. VEÍCULOS DISPONÍVEIS
@@ -164,10 +490,13 @@ function salvarCache(chave, valor) {
 ========================================================= */
 
 function moeda(valor) {
-    return Number(valor || 0).toLocaleString("pt-BR", {
-        style: "currency",
-        currency: "BRL"
-    });
+    return Number(valor || 0).toLocaleString(
+        idiomaAtual === "en" ? "en-US" : "pt-BR",
+        {
+            style: "currency",
+            currency: "BRL"
+        }
+    );
 }
 
 function esperar(ms) {
@@ -483,7 +812,7 @@ function montarVeiculos() {
     container.setAttribute("role", "radiogroup");
     container.setAttribute(
         "aria-label",
-        "Escolha a categoria da corrida"
+        t("Escolha seu veículo")
     );
 
     veiculos.forEach(veiculo => {
@@ -518,7 +847,7 @@ function montarVeiculos() {
                     </span>
                 </strong>
 
-                <small class="desc">${veiculo.descricao}</small>
+                <small class="desc">${escaparHTML(t(veiculo.descricao))}</small>
             </span>
 
             <b class="preco">${moeda(veiculo.valor)}</b>
@@ -602,18 +931,20 @@ function calcularTotalCorrida() {
 }
 
 function atualizarResumo() {
-    if (elemento("rCat")) {
-        elemento("rCat").textContent = categoriaSelecionada;
-    }
+    const total = calcularTotalCorrida();
 
-    if (elemento("rValor")) {
-        elemento("rValor").textContent =
-            moeda(calcularTotalCorrida());
-    }
+    const definir = (id, texto) => {
+        const el = elemento(id);
+        if (el) el.textContent = texto;
+    };
 
-    if (elemento("rPg")) {
-        elemento("rPg").textContent = pagamentoSelecionado;
-    }
+    definir("rCat", categoriaSelecionada);
+    definir("rValor", moeda(total));
+    definir("rPg", t(pagamentoSelecionado));
+
+    definir("precoBase", moeda(valorSelecionado));
+    definir("valorDesconto", moeda(descontoCorrida));
+    definir("valorTotal", moeda(total));
 }
 
 /* =========================================================
@@ -685,6 +1016,7 @@ function validarLuhn(numero) {
 
 /* =========================================================
    13. VALIDAÇÃO DO PAGAMENTO
+   (as mensagens ficam em português; mostrarErro() traduz)
 ========================================================= */
 
 function validarPagamento() {
@@ -778,12 +1110,14 @@ function marcarCampoInvalido(id) {
 }
 
 function mostrarErro(mensagem) {
+    ultimoErroPT = mensagem || "";
+
     const campo =
         elemento("erroPagamento") ||
         elemento("erro");
 
     if (campo) {
-        campo.textContent = mensagem;
+        campo.textContent = t(mensagem);
         campo.classList.remove("oculto");
     } else {
         console.error("WN57:", mensagem);
@@ -791,6 +1125,8 @@ function mostrarErro(mensagem) {
 }
 
 function limparErro() {
+    ultimoErroPT = "";
+
     const campo =
         elemento("erroPagamento") ||
         elemento("erro");
@@ -968,7 +1304,7 @@ async function confirmarCorrida() {
 
     if (botao) {
         botao.disabled = true;
-        botao.textContent = "Enviando...";
+        botao.textContent = t("Enviando...");
     }
 
     let dadosServidor = null;
@@ -1346,9 +1682,13 @@ function criarMarcador(tipo) {
 
 /* =========================================================
    21. INFORMAÇÕES DA ROTA
+   (o texto "detalhe" é guardado em português e traduzido
+    na hora de mostrar)
 ========================================================= */
 
 function atualizarInfoMapa(distancia, detalhe) {
+    ultimaInfoMapa = { distancia, detalhe };
+
     const info = elemento("infoRota");
 
     if (!info) return;
@@ -1361,7 +1701,7 @@ function atualizarInfoMapa(distancia, detalhe) {
     }
 
     if (pequeno) {
-        pequeno.textContent = detalhe;
+        pequeno.textContent = t(detalhe);
     }
 }
 
@@ -1451,13 +1791,13 @@ async function atualizarRotaNoMapa() {
 
     if (coordOrigem) {
         marcadorOrigem = colocarMarcadorWN57(
-            marcadorOrigem, coordOrigem, "origem", "Origem", origem
+            marcadorOrigem, coordOrigem, "origem", t("Origem"), origem
         );
     }
 
     if (coordDestino) {
         marcadorDestino = colocarMarcadorWN57(
-            marcadorDestino, coordDestino, "destino", "Destino", destino
+            marcadorDestino, coordDestino, "destino", t("Destino"), destino
         );
     }
 
@@ -1531,7 +1871,10 @@ async function atualizarRotaNoMapa() {
             maxZoom: 16
         });
 
-        const km = (rota.distance / 1000).toFixed(1).replace(".", ",");
+        const km = (rota.distance / 1000)
+            .toFixed(1)
+            .replace(".", idiomaAtual === "en" ? "." : ",");
+
         const minutos = Math.max(1, Math.round(rota.duration / 60));
 
         atualizarInfoMapa(`${km} km`, `aprox. ${minutos} min`);
@@ -2307,7 +2650,7 @@ function normalizarPagamento(pg) {
     const texto = String(pg || "").normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "").toLowerCase();
     if (texto === "pix") return "Pix";
-    if (texto === "dinheiro") return "Dinheiro";
+    if (texto === "dinheiro" || texto === "cash") return "Dinheiro";
     return "Cartão";
 }
 
@@ -2349,7 +2692,7 @@ function renderizarCartoes() {
     if (!cartoes.length) {
         const vazio = document.createElement("p");
         vazio.style.cssText = "font-size:12px;color:#aaa";
-        vazio.textContent = "Nenhum cartão cadastrado.";
+        vazio.textContent = t("Nenhum cartão cadastrado.");
         area.appendChild(vazio);
         return;
     }
@@ -2362,11 +2705,11 @@ function renderizarCartoes() {
 
         const texto = document.createElement("span");
         texto.textContent =
-            `${cartao.bandeira || "Cartão"} •••• ${cartao.final} — ${cartao.nome}`;
+            `${cartao.bandeira || t("Cartão")} •••• ${cartao.final} — ${cartao.nome}`;
 
         const remover = document.createElement("button");
         remover.type = "button";
-        remover.textContent = "Remover";
+        remover.textContent = t("Remover");
         remover.style.cssText =
             "background:none;border:0;color:#ff2d8f;cursor:pointer;font:inherit";
         remover.addEventListener("click", () => {
@@ -2400,14 +2743,14 @@ function cadastrarCartaoAtual() {
 
     // 1. Verificar campos preenchidos
     if (!numero || !nome || !validade || !cvv) {
-        alert("Preencha todos os dados do cartão.");
+        alert(t("Preencha todos os dados do cartão."));
         return;
     }
 
     // 2. Verificar número e algoritmo de Luhn
     if (!validarLuhn(numero)) {
         marcarCampoInvalido("numero");
-        alert("Número do cartão inválido.");
+        alert(t("Número do cartão inválido."));
         return;
     }
 
@@ -2428,26 +2771,26 @@ function cadastrarCartaoAtual() {
     const amex = /^3[47]/.test(numero);
 
     if (amex && numero.length !== 15) {
-        alert("Número American Express inválido.");
+        alert(t("Número American Express inválido."));
         return;
     }
 
     if (!amex && (numero.length < 13 || numero.length > 16)) {
-        alert("Número do cartão inválido.");
+        alert(t("Número do cartão inválido."));
         return;
     }
 
     // 5. Verificar nome
     if (nome.length < 3) {
         marcarCampoInvalido("nome");
-        alert("Informe o nome impresso no cartão.");
+        alert(t("Informe o nome impresso no cartão."));
         return;
     }
 
     // 6. Verificar validade
     if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(validade)) {
         marcarCampoInvalido("validade");
-        alert("Validade inválida. Use MM/AA.");
+        alert(t("Validade inválida. Use MM/AA."));
         return;
     }
 
@@ -2463,20 +2806,20 @@ function cadastrarCartaoAtual() {
         )
     ) {
         marcarCampoInvalido("validade");
-        alert("Este cartão está vencido.");
+        alert(t("Este cartão está vencido."));
         return;
     }
 
     // 7. Verificar CVV
     if (amex && cvv.length !== 4) {
         marcarCampoInvalido("cvv");
-        alert("O CVV do American Express deve ter 4 dígitos.");
+        alert(t("O CVV do American Express deve ter 4 dígitos."));
         return;
     }
 
     if (!amex && cvv.length !== 3) {
         marcarCampoInvalido("cvv");
-        alert("O CVV deve ter 3 dígitos.");
+        alert(t("O CVV deve ter 3 dígitos."));
         return;
     }
 
@@ -2485,7 +2828,7 @@ function cadastrarCartaoAtual() {
     const lista = lerCartoes();
 
     if (lista.some(cartao => cartao.final === final)) {
-        alert("Este cartão já está cadastrado.");
+        alert(t("Este cartão já está cadastrado."));
         return;
     }
 
@@ -2514,14 +2857,14 @@ function cadastrarCartaoAtual() {
         }
 
         alert(
-            "✅ Cartão validado e cadastrado!\n\n" +
-            "Bandeira: " + bandeira + "\n" +
-            "Final: •••• " + final
+            "✅ " + t("Cartão validado e cadastrado!") + "\n\n" +
+            t("Bandeira") + ": " + bandeira + "\n" +
+            t("Final") + ": •••• " + final
         );
 
     } catch (erro) {
         console.error("Erro ao salvar cartão:", erro);
-        alert("Erro ao cadastrar o cartão.");
+        alert(t("Erro ao cadastrar o cartão."));
     }
 }
 
@@ -2561,6 +2904,9 @@ function configurarCartoes() {
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
+    // idioma primeiro: lê a escolha salva e liga o botão PT-BR / EN
+    configurarIdioma();
+
     carregarTrajeto();
 
     montarVeiculos();
@@ -2580,8 +2926,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     iniciarMapa();
 
+    // traduz os textos fixos do HTML e acerta o texto do botão de idioma
+    traduzirPagina();
+    atualizarBotoesIdioma();
+
     console.log(
-        "WN57: sistema de corrida inicializado com sucesso."
+        "WN57: sistema de corrida inicializado com sucesso. Idioma:",
+        idiomaAtual
     );
 });
 
@@ -2611,7 +2962,7 @@ function abrirPagamentoFinal() {
     const destino = paginas[pagamento];
 
     if (!destino) {
-        alert("Forma de pagamento não identificada.");
+        alert(t("Forma de pagamento não identificada."));
         return;
     }
 
@@ -2641,8 +2992,8 @@ function mostrarAvisoCartao(titulo, mensagem) {
         </div>
 
         <div class="aviso-conteudo">
-            <strong>${escaparHTML(titulo)}</strong>
-            <p>${escaparHTML(mensagem)}</p>
+            <strong>${escaparHTML(t(titulo))}</strong>
+            <p>${escaparHTML(t(mensagem))}</p>
         </div>
 
         <button type="button" aria-label="Fechar">&times;</button>
