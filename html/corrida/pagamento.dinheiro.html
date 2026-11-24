@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WN57 - Pagamento em dinheiro</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <!-- CSS DO CABEÇALHO (carrega primeiro) -->
+    <link rel="stylesheet" href="/css/login/cabecalho.css">
+
+    <!-- CSS DA PÁGINA (também importa o cabeçalho, veja o CSS abaixo) -->
+    <link rel="stylesheet" href="/css/corrida/pagamento.dinheiro.css">
+</head>
+
+<body>
+
+    <!-- CABEÇALHO (menu + perfil) — gerado pelo cabecalho.js -->
+    <script src="/javascript/login/cabecalho.js"></script>
+
+    <!-- MAPA -->
+    <div id="map"></div>
+
+    <!-- PAINEL -->
+    <main class="painel">
+
+        <div class="barra"></div>
+
+        <span class="tag">WN57</span>
+
+        <h2 id="tituloPagamento">Pagamento em dinheiro</h2>
+
+        <p class="descricao" id="descricaoPagamento">
+            Sua corrida foi finalizada!
+        </p>
+
+        <!-- ÍCONE -->
+        <div class="icone-pagamento">
+            <i>R$</i>
+        </div>
+
+        <!-- VALOR -->
+        <div class="valor-box">
+            <small id="textoValor">Valor total da corrida</small>
+            <h1 id="valor">R$ 15,00</h1>
+        </div>
+
+        <!-- AVISO -->
+        <div class="aviso">
+            <strong id="tituloAviso">Como realizar o pagamento?</strong>
+            <p id="textoAviso">
+                Entregue o valor diretamente ao motorista para finalizar
+                o pagamento da sua viagem.
+            </p>
+        </div>
+
+        <!-- FORMA DE PAGAMENTO -->
+        <div class="resumo">
+            <span id="textoFormaPagamento">Forma de pagamento</span>
+            <strong id="formaPagamento">Dinheiro</strong>
+        </div>
+
+        <!-- TROCO -->
+        <div class="resumo">
+            <span id="textoTroco">Troco solicitado</span>
+            <strong id="troco">Não precisa</strong>
+        </div>
+
+        <!-- STATUS -->
+        <div class="status">
+            <span class="bolinha"></span>
+            <span id="statusTexto">Pagamento pendente</span>
+        </div>
+
+        <!-- BOTÃO -->
+        <button class="botao" type="button" id="botaoFinalizar" onclick="finalizar()">
+            Finalizar corrida <i>→</i>
+        </button>
+
+        <!-- VOLTAR -->
+        <a class="voltar" href="/html/principal/inicial.html" id="voltarInicio">
+            Voltar ao início
+        </a>
+
+    </main>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="/javascript/corrida/pagamento.dinheiro.js"></script>
+
+</body>
+
+</html>
