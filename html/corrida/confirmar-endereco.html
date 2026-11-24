@@ -7,7 +7,12 @@
 
     <title>WN57 - Confirmar endereço</title>
 
+    <!-- CSS da página -->
     <link rel="stylesheet" href="/css/corrida/confirmar-endereco.css">
+
+    <!-- CSS do cabeçalho compartilhado (fica DEPOIS do CSS da página para o cabeçalho novo prevalecer)
+         Se o seu arquivo tiver outro nome/pasta, ajuste só este caminho -->
+    <link rel="stylesheet" href="/css/login/cabecalho.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,47 +43,10 @@
 
 <body>
 
-    <!-- MENU WN57 -->
-    <header>
-
-        <div class="esq">
-
-            <a class="logo" href="/html/principal/inicial.html" aria-label="WN57 início">
-                <img src="/img/logo/logo1.jpg" alt="WN57">
-            </a>
-
-            <a class="link" href="/html/principal/inicial.html">Início</a>
-
-            <a class="link" href="/html/corrida/solicitar.html">Viajar</a>
-
-        </div>
-
-        <div class="dir">
-
-            <a href="#" aria-label="Compartilhar">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                    <circle cx="18" cy="5" r="3.2" fill="#fff"/>
-                    <circle cx="6" cy="12" r="3.2" fill="#fff"/>
-                    <circle cx="18" cy="19" r="3.2" fill="#fff"/>
-                    <path d="M8.5 10.6L15.5 6.6M8.5 13.4L15.5 17.4"
-                        stroke="#fff"
-                        stroke-width="2"
-                        fill="none"/>
-                </svg>
-            </a>
-
-            <a class="login" href="/html/login.html">
-                <i class="fa-regular fa-user"></i>
-                Fazer login
-            </a>
-
-            <a class="cadastro" href="/html/cadastro.html">
-                Cadastre-se
-            </a>
-
-        </div>
-
-    </header>
+    <!-- CABEÇALHO WN57 (compartilhado)
+         Este <script> precisa ser comum: sem "defer" e sem "async",
+         porque o cabeçalho é inserido exatamente onde ele está. -->
+    <script src="/javascript/login/cabecalho.js"></script>
 
 
     <main class="tela">
@@ -235,7 +203,7 @@
                 </div>
 
 
-                <!-- MOTORISTA E CARRO -->
+                <!-- MOTORISTA E VEÍCULO -->
                 <div class="mot-card">
 
                     <div class="mot-esq">
@@ -437,7 +405,6 @@
             </div>
 
         </section>
-        
 
     </main>
 
@@ -445,8 +412,8 @@
     <!-- SCRIPTS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-    <!-- ?v=2 força o navegador a carregar o JS novo (aumente o número a cada mudança) -->
-    <script src="/javascript/corrida/confirmar-endereco.js?v=2"></script>
+    <!-- ?v=3 força o navegador a carregar o JS novo (aumente o número a cada mudança) -->
+    <script src="/javascript/corrida/confirmar-endereco.js?v=3"></script>
 
 </body>
 </html>
