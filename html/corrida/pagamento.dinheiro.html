@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>WN57 - Pagamento em dinheiro</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <link rel="stylesheet" href="/css/corrida/pagamento.dinheiro.css">
+</head>
+
+<body>
+
+    <!-- MENU -->
+    <header class="header">
+
+        <a href="/html/index.html" class="logo">
+            <img src="/img/logo/logo1.jpg" alt="WN57">
+        </a>
+
+        <nav>
+            <a href="/html/index.html" id="menuInicio">Início</a>
+            <a href="/html/corrida/solicitar.html" id="menuViajar">Viajar</a>
+            <a href="/html/sobre.html" id="menuSobre">Sobre-nós</a>
+        </nav>
+
+        <div class="menu-direita">
+
+            <button class="idioma" id="botaoIdioma" type="button" onclick="alternarIdioma()">
+                🌐 PT-BR
+            </button>
+
+            <a href="/html/ajuda.html" id="menuAjuda">Ajuda</a>
+
+            <a href="/html/login.html" id="menuLogin">Fazer login</a>
+
+            <a href="/html/cadastro.html" class="btn-cadastro" id="menuCadastro">
+                Cadastre-se
+            </a>
+
+        </div>
+
+    </header>
+
+    <!-- MAPA -->
+    <div id="map"></div>
+
+    <!-- PAINEL -->
+    <main class="painel">
+
+        <div class="barra"></div>
+
+        <span class="tag">WN57</span>
+
+        <h2 id="tituloPagamento">Pagamento em dinheiro</h2>
+
+        <p class="descricao" id="descricaoPagamento">
+            Sua corrida foi finalizada!
+        </p>
+
+        <!-- ÍCONE -->
+        <div class="icone-pagamento">
+            <i>R$</i>
+        </div>
+
+        <!-- VALOR -->
+        <div class="valor-box">
+
+            <small id="textoValor">Valor total da corrida</small>
+
+            <h1 id="valor">R$ 15,00</h1>
+
+        </div>
+
+        <!-- AVISO -->
+        <div class="aviso">
+
+            <strong id="tituloAviso">Como realizar o pagamento?</strong>
+
+            <p id="textoAviso">
+                Entregue o valor diretamente ao motorista para finalizar
+                o pagamento da sua viagem.
+            </p>
+
+        </div>
+
+        <!-- FORMA DE PAGAMENTO -->
+        <div class="resumo">
+
+            <span id="textoFormaPagamento">Forma de pagamento</span>
+
+            <strong id="formaPagamento">Dinheiro</strong>
+
+        </div>
+
+        <!-- TROCO -->
+        <div class="resumo">
+
+            <span id="textoTroco">Troco solicitado</span>
+
+            <strong id="troco">Não precisa</strong>
+
+        </div>
+
+        <!-- STATUS -->
+        <div class="status">
+
+            <span class="bolinha"></span>
+
+            <span id="statusTexto">Pagamento pendente</span>
+
+        </div>
+
+        <!-- BOTÃO -->
+        <button class="botao" type="button" onclick="finalizar()" id="botaoFinalizar">
+            Finalizar corrida <i>→</i>
+        </button>
+
+        <!-- VOLTAR -->
+        <a class="voltar" href="/html/index.html" id="voltarInicio">
+            Voltar ao início
+        </a>
+
+    </main>
+
+    <!-- LEAFLET -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+
+        "use strict";
+
+
+        /* =========================
+           IDIOMA
+        ========================= */
+
+        let idiomaAtual = "pt";
+
+        function alternarIdioma() {
+
+            idiomaAtual = idiomaAtual === "pt" ? "en" : "pt";
+
+            const ingles = idiomaAtual === "en";
+
+            document.documentElement.lang = ingles ? "en" : "pt-BR";
+
+            document.getElementById("botaoIdioma").textContent =
+                ingles ? "🌐 EN" : "🌐 PT-BR";
+
+            document.getElementById("menuInicio").textContent =
+                ingles ? "Home" : "Início";
+
+            document.getElementById("menuViajar").textContent =
+                ingles ? "Ride" : "Viajar";
+
+            document.getElementById("menuSobre").textContent =
+                ingles ? "About us" : "Sobre-nós";
+
+            document.getElementById("menuAjuda").textContent =
+                ingles ? "Help" : "Ajuda";
+
+            document.getElementById("menuLogin").textContent =
+                ingles ? "Log in" : "Fazer login";
+
+            document.getElementById("menuCadastro").textContent =
+                ingles ? "Sign up" : "Cadastre-se";
+
+            document.getElementById("tituloPagamento").textContent =
+                ingles ? "Cash payment" : "Pagamento em dinheiro";
+
+            document.getElementById("descricaoPagamento").textContent =
+                ingles
+                    ? "Your ride has finished!"
+                    : "Sua corrida foi finalizada!";
+
+            document.getElementById("textoValor").textContent =
+                ingles ? "Total ride amount" : "Valor total da corrida";
+
+            document.getElementById("tituloAviso").textContent =
+                ingles
+                    ? "How to make the payment?"
+                    : "Como realizar o pagamento?";
+
+            document.getElementById("textoAviso").textContent =
+                ingles
+                    ? "Give the amount directly to the driver to complete your ride payment."
+                    : "Entregue o valor diretamente ao motorista para finalizar o pagamento da sua viagem.";
+
+            document.getElementById("textoFormaPagamento").textContent =
+                ingles ? "Payment method" : "Forma de pagamento";
+
+            document.getElementById("formaPagamento").textContent =
+                ingles ? "Cash" : "Dinheiro";
+
+            document.getElementById("textoTroco").textContent =
+                ingles ? "Change requested" : "Troco solicitado";
+
+            atualizarTroco();
+
+            document.getElementById("statusTexto").textContent =
+                ingles
+                    ? "Payment pending"
+                    : "Pagamento pendente";
+
+            document.getElementById("botaoFinalizar").innerHTML =
+                ingles
+                    ? 'Finish ride <i>→</i>'
+                    : 'Finalizar corrida <i>→</i>';
+
+            document.getElementById("voltarInicio").textContent =
+                ingles ? "Back to home" : "Voltar ao início";
+        }
+
+
+        /* =========================
+           VALOR DA CORRIDA
+        ========================= */
+
+        const valor = Number(localStorage.getItem("valorCorrida")) || 15;
+
+        document.getElementById("valor").textContent =
+            valor.toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL"
+            });
+
+
+        /* =========================
+           TROCO
+        ========================= */
+
+        const precisaTroco =
+            localStorage.getItem("precisaTroco") || "Não";
+
+        const valorTroco =
+            localStorage.getItem("valorTroco") || "";
+
+        function atualizarTroco() {
+
+            const ingles = idiomaAtual === "en";
+
+            if (precisaTroco === "Sim") {
+
+                document.getElementById("troco").textContent =
+                    ingles
+                        ? "Yes, for R$ " + valorTroco
+                        : "Sim, para R$ " + valorTroco;
+
+            } else {
+
+                document.getElementById("troco").textContent =
+                    ingles
+                        ? "No change needed"
+                        : "Não precisa";
+
+            }
+        }
+
+        atualizarTroco();
+
+
+        /* =========================
+           FINALIZAR CORRIDA
+        ========================= */
+
+        function finalizar() {
+
+            const mensagem = idiomaAtual === "en"
+                ? "Confirm that you gave the money to the driver?"
+                : "Confirma que entregou o dinheiro ao motorista?";
+
+            if (!confirm(mensagem)) {
+                return;
+            }
+
+            localStorage.setItem(
+                "pagamentoStatus",
+                "pago_em_dinheiro"
+            );
+
+            localStorage.setItem(
+                "pagamentoConfirmado",
+                "true"
+            );
+
+            localStorage.setItem(
+                "pagamentoCorrida",
+                "Dinheiro"
+            );
+
+            localStorage.setItem(
+                "dataPagamento",
+                new Date().toISOString()
+            );
+
+            alert(
+                idiomaAtual === "en"
+                    ? "Payment registered!"
+                    : "Pagamento registrado!"
+            );
+
+            window.location.href = "/html/corrida/solicitar.html";
+        }
+
+
+        /* =========================
+           MAPA
+        ========================= */
+
+        const mapa = L.map("map").setView([-25.442, -49.192], 15);
+
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution: "&copy; OpenStreetMap"
+        }).addTo(mapa);
+
+    </script>
+
+</body>
+
+</html>

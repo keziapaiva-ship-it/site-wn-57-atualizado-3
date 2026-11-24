@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>WN57 - Pagamento com cartão</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <link rel="stylesheet" href="/css/corrida/pagamento.cartao.css">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+
+        <a href="/html/index.html" class="logo">
+            <img src="/img/logo/logo1.jpg" alt="WN57">
+        </a>
+
+        <nav>
+            <a href="/html/index.html" id="menuInicio">Início</a>
+            <a href="/html/corrida/solicitar.html" id="menuViajar">Viajar</a>
+            <a href="/html/sobre.html" id="menuSobre">Sobre-nós</a>
+        </nav>
+
+        <div class="menu-direita">
+
+            <button class="idioma" id="botaoIdioma" type="button" onclick="alternarIdioma()">
+                🌐 PT-BR
+            </button>
+
+            <a href="/html/ajuda.html" id="menuAjuda">Ajuda</a>
+
+            <a href="/html/login.html" id="menuLogin">Fazer login</a>
+
+            <a href="/html/cadastro.html" class="btn-cadastro" id="menuCadastro">
+                Cadastre-se
+            </a>
+
+        </div>
+
+    </header>
+
+    <!-- MAPA -->
+    <div id="map"></div>
+
+    <!-- PAINEL -->
+    <main class="painel">
+
+        <div class="barra"></div>
+
+        <span class="tag">WN57</span>
+
+        <h2 id="tituloPagamento">Pagamento com cartão</h2>
+
+        <p class="descricao" id="descricaoPagamento">
+            Sua corrida foi finalizada! Confira os dados do pagamento.
+        </p>
+
+        <!-- CARTÃO -->
+        <div class="cartao">
+
+            <div class="cartao-topo">
+                <strong>WN57</strong>
+                <span id="bandeiraCartaoFinal">---</span>
+            </div>
+
+            <div class="numero-cartao" id="numeroCartaoFinal">
+                •••• •••• •••• ••••
+            </div>
+
+            <div class="cartao-rodape">
+                <span id="nomeCartaoFinal">Cartão cadastrado</span>
+                <i>💳</i>
+            </div>
+
+        </div>
+
+        <!-- VALOR -->
+        <div class="valor-box">
+
+            <small id="textoValor">Valor total da corrida</small>
+
+            <h1 id="valor">R$ 15,00</h1>
+
+        </div>
+
+        <!-- FORMA DE PAGAMENTO -->
+        <div class="resumo">
+
+            <span id="textoFormaPagamento">Forma de pagamento</span>
+
+            <strong id="formaPagamento">Cartão</strong>
+
+        </div>
+
+        <!-- STATUS -->
+        <div class="status" id="statusPagamento">
+
+            <span class="bolinha"></span>
+
+            <span id="statusTexto">Pagamento debitado</span>
+
+        </div>
+
+        <!-- BOTÃO -->
+        <button class="botao" type="button" onclick="finalizar()">
+
+            <span id="textoBotao">Concluir</span>
+
+            <i>→</i>
+
+        </button>
+
+        <a class="voltar" href="/html/index.html" id="linkVoltar">
+            Voltar ao início
+        </a>
+
+    </main>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+
+        "use strict";
+
+        /* =========================
+           VALOR DA CORRIDA
+        ========================= */
+
+        const valor = Number(localStorage.getItem("valorCorrida")) || 15;
+
+        document.getElementById("valor").textContent =
+            valor.toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL"
+            });
+
+
+        /* =========================
+           BUSCAR CARTÃO CADASTRADO
+        ========================= */
+
+        function carregarCartaoFinal() {
+
+            const bandeiraElemento =
+                document.getElementById("bandeiraCartaoFinal");
+
+            const numeroElemento =
+                document.getElementById("numeroCartaoFinal");
+
+            const nomeElemento =
+                document.getElementById("nomeCartaoFinal");
+
+            let cartoes = [];
+
+            try {
+
+                cartoes = JSON.parse(
+                    localStorage.getItem("wn57_cartoes")
+                ) || [];
+
+            } catch (erro) {
+
+                cartoes = [];
+
+            }
+
+            if (!cartoes.length) {
+
+                bandeiraElemento.textContent = "---";
+
+                numeroElemento.textContent =
+                    "Nenhum cartão cadastrado";
+
+                nomeElemento.textContent =
+                    "Cartão não encontrado";
+
+                return;
+
+            }
+
+            const cartao = cartoes[cartoes.length - 1];
+
+            bandeiraElemento.textContent =
+                cartao.bandeira || "Cartão";
+
+            numeroElemento.textContent =
+                "•••• •••• •••• " + cartao.final;
+
+            nomeElemento.textContent =
+                cartao.nome || "Cartão cadastrado";
+
+        }
+
+
+        /* =========================
+           SIMULAÇÃO DE PAGAMENTO
+        ========================= */
+
+        localStorage.setItem("pagamentoStatus", "debitado");
+
+        localStorage.setItem("pagamentoConfirmado", "true");
+
+        localStorage.setItem("pagamentoCorrida", "Cartão");
+
+        localStorage.setItem(
+            "dataPagamento",
+            new Date().toISOString()
+        );
+
+
+        /* =========================
+           FINALIZAR
+        ========================= */
+
+        function finalizar() {
+
+            const mensagem =
+                idiomaAtual === "pt"
+                    ? "Deseja concluir a corrida?"
+                    : "Do you want to complete the ride?";
+
+            if (!confirm(mensagem)) {
+                return;
+            }
+
+            localStorage.setItem(
+                "pagamentoStatus",
+                "debitado"
+            );
+
+            localStorage.setItem(
+                "pagamentoConfirmado",
+                "true"
+            );
+
+            localStorage.setItem(
+                "pagamentoCorrida",
+                "Cartão"
+            );
+
+            localStorage.setItem(
+                "dataPagamento",
+                new Date().toISOString()
+            );
+
+            alert(
+                idiomaAtual === "pt"
+                    ? "Pagamento concluído!"
+                    : "Payment completed!"
+            );
+
+            window.location.href = "/html/corrida/solicitar.html";
+
+        }
+
+
+        /* =========================
+           IDIOMA
+        ========================= */
+
+        let idiomaAtual = localStorage.getItem("wn57_idioma") || "pt";
+
+        function alternarIdioma() {
+
+            idiomaAtual = idiomaAtual === "pt" ? "en" : "pt";
+
+            localStorage.setItem("wn57_idioma", idiomaAtual);
+
+            atualizarIdioma();
+
+        }
+
+        function atualizarIdioma() {
+
+            const ingles = idiomaAtual === "en";
+
+            document.documentElement.lang =
+                ingles ? "en" : "pt-BR";
+
+            document.getElementById("botaoIdioma").textContent =
+                ingles ? "🌐 EN" : "🌐 PT-BR";
+
+            document.getElementById("menuInicio").textContent =
+                ingles ? "Home" : "Início";
+
+            document.getElementById("menuViajar").textContent =
+                ingles ? "Ride" : "Viajar";
+
+            document.getElementById("menuSobre").textContent =
+                ingles ? "About us" : "Sobre-nós";
+
+            document.getElementById("menuAjuda").textContent =
+                ingles ? "Help" : "Ajuda";
+
+            document.getElementById("menuLogin").textContent =
+                ingles ? "Log in" : "Fazer login";
+
+            document.getElementById("menuCadastro").textContent =
+                ingles ? "Sign up" : "Cadastre-se";
+
+            document.getElementById("tituloPagamento").textContent =
+                ingles ? "Card payment" : "Pagamento com cartão";
+
+            document.getElementById("descricaoPagamento").textContent =
+                ingles
+                    ? "Your ride is finished! Check the payment details."
+                    : "Sua corrida foi finalizada! Confira os dados do pagamento.";
+
+            document.getElementById("textoValor").textContent =
+                ingles ? "Total ride amount" : "Valor total da corrida";
+
+            document.getElementById("textoFormaPagamento").textContent =
+                ingles ? "Payment method" : "Forma de pagamento";
+
+            document.getElementById("formaPagamento").textContent =
+                ingles ? "Card" : "Cartão";
+
+            document.getElementById("statusTexto").textContent =
+                ingles ? "Payment charged" : "Pagamento debitado";
+
+            document.getElementById("textoBotao").textContent =
+                ingles ? "Complete" : "Concluir";
+
+            document.getElementById("linkVoltar").textContent =
+                ingles ? "Back to home" : "Voltar ao início";
+
+        }
+
+
+        /* =========================
+           MAPA
+        ========================= */
+
+        const mapa = L.map("map").setView([-25.442, -49.192], 15);
+
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution: "&copy; OpenStreetMap"
+        }).addTo(mapa);
+
+
+        /* =========================
+           INICIALIZAÇÃO
+        ========================= */
+
+        carregarCartaoFinal();
+
+        atualizarIdioma();
+
+    </script>
+
+</body>
+</html>

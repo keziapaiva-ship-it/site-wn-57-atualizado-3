@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>WN57 - Pagamento PIX</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <link rel="stylesheet" href="/css/corrida/pagamento.pix.css">
+</head>
+
+<body>
+
+    <!-- MENU -->
+    <header class="header">
+
+        <a href="/html/index.html" class="logo">
+            <img src="/img/logo/logo1.jpg" alt="WN57">
+        </a>
+
+        <nav>
+            <a href="/html/index.html" id="menuInicio">Início</a>
+            <a href="/html/corrida/solicitar.html" id="menuViajar">Viajar</a>
+            <a href="/html/sobre.html" id="menuSobre">Sobre-nós</a>
+        </nav>
+
+        <div class="menu-direita">
+
+            <button class="idioma" id="botaoIdioma" type="button" onclick="alternarIdioma()">
+                🌐 PT-BR
+            </button>
+
+            <a href="/html/ajuda.html" id="menuAjuda">Ajuda</a>
+
+            <a href="/html/login.html" id="menuLogin">Fazer login</a>
+
+            <a href="/html/cadastro.html" class="btn-cadastro" id="menuCadastro">
+                Cadastre-se
+            </a>
+
+        </div>
+
+    </header>
+
+    <!-- MAPA -->
+    <div id="map"></div>
+
+    <!-- PAINEL PIX -->
+    <main class="painel">
+
+        <div class="barra"></div>
+
+        <span class="tag">WN57</span>
+
+        <h2 id="tituloPagamento">Pagamento via PIX</h2>
+
+        <p class="descricao" id="descricaoPagamento">
+            Sua corrida foi finalizada! Realize o pagamento para concluir.
+        </p>
+
+        <div class="valor-box">
+
+            <small id="textoValor">Valor total da corrida</small>
+
+            <h1 id="valor">R$ 15,00</h1>
+
+        </div>
+
+        <div class="qr">
+
+            <img id="qrCode" alt="QR Code PIX">
+
+        </div>
+
+        <p class="instrucao" id="instrucaoPix">
+            Abra o aplicativo do seu banco, escolha PIX e escaneie o QR Code.
+        </p>
+
+        <div class="codigo">
+
+            <input id="codigoPix" readonly>
+
+            <button type="button" onclick="copiarPix()" id="botaoCopiar">
+                Copiar
+            </button>
+
+        </div>
+
+        <div class="status">
+
+            <span class="bolinha"></span>
+
+            <span id="statusTexto">
+                Aguardando confirmação do pagamento
+            </span>
+
+        </div>
+
+        <button class="botao" type="button" onclick="confirmarPix()" id="botaoConfirmar">
+            Já realizei o pagamento <i>→</i>
+        </button>
+
+        <a class="voltar" href="/html/index.html" id="voltarInicio">
+            Voltar ao início
+        </a>
+
+    </main>
+
+    <!-- LEAFLET -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+
+        "use strict";
+
+        /* =========================
+           IDIOMA
+        ========================= */
+
+        let idiomaAtual = "pt";
+
+        function alternarIdioma() {
+
+            idiomaAtual = idiomaAtual === "pt" ? "en" : "pt";
+
+            const ingles = idiomaAtual === "en";
+
+            document.documentElement.lang = ingles ? "en" : "pt-BR";
+
+            document.getElementById("botaoIdioma").textContent =
+                ingles ? "🌐 EN" : "🌐 PT-BR";
+
+            document.getElementById("menuInicio").textContent =
+                ingles ? "Home" : "Início";
+
+            document.getElementById("menuViajar").textContent =
+                ingles ? "Ride" : "Viajar";
+
+            document.getElementById("menuSobre").textContent =
+                ingles ? "About us" : "Sobre-nós";
+
+            document.getElementById("menuAjuda").textContent =
+                ingles ? "Help" : "Ajuda";
+
+            document.getElementById("menuLogin").textContent =
+                ingles ? "Log in" : "Fazer login";
+
+            document.getElementById("menuCadastro").textContent =
+                ingles ? "Sign up" : "Cadastre-se";
+
+            document.getElementById("tituloPagamento").textContent =
+                ingles ? "Payment via PIX" : "Pagamento via PIX";
+
+            document.getElementById("descricaoPagamento").textContent =
+                ingles
+                    ? "Your ride has finished! Complete the payment to continue."
+                    : "Sua corrida foi finalizada! Realize o pagamento para concluir.";
+
+            document.getElementById("textoValor").textContent =
+                ingles ? "Total ride amount" : "Valor total da corrida";
+
+            document.getElementById("instrucaoPix").textContent =
+                ingles
+                    ? "Open your bank app, choose PIX and scan the QR Code."
+                    : "Abra o aplicativo do seu banco, escolha PIX e escaneie o QR Code.";
+
+            document.getElementById("botaoCopiar").textContent =
+                ingles ? "Copy" : "Copiar";
+
+            document.getElementById("statusTexto").textContent =
+                ingles
+                    ? "Waiting for payment confirmation"
+                    : "Aguardando confirmação do pagamento";
+
+            document.getElementById("botaoConfirmar").innerHTML =
+                ingles
+                    ? 'I have made the payment <i>→</i>'
+                    : 'Já realizei o pagamento <i>→</i>';
+
+            document.getElementById("voltarInicio").textContent =
+                ingles ? "Back to home" : "Voltar ao início";
+        }
+
+
+        /* =========================
+           VALOR DA CORRIDA
+        ========================= */
+
+        const valor = Number(localStorage.getItem("valorCorrida")) || 15;
+
+        const valorFormatado = valor.toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL"
+        });
+
+        document.getElementById("valor").textContent = valorFormatado;
+
+
+        /* =========================
+           PIX DE DEMONSTRAÇÃO
+        ========================= */
+
+        const codigo = "WN57-PAGAMENTO-DEMO-" + valor.toFixed(2);
+
+        document.getElementById("codigoPix").value = codigo;
+
+        document.getElementById("qrCode").src =
+            "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" +
+            encodeURIComponent(codigo);
+
+
+        /* =========================
+           COPIAR PIX
+        ========================= */
+
+        function copiarPix() {
+
+            const campo = document.getElementById("codigoPix");
+
+            campo.select();
+            campo.setSelectionRange(0, 99999);
+
+            if (navigator.clipboard) {
+
+                navigator.clipboard.writeText(codigo)
+
+                    .then(() => {
+
+                        alert(
+                            idiomaAtual === "en"
+                                ? "PIX code copied!"
+                                : "Código PIX copiado!"
+                        );
+
+                    })
+
+                    .catch(() => {
+
+                        document.execCommand("copy");
+
+                        alert(
+                            idiomaAtual === "en"
+                                ? "PIX code copied!"
+                                : "Código PIX copiado!"
+                        );
+
+                    });
+
+            } else {
+
+                document.execCommand("copy");
+
+                alert(
+                    idiomaAtual === "en"
+                        ? "PIX code copied!"
+                        : "Código PIX copiado!"
+                );
+
+            }
+        }
+
+
+        /* =========================
+           CONFIRMAR PAGAMENTO
+        ========================= */
+
+        function confirmarPix() {
+
+            const mensagem = idiomaAtual === "en"
+                ? "Do you confirm that you have made the PIX payment?"
+                : "Confirma que você realizou o pagamento via PIX?";
+
+            if (!confirm(mensagem)) {
+                return;
+            }
+
+            localStorage.setItem("pagamentoStatus", "pago");
+            localStorage.setItem("pagamentoConfirmado", "true");
+            localStorage.setItem("pagamentoCorrida", "Pix");
+
+            localStorage.setItem(
+                "dataPagamento",
+                new Date().toISOString()
+            );
+
+            alert(
+                idiomaAtual === "en"
+                    ? "Payment confirmed in the demonstration!"
+                    : "Pagamento confirmado na demonstração!"
+            );
+
+            window.location.href = "/html/corrida/solicitar.html";
+        }
+
+
+        /* =========================
+           MAPA
+        ========================= */
+
+        const mapa = L.map("map").setView([-25.442, -49.192], 15);
+
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution: "&copy; OpenStreetMap"
+        }).addTo(mapa);
+
+    </script>
+
+</body>
+
+</html>
