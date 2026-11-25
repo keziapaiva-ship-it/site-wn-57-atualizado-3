@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Suporte • WN57</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/ajuda/suporte.css">
+    <link rel="stylesheet" href="/css/login/cabecalho.css">
+</head>
+
+<body>
+
+    <!-- CABEÇALHO -->
+    <script src="/javascript/login/cabecalho.js"></script>
+
+    <main>
+
+        <!-- APRESENTAÇÃO -->
+        <section class="support-hero">
+
+            <div class="hero-content">
+
+                <span class="hero-tag">WN57 • CENTRAL DE SUPORTE</span>
+
+                <h1 data-i18n="titulo">
+                    Tire sua dúvida agora, sem esperar atendente.
+                </h1>
+
+                <p class="lead" data-i18n="lead">
+                    A assistente de suporte da WN57 responde na hora as perguntas mais comuns dos clientes.
+                    Teste ao lado: clique em uma pergunta ou escreva a sua.
+                </p>
+
+                <div class="hero-status">
+                    <span class="status-indicator"></span>
+                    <span data-i18n="online">Assistente disponível online</span>
+                </div>
+
+            </div>
+
+            <div class="hero-decoration">
+                <div class="decoration-circle"></div>
+                <div class="decoration-card">
+                    <img src="/img/IA DA WN57.png" alt="Assistente virtual WN57" class="foto-assistente">
+
+                    <strong>Assistente WN57</strong>
+                    <small>Mobilidade e suporte inteligente</small>
+                </div>
+            </div>
+            </div>
+
+        </section>
+
+        <!-- INFORMAÇÕES -->
+        <section class="support-information">
+
+            <div class="section-heading">
+                <span>INFORMAÇÕES</span>
+                <h2>Como podemos ajudar?</h2>
+                <p>Conheça os assuntos que nossa assistente pode orientar.</p>
+            </div>
+
+            <div class="scope">
+
+                <!-- ASSUNTOS ATENDIDOS -->
+                <div class="info-card">
+
+                    <div class="info-icon">✓</div>
+
+                    <h2 data-i18n="aceitaTitulo">
+                        O que a assistente responde
+                    </h2>
+
+                    <ul>
+                        <li data-i18n="a1">Como pedir, cancelar e acompanhar uma corrida</li>
+                        <li data-i18n="a2">Formas de pagamento, cobranças e reembolso</li>
+                        <li data-i18n="a3">Diferença entre WN Black, Comfort e Econômico</li>
+                        <li data-i18n="a4">Segurança, objetos esquecidos e problemas com o app</li>
+                        <li data-i18n="a5">Login, cadastro e senha</li>
+                    </ul>
+
+                </div>
+
+                <!-- VÍDEO -->
+                <div class="info-card video-suporte">
+
+                    <div class="info-icon">▶</div>
+
+                    <h2 data-i18n="videoTitulo">
+                        Como usar a WN57
+                    </h2>
+
+                    <p data-i18n="videoTexto">
+                        Assista ao vídeo para conhecer melhor a plataforma
+                        e aprender a utilizar nossos serviços.
+                    </p>
+
+                    <div class="video-container">
+                        <video controls preload="metadata" playsinline>
+                            <source src="/img/VID_20261019_143506.mp4" type="video/mp4">
+                            Seu navegador não consegue reproduzir este vídeo.
+                        </video>
+                    </div>
+
+                </div>
+
+                <!-- LIMITAÇÕES -->
+                <div class="info-card limitation-card">
+
+                    <div class="info-icon">!</div>
+
+                    <h2 data-i18n="naoTitulo">
+                        O que ela não faz
+                    </h2>
+
+                    <ul>
+                        <li data-i18n="n1">Não responde assuntos fora da WN57</li>
+                        <li data-i18n="n2">Não pede senha nem dados de cartão</li>
+                        <li data-i18n="n3">Não altera corridas nem cobranças: encaminha para o suporte humano</li>
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- CHAT -->
+        <section class="chat-section">
+
+            <div class="chat-section-heading">
+                <div>
+                    <span>ATENDIMENTO DIGITAL</span>
+                    <h2>Converse com a WN57</h2>
+                    <p>Estamos aqui para ajudar com suas dúvidas.</p>
+                </div>
+
+                <div class="chat-availability">
+                    <span class="status-indicator"></span>
+                    Online
+                </div>
+            </div>
+
+            <section class="chat" aria-label="Chat de suporte WN57">
+
+                <div class="chat-head">
+
+                    <div class="avatar">
+                        <img src="/img/IA DA WN57.png" alt="Assistente WN57">
+                    </div>
+
+                    <div class="assistant-info">
+                        <strong>Assistente WN57</strong>
+
+                        <small>
+                            <span class="dot"></span>
+                            <span data-i18n="online">Online • responde em segundos</span>
+                        </small>
+                    </div>
+
+                    <span class="chat-badge">SUPORTE</span>
+
+                </div>
+
+                <div id="msgs" role="log" aria-live="polite"></div>
+
+                <div class="chips" id="chips"></div>
+
+                <form class="input" id="form">
+
+                    <input id="campo" placeholder="Escreva sua dúvida..." autocomplete="off" aria-label="Sua dúvida">
+
+                    <button type="button" id="microfone" class="btn-microfone" title="Perguntar por áudio"
+                        aria-label="Perguntar por áudio">
+                        🎙️
+                    </button>
+
+                    <button type="submit" data-i18n="enviar">
+                        Enviar
+                    </button>
+
+                </form>
+
+            </section>
+
+            <p class="note" data-i18n="note">
+                Esta é uma demonstração com respostas de exemplo. Para ligar à IA de verdade, preencha
+                <code>API_URL</code> no script desta página com o endereço do seu servidor.
+            </p>
+
+        </section>
+
+    </main>
+
+    <!-- RODAPÉ -->
+    <footer class="support-footer" data-i18n="rodape">
+        © 2026 WN57 • Todos os direitos reservados
+    </footer>
+
+    <script src="/javascript/ajuda/suport.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>WN57 - Minhas viagens</title>
+
+    <!-- FONTES -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600&display=swap"
+        rel="stylesheet">
+
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- CABEÇALHO COMPARTILHADO -->
+    <link rel="stylesheet" href="/css/login/cabecalho.css">
+
+    <!-- CSS DA ATIVIDADE -->
+    <link rel="stylesheet" href="/css/login/atividade.css">
+
+</head>
+
+<body>
+
+    <!-- CABEÇALHO WN57 -->
+    <script src="/javascript/login/cabecalho.js"></script>
+
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="atividade-container">
+
+        <h1 id="tituloAtividade">Atividade</h1>
+
+        <p class="sub" id="subAtividade">
+            Acompanhe suas viagens agendadas e anteriores.
+        </p>
+
+
+        <!-- VIAGENS AGENDADAS -->
+        <section class="agendadas" aria-labelledby="tituloAgendadas">
+
+            <div>
+
+                <h2 id="tituloAgendadas">
+                    Você não tem viagens agendadas
+                </h2>
+
+                <p id="descricaoAgendadas">
+                    Reserve com antecedência e viaje com tranquilidade.
+                </p>
+
+            </div>
+
+            <button class="btn" type="button" id="btnReservar">
+                Reservar viagem
+            </button>
+
+        </section>
+
+
+        <!-- VIAGENS ANTERIORES -->
+        <div class="barra">
+
+            <h2 class="sec" id="tituloAnteriores">
+                Anteriores
+            </h2>
+
+            <div class="filtros">
+
+                <select id="perfilViagem" aria-label="Perfil">
+
+                    <option value="pessoal" id="opcaoPessoal">
+                        Pessoal
+                    </option>
+
+                    <option value="trabalho" id="opcaoTrabalho">
+                        Trabalho
+                    </option>
+
+                </select>
+
+
+                <select id="periodo" aria-label="Período">
+
+                    <option value="todas" id="opcaoTodas">
+                        Todas as viagens
+                    </option>
+
+                    <option value="30" id="opcao30">
+                        Últimos 30 dias
+                    </option>
+
+                    <option value="365" id="opcao365">
+                        Este ano
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <!-- LISTA DE CORRIDAS -->
+        <div class="lista" id="lista">
+
+        </div>
+
+    </main>
+
+
+    <!-- JAVASCRIPT -->
+    <script src="/javascript/login/atividade.js"></script>
+
+</body>
+</html>
