@@ -1,14 +1,5 @@
 (function () {
     "use strict";
-
-    // ==========================================
-    // Tradução da página de cadastro (PT-BR / EN)
-    //
-    // O botão de idioma do cabeçalho (perfil.js) já traduz o menu e,
-    // depois, chama window.atualizarIdiomaPagina(). É essa função que
-    // este arquivo cria, para traduzir o resto da página.
-    // ==========================================
-
     const CHAVE_IDIOMA = "wn57_idioma";
 
     function idiomaAtual() {
