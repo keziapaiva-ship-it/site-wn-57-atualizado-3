@@ -13,45 +13,22 @@
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap"
         rel="stylesheet" />
 
-    <!-- Estilos da página (um único arquivo, inclui o campo de foto) -->
+    <!-- Estilos da página (um único arquivo: cabeçalho, formulário e campo de foto) -->
     <link rel="stylesheet" href="/css/login/cadastro.css">
+
+    <!-- Estilos da página cabeçalho -->
+    <link rel="stylesheet" href="/css/login/cabecalho.css">
+
 </head>
 
 <body>
 
-    <!--01. MENU (cabeçalho)-->
-    <header class="menu">
-
-        <!-- Logo -->
-        <div class="logo">
-            <img src="/img/logo/logo1.jpg" alt="WN57">
-        </div>
+    <!-- 01. CABEÇALHO
+         Não escreva o <header> aqui: o perfil.js cria o cabeçalho
+         completo (menu, idioma, login e perfil) no topo da página. -->
 
 
-        <!-- ---------- Ações do usuário (direita) ---------- -->
-        <div class="menu-direita">
-            <!-- Idioma (PT-BR / EN) -->
-            <button class="idioma-btn" id="btnIdioma" type="button" data-no-i18n>
-                🌐 PT-BR
-            </button>
-
-            <!-- Ajuda -->
-            <a href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/ajuda.html">
-                Ajuda
-            </a>
-
-            <!-- Login (o perfil.js troca este link pelo menu rosa quando a pessoa está logada) -->
-            <div id="usuarioArea">
-                <a href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/login/login.html">
-                    Fazer login
-                </a>
-            </div>
-        </div>
-    </header>
-    <!-- /MENU -->
-
-
-    <!--02. CADASTRO (formulário)-->
+    <!-- 02. CADASTRO (formulário) -->
 
     <div class="container">
         <main>
@@ -89,9 +66,11 @@
 
                                 const usuario = JSON.parse(json);
 
-                                // Guarda o usuário como "logado"
+                                // O perfil.js só considera a pessoa logada com "token" + "usuarioLogado".
+                                // O credential do Google é um JWT com "exp", então serve como token.
+                                localStorage.setItem("token", resposta.credential);
                                 localStorage.setItem(
-                                    "usuario",
+                                    "usuarioLogado",
                                     JSON.stringify({
                                         nome: usuario.name,
                                         email: usuario.email,
@@ -100,8 +79,8 @@
                                     })
                                 );
 
-                                // Volta para a página inicial já logado (caminho definido no perfil.js)
-                                window.location.href = WN57.paginaInicial;
+                                // Volta para a página inicial já logado
+                                window.location.href = "/html/principal/inicial.html";
                             }
                         </script>
 
@@ -186,7 +165,7 @@
 
                     <p class="ja-tem-conta">
                         Já tem uma conta?
-                        <a href="/site-de-corrida-wn-57-main/site-wn-57-corrida-main/html/login/login.html">Entrar</a>
+                        <a href="/html/login/login.html">Entrar</a>
                     </p>
                 </form>
             </section>
@@ -197,18 +176,16 @@
 
     <!-- 03. SCRIPTS (a ordem importa) -->
 
-    <!-- 1) Menu de perfil rosa + caminhos do site (define WN57) -->
-    <script
-        src="/site-de-corrida-wn-57-main/site-de-corrida-wn-57-main/site-wn-57-corrida-main/javascript/perfil.js"></script>
+    <!-- 1) Cabeçalho + menu de perfil -->
+    <script src="/javascript/perfil.js"></script>
 
-    <!-- 2) E-mail de boas-vindas (EmailJS) -->
+    <!-- 2) EmailJS (biblioteca) -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
     <!-- 3) Lógica do cadastro -->
-    <script
-        src="/javascript/login/api.js"></script>
-    <script
-        src="/javascript/login/cadastro.js"></script>
+    <script src="/javascript/login/api.js"></script>
+    <script src="/javascript/login/cabecalho.js"></script>
+    <script src="/javascript/login/cadastro.js"></script>
 
 </body>
 
