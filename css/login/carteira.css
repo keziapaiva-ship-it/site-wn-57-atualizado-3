@@ -1,0 +1,648 @@
+ :root {
+     --rosa: #ff2d78;
+     --rosa-700: #c2185b;
+     --vinho: #4a0d2e;
+     --rosa-200: #f9c6de;
+     --rosa-100: #fde8f2;
+     --rosa-50: #fff5fa;
+     --linha: #f0d9e5;
+     --texto: #2a1220;
+     --suave: #7a5568;
+ }
+
+ * {
+     box-sizing: border-box;
+     margin: 0;
+     padding: 0
+ }
+
+ body {
+     font-family: "Poppins", "Segoe UI", system-ui, sans-serif;
+     color: var(--texto);
+     background: #fff
+ }
+
+ a {
+     color: inherit;
+     text-decoration: none
+ }
+
+ button {
+     font: inherit;
+     cursor: pointer
+ }
+
+ :focus-visible {
+     outline: 3px solid var(--rosa);
+     outline-offset: 2px
+ }
+
+ /* ===== topo ===== */
+ .topo {
+     position: sticky;
+     top: 0;
+     z-index: 30;
+     background: #fff;
+     border-bottom: 1px solid var(--linha)
+ }
+
+ .topo-in {
+     max-width: 960px;
+     margin: 0 auto;
+     height: 72px;
+     padding: 0 24px;
+     display: flex;
+     align-items: center;
+     justify-content: space-between
+ }
+
+ .marca {
+     font-size: 24px;
+     font-weight: 700;
+     color: var(--vinho)
+ }
+
+ .marca b {
+     color: var(--rosa)
+ }
+
+ .conta {
+     position: relative
+ }
+
+ .conta-btn {
+     display: flex;
+     align-items: center;
+     gap: 8px;
+     background: none;
+     border: 0;
+     padding: 4px;
+     border-radius: 999px
+ }
+
+ .conta-btn:hover {
+     background: var(--rosa-50)
+ }
+
+ .avatar {
+     width: 38px;
+     height: 38px;
+     border-radius: 50%;
+     background: var(--rosa-200) center/cover no-repeat;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     font-weight: 700;
+     color: var(--vinho)
+ }
+
+ .conta-btn svg {
+     width: 14px;
+     height: 14px;
+     fill: var(--vinho)
+ }
+
+ .conta-menu {
+     position: absolute;
+     right: 0;
+     top: calc(100% + 8px);
+     min-width: 220px;
+     background: #fff;
+     border-radius: 12px;
+     padding: 8px 0;
+     box-shadow: 0 8px 28px rgba(194, 24, 91, .25);
+     opacity: 0;
+     visibility: hidden;
+     transform: translateY(-6px);
+     transition: .18s
+ }
+
+ .conta-menu.aberto {
+     opacity: 1;
+     visibility: visible;
+     transform: none
+ }
+
+ .conta-menu .quem {
+     padding: 10px 18px 12px;
+     border-bottom: 1px solid var(--linha);
+     font-weight: 600;
+     color: var(--vinho)
+ }
+
+ .conta-menu a,
+ .conta-menu button {
+     display: block;
+     width: 100%;
+     text-align: left;
+     background: none;
+     border: 0;
+     padding: 12px 18px;
+     font-size: 15px
+ }
+
+ .conta-menu a:hover,
+ .conta-menu button:hover {
+     background: var(--rosa-100)
+ }
+
+ .conta-menu .sair {
+     color: #d32f2f
+ }
+
+ /* ===== página ===== */
+ main {
+     max-width: 960px;
+     margin: 0 auto;
+     padding: 40px 24px 96px
+ }
+
+ h1 {
+     font-size: 32px;
+     color: var(--vinho);
+     margin-bottom: 24px
+ }
+
+ h2 {
+     font-size: 26px;
+     color: var(--vinho);
+     margin: 56px 0 18px
+ }
+
+ .sub {
+     color: var(--suave);
+     font-size: 15px;
+     margin-bottom: 10px
+ }
+
+ .grade {
+     display: grid;
+     grid-template-columns: 1fr 1fr;
+     gap: 24px
+ }
+
+ /* saldo e créditos */
+ .painel {
+     border: 1.5px solid var(--linha);
+     border-radius: 18px;
+     padding: 26px;
+     min-height: 280px;
+     display: flex;
+     flex-direction: column;
+     background: var(--rosa-50)
+ }
+
+ .painel.creditos {
+     background: linear-gradient(135deg, var(--rosa-50) 0 58%, var(--rosa-100) 58% 100%)
+ }
+
+ .painel .rotulo {
+     color: var(--suave);
+     font-size: 15px
+ }
+
+ .painel .valor {
+     font-size: 36px;
+     font-weight: 700;
+     color: var(--vinho);
+     margin: 6px 0 14px
+ }
+
+ .painel .texto {
+     font-size: 18px;
+     font-weight: 600;
+     line-height: 1.4;
+     max-width: 300px
+ }
+
+ .painel .texto small {
+     display: block;
+     font-size: 14px;
+     font-weight: 400;
+     color: var(--suave);
+     margin-top: 4px
+ }
+
+ .painel .acao {
+     margin-top: auto
+ }
+
+ .btn-escuro {
+     display: inline-flex;
+     align-items: center;
+     gap: 10px;
+     background: var(--vinho);
+     color: #fff;
+     border: 0;
+     border-radius: 999px;
+     padding: 14px 22px;
+     font-weight: 600;
+     font-size: 15px;
+     transition: background .15s
+ }
+
+ .btn-escuro:hover {
+     background: var(--rosa-700)
+ }
+
+ .btn-escuro svg {
+     width: 16px;
+     height: 16px;
+     fill: #fff
+ }
+
+ /* formas de pagamento */
+ .pagamentos {
+     display: grid;
+     grid-template-columns: 1fr 1fr;
+     gap: 24px
+ }
+
+ .forma {
+     position: relative;
+     min-height: 250px;
+     border-radius: 18px;
+     padding: 24px;
+     color: #fff;
+     display: flex;
+     flex-direction: column;
+     overflow: hidden
+ }
+
+ .forma.cartao {
+     background: linear-gradient(145deg, #4a0d2e, #7d1350)
+ }
+
+ .forma.cartao.alt {
+     background: linear-gradient(145deg, #2c0a1d, #5a0f3b)
+ }
+
+ .forma.pix {
+     background: #f2e6ec;
+     color: var(--texto)
+ }
+
+ .forma.dinheiro {
+     background: linear-gradient(145deg, #c2185b, #ff2d78)
+ }
+
+ .forma-topo {
+     display: flex;
+     justify-content: space-between;
+     align-items: flex-start;
+     gap: 12px
+ }
+
+ .forma-nome {
+     font-weight: 600;
+     font-size: 15px;
+     display: flex;
+     align-items: center;
+     gap: 8px;
+     flex-wrap: wrap
+ }
+
+ .etiqueta {
+     font-size: 12px;
+     font-weight: 600;
+     background: #fff;
+     color: var(--rosa-700);
+     border-radius: 6px;
+     padding: 2px 8px
+ }
+
+ .selo {
+     width: 42px;
+     height: 42px;
+     border-radius: 10px;
+     background: rgba(255, 255, 255, .2);
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     font-size: 11px;
+     font-weight: 700;
+     letter-spacing: .3px;
+     flex-shrink: 0
+ }
+
+ .pix .selo {
+     background: #fff
+ }
+
+ .selo svg {
+     width: 24px;
+     height: 24px
+ }
+
+ .numero {
+     margin-top: 26px;
+     font-family: Consolas, monospace;
+     font-size: 20px;
+     letter-spacing: 2px
+ }
+
+ .detalhe {
+     margin-top: 8px;
+     font-size: 14px;
+     opacity: .85
+ }
+
+ .forma-acoes {
+     margin-top: auto;
+     display: flex;
+     gap: 8px;
+     flex-wrap: wrap
+ }
+
+ .mini {
+     border: 0;
+     border-radius: 999px;
+     padding: 8px 14px;
+     font-size: 13px;
+     font-weight: 600;
+     background: rgba(255, 255, 255, .2);
+     color: inherit;
+     transition: background .15s
+ }
+
+ .mini:hover {
+     background: rgba(255, 255, 255, .35)
+ }
+
+ .pix .mini {
+     background: rgba(74, 13, 46, .1)
+ }
+
+ .pix .mini:hover {
+     background: rgba(74, 13, 46, .2)
+ }
+
+ /* linhas de lista */
+ .linha-add {
+     display: flex;
+     align-items: center;
+     gap: 20px;
+     width: 100%;
+     background: none;
+     border: 0;
+     border-bottom: 1px solid var(--linha);
+     padding: 22px 4px;
+     text-align: left;
+     font-size: 16px;
+     font-weight: 500;
+     transition: background .15s
+ }
+
+ .linha-add:hover {
+     background: var(--rosa-50)
+ }
+
+ .linha-add svg {
+     width: 18px;
+     height: 18px;
+     fill: var(--vinho);
+     flex-shrink: 0
+ }
+
+ .linha-add .seta {
+     margin-left: auto;
+     fill: none;
+     stroke: #b896a8;
+     stroke-width: 2.5;
+     stroke-linecap: round;
+     stroke-linejoin: round
+ }
+
+ .linha-item {
+     display: flex;
+     align-items: center;
+     gap: 16px;
+     padding: 18px 4px;
+     border-bottom: 1px solid var(--linha)
+ }
+
+ .linha-item .ic {
+     width: 34px;
+     height: 34px;
+     border-radius: 50%;
+     background: var(--rosa-100);
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     flex-shrink: 0
+ }
+
+ .linha-item .ic svg {
+     width: 16px;
+     height: 16px;
+     fill: var(--rosa-700)
+ }
+
+ .linha-item strong {
+     display: block;
+     font-weight: 600
+ }
+
+ .linha-item small {
+     color: var(--suave)
+ }
+
+ .linha-item .tira {
+     margin-left: auto;
+     background: none;
+     border: 0;
+     color: var(--rosa-700);
+     font-weight: 600;
+     font-size: 14px
+ }
+
+ .status {
+     margin-left: auto;
+     font-size: 12px;
+     font-weight: 600;
+     background: var(--rosa-100);
+     color: var(--vinho);
+     border-radius: 999px;
+     padding: 4px 10px
+ }
+
+ /* ofertas */
+ .ofertas {
+     display: grid;
+     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+     gap: 24px
+ }
+
+ .oferta {
+     border: 1.5px solid var(--linha);
+     border-radius: 18px;
+     padding: 22px;
+     display: flex;
+     flex-direction: column;
+     gap: 8px
+ }
+
+ .oferta h3 {
+     font-size: 18px;
+     color: var(--vinho)
+ }
+
+ .oferta p {
+     color: var(--suave);
+     font-size: 14px;
+     line-height: 1.5
+ }
+
+ .oferta .cod {
+     font-family: Consolas, monospace;
+     font-weight: 700;
+     color: var(--rosa-700)
+ }
+
+ .oferta button {
+     margin-top: auto;
+     align-self: flex-start;
+     border: 2px solid var(--rosa);
+     background: #fff;
+     color: var(--rosa-700);
+     border-radius: 999px;
+     padding: 10px 20px;
+     font-weight: 600;
+     transition: .15s
+ }
+
+ .oferta button:hover {
+     background: var(--rosa);
+     color: #fff
+ }
+
+ .oferta.ativa button {
+     background: var(--rosa-100);
+     border-color: var(--rosa-100);
+     color: var(--vinho);
+     cursor: default
+ }
+
+ /* janelas */
+ dialog {
+     border: 0;
+     border-radius: 18px;
+     padding: 0;
+     width: min(440px, calc(100vw - 32px));
+     box-shadow: 0 20px 60px rgba(74, 13, 46, .35)
+ }
+
+ dialog::backdrop {
+     background: rgba(42, 18, 32, .55)
+ }
+
+ .dlg {
+     padding: 28px
+ }
+
+ .dlg h3 {
+     font-size: 22px;
+     color: var(--vinho);
+     margin-bottom: 6px
+ }
+
+ .dlg .aviso {
+     font-size: 13px;
+     color: var(--suave);
+     line-height: 1.5;
+     margin-bottom: 16px
+ }
+
+ .dlg label {
+     display: block;
+     font-weight: 600;
+     font-size: 14px;
+     margin: 14px 0 6px
+ }
+
+ .dlg input,
+ .dlg select {
+     width: 100%;
+     padding: 13px 14px;
+     border: 2px solid var(--linha);
+     border-radius: 10px;
+     font: inherit;
+     background: #fff
+ }
+
+ .dlg input:focus,
+ .dlg select:focus {
+     border-color: var(--rosa);
+     outline: none
+ }
+
+ .dlg .botoes {
+     display: flex;
+     gap: 10px;
+     margin-top: 22px
+ }
+
+ .dlg .botoes button {
+     flex: 1;
+     padding: 13px;
+     border-radius: 10px;
+     border: 0;
+     font-weight: 600
+ }
+
+ .dlg .ok {
+     background: var(--rosa-700);
+     color: #fff
+ }
+
+ .dlg .ok:hover {
+     background: var(--vinho)
+ }
+
+ .dlg .cancelar {
+     background: var(--rosa-100);
+     color: var(--vinho)
+ }
+
+ .aviso-flutuante {
+     position: fixed;
+     left: 50%;
+     bottom: 28px;
+     transform: translate(-50%, 20px);
+     background: var(--vinho);
+     color: #fff;
+     padding: 14px 22px;
+     border-radius: 10px;
+     opacity: 0;
+     pointer-events: none;
+     transition: .2s;
+     z-index: 60;
+     max-width: 90vw
+ }
+
+ .aviso-flutuante.mostra {
+     opacity: 1;
+     transform: translate(-50%, 0)
+ }
+
+ @media (max-width:760px) {
+
+     .grade,
+     .pagamentos {
+         grid-template-columns: 1fr
+     }
+
+     main {
+         padding: 28px 16px 80px
+     }
+
+     .topo-in {
+         padding: 0 16px
+     }
+ }
+
+ @media (prefers-reduced-motion:reduce) {
+     * {
+         transition: none !important
+     }
+ }
