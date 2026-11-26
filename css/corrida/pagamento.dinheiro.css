@@ -1,0 +1,1155 @@
+/* =====================================================
+   WN57 — PAGAMENTO EM DINHEIRO
+   CSS organizado
+===================================================== */
+
+/* =====================================================
+   1. VARIÁVEIS
+===================================================== */
+
+:root {
+    --rosa: #ff2d8f;
+    --rosa-claro: #ff58a6;
+    --fundo: #171719;
+    --painel: #202023;
+    --cinza: #a2a2ab;
+    --borda: rgba(255, 255, 255, .08);
+}
+
+/* =====================================================
+   2. RESET E CONFIGURAÇÕES GERAIS
+===================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'DM Sans', sans-serif;
+}
+
+html {
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    background: var(--fundo);
+    color: #fff;
+    overflow-x: hidden;
+}
+
+/* =====================================================
+   3. CABEÇALHO WN57
+===================================================== */
+
+header,
+.header {
+    width: 100%;
+    height: 72px;
+    padding: 0 max(calc((100% - 1362px) / 2), 30px);
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    position: relative;
+    z-index: 1000;
+
+    background: #000;
+    gap: 0;
+}
+
+/* Logo */
+
+header .logo,
+.header .logo {
+    width: 62px;
+    height: 58px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #333;
+    border-radius: 16px;
+
+    text-decoration: none;
+    color: #fff;
+
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+header .logo img,
+.header .logo img {
+    width: 100%;
+    height: 100%;
+    padding: 8px;
+    object-fit: contain;
+}
+
+/* Menu central */
+
+header nav,
+.header nav {
+    display: flex;
+    align-items: center;
+    gap: 27px;
+
+    margin-left: 35px;
+    margin-right: 0;
+
+    position: static;
+    transform: none;
+}
+
+header nav a,
+.header nav a {
+    color: #fff;
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+
+    transition: color .2s ease;
+}
+
+header nav a:hover,
+.header nav a:hover {
+    color: var(--rosa);
+}
+
+/* Menu direito */
+
+.menu-direita {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 19px;
+    margin-left: auto;
+}
+
+.menu-direita a {
+    color: #fff;
+    text-decoration: none;
+
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+
+    transition: color .2s ease;
+}
+
+.menu-direita a:hover {
+    color: var(--rosa);
+}
+
+/* Idioma */
+
+.idioma {
+    background: transparent;
+    border: none;
+
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+/* Botão cadastro */
+
+.btn-cadastro {
+    background: var(--rosa);
+    color: #fff !important;
+
+    padding: 13px 22px;
+    border-radius: 13px;
+
+    font-size: 13px;
+    font-weight: 800 !important;
+    white-space: nowrap;
+
+    transition: .2s ease;
+}
+
+.btn-cadastro:hover {
+    background: #e91e68;
+    transform: translateY(-1px);
+}
+
+/* =====================================================
+   4. MAPA DE FUNDO
+===================================================== */
+
+#map {
+    position: fixed;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: 0;
+
+    filter: brightness(.30) blur(3px);
+}
+
+/* =====================================================
+   5. PAINEL PRINCIPAL
+===================================================== */
+
+.painel {
+    position: relative;
+    z-index: 10;
+
+    width: 100%;
+    max-width: 570px;
+    min-height: 100vh;
+
+    margin: 0 auto;
+    padding: 22px 30px 28px;
+
+    background:
+        radial-gradient(circle at 100% 0%,
+            rgba(255, 45, 143, .07),
+            transparent 38%),
+        linear-gradient(155deg, #242226, #1b1b1e);
+
+    border-left: 1px solid rgba(255, 255, 255, .05);
+    border-right: 1px solid rgba(255, 255, 255, .05);
+
+    box-shadow: 0 0 60px rgba(0, 0, 0, .35);
+}
+
+/* Barra superior */
+
+.barra {
+    width: 46px;
+    height: 5px;
+
+    margin: 0 auto 24px;
+
+    border-radius: 20px;
+    background: #66666b;
+}
+
+/* Tag WN57 */
+
+.tag {
+    display: inline-block;
+
+    padding: 7px 14px;
+    margin-bottom: 14px;
+
+    background: rgba(255, 45, 143, .14);
+    border: 1px solid rgba(255, 45, 143, .20);
+    border-radius: 30px;
+
+    color: var(--rosa-claro);
+    font-size: 11px;
+    font-weight: 800;
+}
+
+/* Títulos */
+
+.painel h2 {
+    color: #fff;
+    font-size: 25px;
+    font-weight: 800;
+    letter-spacing: -.7px;
+
+    margin-bottom: 8px;
+}
+
+.descricao {
+    color: var(--cinza);
+    font-size: 13px;
+    line-height: 1.6;
+
+    margin-bottom: 23px;
+}
+
+/* =====================================================
+   6. ÍCONE DE PAGAMENTO
+===================================================== */
+
+.icone-pagamento {
+    display: flex;
+    justify-content: center;
+
+    margin: 20px 0;
+}
+
+.icone-pagamento i {
+    width: 66px;
+    height: 66px;
+
+    display: grid;
+    place-items: center;
+
+    padding: 0;
+
+    background: rgba(255, 45, 143, .13);
+    border: 1px solid rgba(255, 45, 143, .25);
+    border-radius: 20px;
+
+    color: var(--rosa-claro);
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 800;
+}
+
+/* =====================================================
+   7. VALOR DA CORRIDA
+===================================================== */
+
+.valor-box {
+    padding: 23px 18px;
+    margin-bottom: 17px;
+
+    text-align: center;
+
+    background: linear-gradient(135deg, #29292d, #242427);
+    border: 1px solid rgba(255, 255, 255, .06);
+    border-radius: 18px;
+}
+
+.valor-box small {
+    color: #a8a8b0;
+    font-size: 12px;
+}
+
+.valor-box h1 {
+    margin-top: 7px;
+
+    color: var(--rosa);
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -.8px;
+}
+
+/* =====================================================
+   8. AVISO DE PAGAMENTO
+===================================================== */
+
+.aviso {
+    padding: 18px;
+    margin-bottom: 16px;
+
+    background: rgba(255, 45, 143, .065);
+    border: 1px solid rgba(255, 45, 143, .15);
+    border-radius: 15px;
+}
+
+.aviso strong {
+    color: #fff;
+    font-size: 14px;
+}
+
+.aviso p {
+    color: #b5b5bd;
+    font-size: 12px;
+    line-height: 1.6;
+
+    margin-top: 9px;
+}
+
+/* =====================================================
+   9. RESUMO DO PAGAMENTO
+===================================================== */
+
+.resumo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    padding: 15px 0;
+
+    border-bottom: 1px solid rgba(255, 255, 255, .09);
+
+    font-size: 13px;
+}
+
+.resumo span {
+    color: #aaaab3;
+}
+
+.resumo strong {
+    color: #fff;
+    font-weight: 800;
+}
+
+/* =====================================================
+   10. STATUS
+===================================================== */
+
+.status {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    margin: 18px 0 20px;
+
+    color: #ffbd65;
+    font-size: 12px;
+}
+
+.bolinha {
+    width: 10px;
+    height: 10px;
+
+    flex-shrink: 0;
+
+    background: #ffbd65;
+    border-radius: 50%;
+
+    box-shadow: 0 0 12px rgba(255, 189, 101, .3);
+}
+
+/* =====================================================
+   11. QR CODE E CÓDIGO PIX
+===================================================== */
+
+.qr {
+    width: 190px;
+    height: 190px;
+
+    padding: 8px;
+    margin: 18px auto;
+
+    background: #fff;
+    border-radius: 12px;
+}
+
+.qr img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.instrucao {
+    margin-bottom: 14px;
+
+    color: #bbb;
+    font-size: 13px;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.codigo {
+    display: flex;
+    gap: 8px;
+
+    margin-bottom: 15px;
+}
+
+.codigo input {
+    flex: 1;
+    min-width: 0;
+
+    padding: 12px;
+
+    background: #171717;
+    border: 1px solid #555;
+    border-radius: 8px;
+
+    color: #fff;
+    font-size: 11px;
+}
+
+.codigo button {
+    padding: 0 13px;
+
+    background: transparent;
+    border: 1px solid var(--rosa);
+    border-radius: 8px;
+
+    color: var(--rosa);
+    font-weight: 700;
+
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.codigo button:hover {
+    background: var(--rosa);
+    color: #fff;
+}
+
+/* =====================================================
+   12. CARTÃO
+===================================================== */
+
+.cartao {
+    min-height: 145px;
+
+    padding: 20px;
+    margin: 20px 0;
+
+    background: linear-gradient(135deg, #161616, #444);
+    border: 1px solid #555;
+    border-radius: 15px;
+}
+
+.cartao-topo,
+.cartao-rodape {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cartao-topo span {
+    color: var(--rosa);
+    font-weight: 800;
+}
+
+.numero-cartao {
+    margin: 25px 0;
+
+    font-size: 16px;
+    letter-spacing: 3px;
+}
+
+.cartao-rodape {
+    color: #aaa;
+    font-size: 11px;
+}
+
+/* =====================================================
+   13. BOTÃO PRINCIPAL
+===================================================== */
+
+.botao {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    width: 100%;
+    min-height: 56px;
+
+    padding: 0 20px;
+    margin-top: 18px;
+
+    background: linear-gradient(110deg, #ff2388, #ff4b9c);
+    border: none;
+    border-radius: 14px;
+
+    color: #fff;
+    font-size: 14px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    box-shadow: 0 8px 22px rgba(255, 45, 143, .20);
+    transition: .2s ease;
+}
+
+.botao:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.08);
+
+    box-shadow: 0 12px 28px rgba(255, 45, 143, .28);
+}
+
+.botao i {
+    margin-left: 0;
+    font-style: normal;
+    font-size: 18px;
+}
+
+/* Botão específico da página de dinheiro */
+
+.painel .botao-finalizar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    width: 100%;
+    min-height: 56px;
+
+    padding: 0 20px;
+    margin: 20px 0 0;
+
+    box-sizing: border-box;
+
+    background: linear-gradient(110deg, #ff2388, #ff4b9c);
+    border: none;
+    border-radius: 14px;
+
+    color: #fff;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    box-shadow: 0 8px 22px rgba(255, 45, 143, .20);
+    transition: .2s ease;
+}
+
+.painel .botao-finalizar:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.08);
+}
+
+.botao-finalizar span {
+    font-size: 18px;
+}
+
+/* =====================================================
+   14. VOLTAR AO INÍCIO
+===================================================== */
+
+.voltar {
+    display: block;
+
+    width: 100%;
+    margin-top: 16px;
+
+    color: #9999a3;
+    font-size: 12px;
+    font-weight: 600;
+
+    text-align: center;
+    text-decoration: none;
+
+    transition: color .2s ease;
+}
+
+.voltar:hover {
+    color: var(--rosa-claro);
+}
+
+/* =====================================================
+   15. MODAL DE CONFIRMAÇÃO
+===================================================== */
+
+.modal-confirmacao {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(0, 0, 0, .78);
+    backdrop-filter: blur(7px);
+}
+
+.modal-confirmacao.ativo {
+    display: flex;
+    animation: modalFundo .2s ease;
+}
+
+.modal-conteudo {
+    width: 100%;
+    max-width: 390px;
+
+    padding: 27px;
+
+    background: linear-gradient(145deg, #292529, #1b1b1e);
+    border: 1px solid rgba(255, 45, 143, .22);
+    border-radius: 22px;
+
+    box-shadow: 0 20px 65px rgba(0, 0, 0, .5);
+
+    animation: modalEntrada .25s ease;
+}
+
+.modal-icone {
+    width: 46px;
+    height: 46px;
+
+    display: grid;
+    place-items: center;
+
+    margin-bottom: 17px;
+
+    background: rgba(255, 45, 143, .13);
+    border: 1px solid rgba(255, 45, 143, .25);
+    border-radius: 14px;
+
+    color: var(--rosa-claro);
+    font-size: 23px;
+    font-weight: 800;
+}
+
+.modal-conteudo h2 {
+    margin: 0 0 9px;
+
+    color: #fff;
+    font-size: 21px;
+}
+
+.modal-conteudo p {
+    margin: 0;
+
+    color: #aaaab3;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.modal-botoes {
+    display: flex;
+    gap: 10px;
+
+    margin-top: 25px;
+}
+
+.btn-modal-cancelar,
+.btn-modal-confirmar {
+    min-height: 47px;
+    padding: 12px 15px;
+
+    border-radius: 12px;
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 800;
+
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.btn-modal-cancelar {
+    flex: 1;
+
+    background: #303034;
+    border: 1px solid #414147;
+
+    color: #ddd;
+}
+
+.btn-modal-confirmar {
+    flex: 1.5;
+
+    background: linear-gradient(110deg, #ff2388, #ff4b9c);
+    border: none;
+
+    color: #fff;
+
+    box-shadow: 0 6px 18px rgba(255, 45, 143, .18);
+}
+
+.btn-modal-confirmar:hover,
+.btn-modal-cancelar:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+}
+
+.btn-modal-confirmar span {
+    margin-left: 5px;
+    font-size: 16px;
+}
+
+/* Animações */
+
+@keyframes modalEntrada {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes modalFundo {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* =====================================================
+   16. SCROLL
+===================================================== */
+
+.painel::-webkit-scrollbar {
+    width: 4px;
+}
+
+.painel::-webkit-scrollbar-thumb {
+    background: #45454b;
+    border-radius: 20px;
+}
+
+/* =====================================================
+   17. AVALIAÇÃO POR ESTRELAS
+===================================================== */
+.avaliacao-motorista {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: #151515;
+    border: 1px solid #ff2d78;
+    border-radius: 22px;
+    padding: 35px 25px;
+    min-height: 280px;
+    color: white;
+}
+
+.avaliacao-motorista h2 {
+    margin: 15px 0 8px;
+    font-size: 23px;
+}
+
+.avaliacao-motorista p {
+    color: #aaa;
+}
+
+.estrelas {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0 12px;
+}
+
+.estrelas button {
+    background: none;
+    border: none;
+    color: #777;
+    font-size: 38px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.estrelas button.selecionada {
+    color: #ffc107;
+}
+
+#mensagemEstrelas {
+    color: #ff2d78;
+    font-size: 14px;
+}
+
+.avaliacao-tag {
+    background: #ff2d78;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.avaliacao-titulo h2 {
+    color: #fff;
+    font-size: 21px;
+    font-weight: 800;
+    margin: 5px 0;
+}
+
+.avaliacao-titulo p {
+    color: #aaa;
+    font-size: 13px;
+    margin-top: 8px;
+}
+
+.avaliacao-estrelas {
+    width: 100%;
+    text-align: center;
+}
+
+.estrelas {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+
+.estrelas button {
+    appearance: none;
+    padding: 0;
+
+    border: none;
+    outline: none;
+    background: transparent;
+
+    color: #555;
+    font-size: 42px;
+
+    cursor: pointer;
+    pointer-events: auto;
+
+    transition: color .2s ease, transform .2s ease;
+}
+
+.estrelas button:hover {
+    color: #ffb52e;
+    transform: scale(1.15);
+}
+
+.estrelas button.selecionada {
+    color: #ffb52e;
+}
+
+#mensagemEstrelas {
+    display: block;
+    margin-top: 16px;
+
+    color: #aaa;
+    font-size: 13px;
+}
+
+/* =====================================================
+   18. RESPONSIVIDADE — TABLET
+===================================================== */
+
+@media (max-width: 1100px) {
+
+    header,
+    .header {
+        padding: 0 25px;
+    }
+
+    header nav,
+    .header nav {
+        margin-left: 25px;
+        gap: 18px;
+    }
+
+    .menu-direita {
+        gap: 13px;
+    }
+}
+
+/* =====================================================
+   19. RESPONSIVIDADE — NOTEBOOK
+===================================================== */
+
+@media (min-width: 601px) and (max-height: 750px) {
+
+    .painel {
+        padding-top: 16px;
+        padding-bottom: 20px;
+    }
+
+    .barra {
+        margin-bottom: 16px;
+    }
+
+    .descricao {
+        margin-bottom: 17px;
+    }
+
+    .icone-pagamento {
+        margin: 14px 0;
+    }
+
+    .valor-box {
+        padding: 17px;
+    }
+
+    .aviso {
+        padding: 15px;
+    }
+
+    .botao,
+    .painel .botao-finalizar {
+        min-height: 51px;
+    }
+}
+
+/* =====================================================
+   20. RESPONSIVIDADE — CELULAR
+===================================================== */
+
+@media (max-width: 750px) {
+
+    header nav,
+    .header nav {
+        display: none;
+    }
+
+    header,
+    .header {
+        height: 68px;
+        padding: 0 18px;
+        justify-content: space-between;
+    }
+
+    .menu-direita {
+        gap: 12px;
+        margin-left: auto;
+    }
+
+    .idioma {
+        display: none;
+    }
+
+    .btn-cadastro {
+        padding: 11px 16px;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .painel {
+        width: 100%;
+        max-width: 100%;
+        min-height: 100vh;
+
+        padding: 17px 22px 25px;
+
+        border-radius: 25px 25px 0 0;
+        border: none;
+    }
+
+    .painel h2 {
+        font-size: 22px;
+    }
+
+    .valor-box h1 {
+        font-size: 32px;
+    }
+
+    .modal-botoes {
+        flex-direction: column-reverse;
+    }
+
+    .btn-modal-cancelar,
+    .btn-modal-confirmar {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .avaliacao-motorista {
+        padding: 20px;
+    }
+
+    .estrelas {
+        gap: 8px;
+    }
+
+    .estrelas button {
+        font-size: 36px;
+    }
+}
+
+@media (max-width: 360px) {
+
+    .painel {
+        padding-right: 16px;
+        padding-left: 16px;
+    }
+
+    .painel h2 {
+        font-size: 20px;
+    }
+
+    .modal-conteudo {
+        padding: 22px;
+    }
+}
+
+/* CARDS SEPARADOS — PAGAMENTO EM DINHEIRO */
+
+.painel {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+
+.painel > .barra {
+    display: none;
+}
+
+.layout-pagamento {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+}
+
+.conteudo-pagamento,
+.layout-pagamento .avaliacao-motorista {
+    width: 100%;
+    max-width: 510px;
+    background: #151515;
+    border: 1px solid #ff2d78;
+    border-radius: 22px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, .25);
+}
+
+.conteudo-pagamento {
+    padding: 27px;
+}
+
+.layout-pagamento .avaliacao-motorista {
+    min-height: 280px;
+    margin-top: 0;
+    padding: 35px 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .conteudo-pagamento,
+    .layout-pagamento .avaliacao-motorista {
+        max-width: 100%;
+        padding: 22px 20px;
+    }
+}
+.mensagem-finalizacao {
+    display: none;
+    margin-top: 15px;
+    padding: 14px;
+    background: rgba(255, 45, 120, .10);
+    border: 1px solid #ff2d78;
+    border-radius: 12px;
+    color: #fff;
+    text-align: center;
+    font-size: 13px;
+}
+
+/* CORREÇÃO DO RODAPÉ WN57 */
+
+.rodape-pagamento {
+    width: 100%;
+    min-height: 45px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 25px 0 0;
+    padding: 18px 10px 5px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+    color: #777780;
+    font-family: "DM Sans", sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.5;
+
+    text-align: center;
+    white-space: normal;
+    overflow: visible;
+    box-sizing: border-box;
+}
+.conteudo-pagamento {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+}

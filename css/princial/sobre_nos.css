@@ -1,0 +1,1309 @@
+
+/* =====================================================
+   WN57 - SOBRE NÓS
+   CSS COMPLETO E RESPONSIVO
+===================================================== */
+
+:root {
+    --rosa: #ec9cbd;
+    --rosa-claro: #fff0f6;
+    --rosa-escuro: #ce6f99;
+    --rosa-forte: #e83e83;
+    --preto: #111111;
+    --preto-suave: #292329;
+    --cinza: #777078;
+    --branco: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    color: var(--preto-suave);
+    background: var(--branco);
+    overflow-x: hidden;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* =====================================================
+   MENU DE NAVEGAÇÃO - PRETO
+===================================================== */
+
+.cabecalho {
+    position: fixed;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+
+    width: calc(100% - 60px);
+    max-width: 1270px;
+    min-height: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+
+    padding: 0 25px;
+
+    background: #111111;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 15px;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+
+    transition: box-shadow 0.3s ease;
+}
+
+.cabecalho.scrolled {
+    background: #111111;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* LOGO */
+
+.cabecalho .logo {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    width: 65px;
+    height: 55px;
+    flex: 0 0 65px;
+
+    overflow: hidden;
+    line-height: 0;
+}
+
+.cabecalho .logo img {
+    display: block;
+    width: 48px !important;
+    height: 48px !important;
+    max-width: 48px !important;
+    max-height: 48px !important;
+
+    object-fit: contain;
+    object-position: center;
+}
+
+/* LINKS DO MENU */
+
+.cabecalho nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+}
+
+.cabecalho nav a {
+    color: #ffffff !important;
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: color 0.3s ease;
+}
+
+.cabecalho nav a:hover {
+    color: var(--rosa) !important;
+}
+
+.cabecalho.scrolled nav a {
+    color: #ffffff !important;
+}
+
+.cabecalho.scrolled nav a:hover {
+    color: var(--rosa) !important;
+}
+
+/* =====================================================
+   PRIMEIRA SEÇÃO - HERO
+===================================================== */
+
+.hero {
+    width: 100%;
+    min-height: 100vh;
+
+    padding: 150px 8% 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0, 0, 0, 0.72),
+            rgba(0, 0, 0, 0.30)
+        ),
+        url("/img/imagem%20sobre%20nos.jpg");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    text-align: left;
+}
+
+.hero-content {
+    width: 100%;
+    max-width: 750px;
+    margin: 65px 0 0;
+    text-align: left;
+}
+
+.hero h1 {
+    max-width: 750px;
+
+    font-size: clamp(42px, 5.5vw, 75px);
+    font-weight: 800;
+    line-height: 1.12;
+
+    color: var(--branco);
+    margin-bottom: 25px;
+}
+
+.hero p {
+    max-width: 680px;
+    color: var(--branco);
+
+    font-size: clamp(16px, 1.5vw, 19px);
+    line-height: 1.8;
+}
+
+/* =====================================================
+   SEGUNDA SEÇÃO - QUEM SOMOS / CARROSSEL
+===================================================== */
+
+.about {
+    width: 100%;
+    padding: 105px 8%;
+    background: #161616;
+    text-align: center;
+}
+
+.about-header {
+    margin-bottom: 45px;
+}
+
+.about-subtitle {
+    display: block;
+    font-size: 14px;
+    color: #d4cbd8;
+    margin-bottom: 6px;
+}
+
+.about-title {
+    font-size: clamp(28px, 3.6vw, 42px);
+    font-weight: 800;
+    color: var(--branco);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.about-carousel-wrapper {
+    position: relative;
+    max-width: 1380px;
+    margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+}
+
+.about-viewport {
+    width: 100%;
+    overflow: hidden;
+}
+
+.about-track {
+    display: flex;
+    width: 100%;
+    transition: transform 0.45s ease;
+}
+
+.about-slide {
+    min-width: 100%;
+    padding: 0 6px;
+}
+
+/* RESUMO DO PRIMEIRO SLIDE */
+
+.about-summary-box {
+    width: 100%;
+    max-width: 1240px;
+    min-height: 360px;
+
+    margin: 0 auto;
+    padding: 36px 40px;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 36px;
+
+    text-align: left;
+}
+
+.about-summary-main {
+    flex: 1;
+    max-width: 720px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.about-summary-main h3 {
+    font-size: clamp(24px, 3vw, 34px);
+    font-weight: 700;
+    color: var(--branco);
+    line-height: 1.2;
+}
+
+.about-summary-main p {
+    width: 100%;
+    font-size: 15px;
+    line-height: 1.75;
+    color: #e6e0ea;
+}
+
+.about-summary-highlights {
+    width: 340px;
+    flex-shrink: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.summary-pill {
+    background: #dedddd;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 7px;
+    padding: 16px 18px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    text-align: left;
+}
+
+.summary-pill strong {
+    color: #000000;
+    font-size: 15px;
+}
+
+.summary-pill span {
+    color: #000000;
+    font-size: 13px;
+}
+
+/* GRADE DE CARTÕES */
+
+.about-grid {
+    max-width: 1320px;
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.about-card {
+    position: relative;
+    height: 360px;
+
+    border-radius: 10px;
+    overflow: hidden;
+    background: #26212b;
+}
+
+.about-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.45s ease;
+}
+
+.about-card:hover img {
+    transform: scale(1.06);
+}
+
+.about-overlay {
+    position: absolute;
+    inset: 0;
+
+    background: linear-gradient(
+        to top,
+        rgba(20, 14, 24, 0.92) 12%,
+        rgba(20, 14, 24, 0.35) 58%,
+        transparent 100%
+    );
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    padding: 22px 16px;
+    text-align: center;
+}
+
+.about-overlay h3 {
+    color: var(--rosa);
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    letter-spacing: 0.6px;
+}
+
+.about-overlay p {
+    color: #f3eff5;
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+/* SETAS DO CARROSSEL */
+
+.about-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+
+    width: 46px;
+    height: 46px;
+
+    border-radius: 50%;
+    border: 1.5px solid rgba(236, 156, 189, 0.65);
+
+    background: rgba(24, 21, 28, 0.9);
+    color: var(--rosa);
+
+    font-size: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.about-arrow:hover {
+    background: var(--rosa-escuro);
+    border-color: var(--rosa-escuro);
+    color: var(--branco);
+}
+
+.about-arrow-prev {
+    left: -18px;
+}
+
+.about-arrow-next {
+    right: -18px;
+}
+
+.about-arrow.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+}
+
+/* INDICADORES */
+
+.about-indicator {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 28px;
+}
+
+.about-indicator .bar {
+    width: 45px;
+    height: 3px;
+
+    background: rgba(255, 255, 255, 0.22);
+    border-radius: 2px;
+    border: none;
+
+    cursor: pointer;
+    padding: 0;
+
+    transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.about-indicator .bar.active {
+    width: 62px;
+    background: var(--rosa);
+}
+
+/* =====================================================
+   TERCEIRA SEÇÃO - MISSÃO E PROPÓSITO
+===================================================== */
+
+.mission {
+    width: 100%;
+    padding: 95px 8%;
+    background: #770d38;
+}
+
+.mission-banner {
+    position: relative;
+
+    max-width: 1320px;
+    margin: 0 auto;
+    min-height: 540px;
+
+    border-radius: 20px;
+
+    background-size: cover;
+    background-position: center;
+    background-color: #bc1d8c;
+
+    padding: 36px;
+
+    display: flex;
+    align-items: stretch;
+    gap: 42px;
+
+    overflow: hidden;
+}
+
+.mission-banner-overlay {
+    position: absolute;
+    inset: 0;
+
+    background: linear-gradient(
+        90deg,
+        rgba(26, 15, 23, 0.72) 0%,
+        rgba(26, 15, 23, 0.78) 55%,
+        rgba(26, 15, 23, 0.90) 100%
+    );
+
+    z-index: 1;
+}
+
+.mission-summary-card {
+    position: relative;
+    z-index: 2;
+
+    width: 330px;
+    flex-shrink: 0;
+
+    background: #f8f5f6;
+    color: var(--preto);
+
+    border-radius: 16px;
+    padding: 22px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+}
+
+.summary-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e6dfe3;
+}
+
+.summary-top h3 {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.summary-thumb {
+    position: relative;
+    width: 78px;
+    height: 78px;
+
+    border-radius: 12px;
+    overflow: hidden;
+    flex-shrink: 0;
+
+    background: #dfd5db;
+}
+
+.summary-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.summary-thumb span {
+    position: absolute;
+    bottom: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    background: rgba(0, 0, 0, 0.75);
+    color: var(--branco);
+
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 10px;
+}
+
+.summary-list {
+    padding: 16px 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    border-bottom: 1px solid #e6dfe3;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+}
+
+.summary-item span {
+    color: var(--cinza);
+}
+
+.summary-item strong {
+    color: var(--preto);
+    font-weight: 600;
+}
+
+.summary-place {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 0;
+}
+
+.summary-place img {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #dfd5db;
+}
+
+.summary-place strong {
+    display: block;
+    font-size: 14px;
+}
+
+.summary-place p {
+    font-size: 12px;
+    color: var(--cinza);
+}
+
+.summary-btn {
+    display: block;
+    width: 100%;
+
+    text-align: center;
+    padding: 12px;
+
+    background: var(--preto);
+    color: var(--branco);
+
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 14px;
+
+    transition: background 0.3s ease;
+}
+
+.summary-btn:hover {
+    background: var(--rosa-escuro);
+}
+
+/* CONTEÚDO DIREITO */
+
+.mission-right {
+    position: relative;
+    z-index: 2;
+
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    color: var(--branco);
+}
+
+.mission-right-main h2 {
+    font-size: clamp(30px, 3.8vw, 46px);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 12px;
+}
+
+.mission-intro {
+    max-width: 560px;
+
+    font-size: 15px;
+    line-height: 1.7;
+
+    color: #ede7ef;
+    margin-bottom: 22px;
+}
+
+.pillar-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 18px;
+}
+
+.pillar-item img {
+    width: 56px;
+    height: 56px;
+
+    border-radius: 10px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.pillar-item h4 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--rosa);
+    margin-bottom: 2px;
+}
+
+.pillar-item p {
+    font-size: 13px;
+    color: #f3eff5;
+    line-height: 1.45;
+}
+
+.counter-dash {
+    width: 42px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.counter-end {
+    font-size: 13px;
+    color: #b9b2bc;
+}
+
+.mission-pill-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 12px 22px;
+
+    border-radius: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--branco);
+
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.mission-pill-btn:hover {
+    background: var(--rosa-escuro);
+    border-color: var(--rosa-escuro);
+}
+
+/* =====================================================
+   QUARTA SEÇÃO - NOSSOS VALORES
+===================================================== */
+
+.values-new {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    background: #ffffff;
+}
+
+.values-background {
+    position: relative;
+
+    width: 100%;
+    max-width: none;
+    min-height: 600px;
+
+    margin: 0;
+    padding: 60px 8%;
+
+    display: flex;
+    align-items: center;
+
+    background-image: url("/img/Gemini_Generated_Image_pl73uipl73uipl73.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    border-radius: 0;
+    overflow: hidden;
+}
+
+.values-overlay {
+    position: absolute;
+    inset: 0;
+
+    background: linear-gradient(
+        90deg,
+        rgba(12, 15, 25, 0.65),
+        rgba(12, 15, 25, 0.25),
+        rgba(12, 15, 25, 0.05)
+    );
+
+    z-index: 1;
+}
+
+.values-content {
+    position: relative;
+    z-index: 2;
+
+    width: 100%;
+    max-width: 500px;
+
+    padding: 32px;
+
+    background: rgba(255, 255, 255, 0.17);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 16px;
+
+    color: white;
+}
+
+.values-subtitle {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+
+    color: #f2c5d5;
+    margin-bottom: 15px;
+}
+
+.values-content h2 {
+    font-size: clamp(28px, 3vw, 38px);
+    line-height: 1.15;
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+
+.values-description {
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 25px;
+}
+
+.values-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.value-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+
+    padding-bottom: 13px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.value-item strong {
+    font-size: 15px;
+    color: #f2c5d5;
+}
+
+.value-item h3 {
+    font-size: 15px;
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.value-item p {
+    font-size: 12px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.values-button {
+    display: inline-block;
+
+    margin-top: 25px;
+    padding: 12px 35px;
+
+    background: white;
+    color: #25212a;
+
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 600;
+
+    transition: 0.3s;
+}
+
+.values-button:hover {
+    background: var(--rosa-escuro);
+    color: white;
+    transform: translateY(-3px);
+}
+
+/* =====================================================
+   QUINTA SEÇÃO - NOSSO DIFERENCIAL
+===================================================== */
+
+.differential-new {
+    width: 100%;
+    padding: 75px 8%;
+    background: #f5f5f5;
+}
+
+.differential-banner {
+    position: relative;
+
+    width: 100%;
+    max-width: 1320px;
+    min-height: 350px;
+
+    margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+
+    padding: 55px;
+
+    background-image: url("/imagens/diferencial-fundo.jpg");
+    background-size: cover;
+    background-position: center;
+
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.differential-banner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.97) 0%,
+        rgba(255, 255, 255, 0.90) 38%,
+        rgba(255, 255, 255, 0.15) 78%,
+        transparent 100%
+    );
+}
+
+.differential-content {
+    position: relative;
+    z-index: 2;
+    max-width: 470px;
+}
+
+.differential-subtitle {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    font-size: 12px;
+    font-weight: 500;
+    color: #555;
+
+    margin-bottom: 17px;
+}
+
+.differential-dot {
+    width: 9px;
+    height: 9px;
+
+    background: var(--rosa);
+    border-radius: 50%;
+}
+
+.differential-content h2 {
+    font-size: clamp(28px, 3.5vw, 40px);
+    line-height: 1.15;
+
+    color: #202027;
+    font-weight: 700;
+
+    margin-bottom: 17px;
+}
+
+.differential-content p {
+    font-size: 13px;
+    line-height: 1.8;
+
+    color: #555;
+    max-width: 410px;
+
+    margin-bottom: 25px;
+}
+
+.differential-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 18px;
+
+    padding: 13px 24px;
+
+    background: #202027;
+    color: white;
+
+    border-radius: 30px;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    transition: 0.3s;
+}
+
+.differential-button span {
+    font-size: 19px;
+    transition: 0.3s;
+}
+
+.differential-button:hover {
+    background: var(--rosa-escuro);
+    transform: translateY(-3px);
+}
+
+.differential-button:hover span {
+    transform: translateX(5px);
+}
+
+.differential-highlight {
+    position: absolute;
+    z-index: 2;
+
+    right: 8%;
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 135px;
+    height: 135px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(8px);
+
+    color: white;
+}
+
+.differential-highlight span {
+    font-size: 23px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.differential-highlight p {
+    font-size: 10px;
+    max-width: 100px;
+    margin-top: 7px;
+}
+
+/* =====================================================
+   RODAPÉ
+===================================================== */
+
+footer {
+    width: 100%;
+    padding: 45px 8%;
+
+    background: #111111;
+    color: var(--branco);
+
+    text-align: center;
+}
+
+footer p {
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+/* =====================================================
+   TABLETS
+===================================================== */
+
+@media (max-width: 960px) {
+
+    .about-summary-box {
+        flex-direction: column;
+        padding: 28px 24px;
+    }
+
+    .about-summary-highlights {
+        width: 100%;
+    }
+
+    .about-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .mission-banner {
+        flex-direction: column;
+        padding: 26px;
+        gap: 28px;
+    }
+
+    .mission-summary-card {
+        width: 100%;
+    }
+}
+
+/* =====================================================
+   RESPONSIVIDADE
+===================================================== */
+
+@media (max-width: 900px) {
+
+    .cabecalho {
+        width: calc(100% - 32px);
+        padding: 0 18px;
+    }
+
+    .cabecalho nav {
+        gap: 16px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .about-arrow {
+        width: 38px;
+        height: 38px;
+        font-size: 16px;
+    }
+
+    .about-arrow-prev {
+        left: 6px;
+    }
+
+    .about-arrow-next {
+        right: 6px;
+    }
+
+    .values-new,
+    .differential-new {
+        padding: 45px 6%;
+    }
+
+    .values-background {
+        min-height: auto;
+        padding: 35px 20px;
+        background-position: center;
+    }
+
+    .values-content {
+        padding: 25px 20px;
+        max-width: 100%;
+    }
+
+    .values-content h2 {
+        font-size: 29px;
+    }
+
+    .differential-banner {
+        min-height: 420px;
+        padding: 30px 22px;
+        align-items: flex-start;
+        background-position: 65% center;
+    }
+
+    .differential-banner::before {
+        background: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.96),
+            rgba(255, 255, 255, 0.82)
+        );
+    }
+
+    .differential-content {
+        max-width: 100%;
+    }
+
+    .differential-content h2 {
+        font-size: 30px;
+    }
+
+    .differential-content p {
+        font-size: 12px;
+    }
+
+    .differential-highlight {
+        display: none;
+    }
+}
+
+/* =====================================================
+   CELULARES
+===================================================== */
+
+@media (max-width: 600px) {
+
+    .cabecalho {
+        width: calc(100% - 20px);
+        height: auto;
+        min-height: 64px;
+
+        padding: 10px 14px;
+
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .cabecalho .logo {
+        width: 55px;
+        height: 45px;
+        flex: 0 0 55px;
+    }
+
+    .cabecalho .logo img {
+        width: 42px !important;
+        height: 42px !important;
+    }
+
+    .cabecalho nav {
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .cabecalho nav a {
+        font-size: 11px;
+    }
+
+    .hero {
+        min-height: 90vh;
+        padding: 110px 7% 50px;
+    }
+
+    .hero-content {
+        margin-top: 35px;
+    }
+
+    .hero h1 {
+        font-size: clamp(36px, 9vw, 48px);
+    }
+
+    .hero p {
+        font-size: 15px;
+    }
+
+    .about,
+    .mission {
+        padding: 75px 6%;
+    }
+
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .mission-banner {
+        padding: 20px;
+    }
+
+    .mission-bottom-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 18px;
+    }
+
+    .mission-pill-btn {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    footer {
+        padding: 35px 6%;
+    }
+
+    .values-background {
+        min-height: auto;
+        padding: 60px 7%;
+        background-position: center;
+    }
+
+    .values-content {
+        max-width: 100%;
+    }
+}
+
+/* =====================================================
+   CELULARES PEQUENOS
+===================================================== */
+
+@media (max-width: 400px) {
+
+    .values-content h2 {
+        font-size: 25px;
+    }
+
+    .differential-content h2 {
+        font-size: 27px;
+    }
+
+    .value-item p {
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 360px) {
+
+    .cabecalho .logo {
+        width: 48px;
+        height: 42px;
+        flex-basis: 48px;
+    }
+
+    .cabecalho .logo img {
+        width: 38px !important;
+        height: 38px !important;
+    }
+
+    .cabecalho nav {
+        gap: 8px;
+    }
+
+    .cabecalho nav a {
+        font-size: 10px;
+    }
+}
