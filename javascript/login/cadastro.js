@@ -1,318 +1,204 @@
-"use strict";
+(function () {
+    "use strict";
 
-/* =====================================================
-   CADASTRO WN57
-   - Validação dos campos (nome, e-mail, data, telefone, senha)
-   - Botão de olho nas senhas e medidor de força
-   - Salva a conta no back (api.js) e envia o e-mail de boas-vindas
-   - Depois de criar a conta, leva a pessoa ao Reconhecimento Facial
+    // ==========================================
+    // Tradução da página de cadastro (PT-BR / EN)
+    //
+    // O botão de idioma do cabeçalho (perfil.js) já traduz o menu e,
+    // depois, chama window.atualizarIdiomaPagina(). É essa função que
+    // este arquivo cria, para traduzir o resto da página.
+    // ==========================================
 
-   Ordem dos scripts no cadastro.html:
-   perfil.js, api.js, email-cadastro.js e cadastro.js
-====================================================== */
+    const CHAVE_IDIOMA = "wn57_idioma";
 
-// Próxima página do fluxo. CONFIRA o caminho/nome do arquivo no seu projeto:
-// abra o endereço direto no navegador; se a página abrir, está certo.
-const PAGINA_RECONHECIMENTO = "/html/login/reconhecimento-facial.html";
+    function idiomaAtual() {
+        return localStorage.getItem(CHAVE_IDIOMA) === "en" ? "en" : "pt";
+    }
 
-function reduzirFoto(arquivo) {
-  return new Promise((resolve) => {
-    const padrao = "data:image/svg+xml;utf8," + encodeURIComponent(
-      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#f9c6de"/><circle cx="32" cy="25" r="11" fill="#c2185b"/><path d="M10 64c0-14 10-22 22-22s22 8 22 22z" fill="#c2185b"/></svg>');
-    if (!arquivo) return resolve(padrao);
-    const leitor = new FileReader();
-    leitor.onload = () => {
-      const img = new Image();
-      img.onload = () => {
-        const c = document.createElement("canvas");
-        c.width = c.height = 256;
-        const corte = Math.min(img.width, img.height);
-        c.getContext("2d").drawImage(img, (img.width - corte) / 2, (img.height - corte) / 2, corte, corte, 0, 0, 256, 256);
-        resolve(c.toDataURL("image/jpeg", 0.85));
-      };
-      img.onerror = () => resolve(padrao);
-      img.src = leitor.result;
-    };
-    leitor.readAsDataURL(arquivo);
-  });
-}
+    // ---------- Textos da página ----------
+    // [seletor, português, inglês]
+    const TEXTOS = [
+        [".sessao-topo h1", "Crie sua conta", "Create your account"],
+        [".sessao-topo p", "Preencha seus dados para viajar com a WN57.", "Fill in your details to ride with WN57."],
+        [".divisor span", "ou cadastre-se com seus dados", "or sign up with your details"],
 
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.querySelector(".sessao form");
-  if (!form) return;
+        [".foto-titulo", "Foto de perfil", "Profile photo"],
+        [".foto-dica", "JPG ou PNG, até 5 MB. Ela aparece no seu perfil.", "JPG or PNG, up to 5 MB. It appears on your profile."],
+        [".foto-botao", "Escolher foto", "Choose photo"],
 
-  const campos = {
-    nome: document.getElementById("nome"),
-    email: document.getElementById("email"),
-    data: document.getElementById("date"),
-    telefone: document.getElementById("telefone"),
-    senha: document.getElementById("senha"),
-    confirmacao: document.getElementById("confirmacao-senha")
-  };
+        ["label[for='nome']", "Nome completo", "Full name"],
+        ["label[for='email']", "E-mail", "Email"],
+        ["label[for='date']", "Data de nascimento", "Date of birth"],
+        ["label[for='telefone']", "Telefone", "Phone"],
+        ["label[for='senha']", "Senha", "Password"],
+        ["label[for='confirmacao-senha']", "Confirmar senha", "Confirm password"],
 
-  const btnEnviar = form.querySelector(".btn-enviar");
+        [".dica-senha",
+            "Use 8 ou mais caracteres, com letra maiúscula, minúscula, número e símbolo.",
+            "Use 8 or more characters, with an uppercase letter, a lowercase letter, a number and a symbol."],
 
-
-  /* ---------- Foto de perfil (prévia) ---------- */
-
-  const inputFoto = document.getElementById("foto");
-  const previaFoto = document.getElementById("previaFoto");
-  const nomeArquivo = document.getElementById("nomeArquivo");
-
-  if (inputFoto) {
-    inputFoto.addEventListener("change", () => {
-      const arq = inputFoto.files[0];
-      if (!arq) return;
-      if (!arq.type.startsWith("image/") || arq.size > 5 * 1024 * 1024) {
-        alert("Escolha uma imagem (JPG ou PNG) de até 5 MB.");
-        inputFoto.value = "";
-        return;
-      }
-      if (previaFoto) previaFoto.src = URL.createObjectURL(arq);
-      if (nomeArquivo) nomeArquivo.textContent = arq.name;
-    });
-  }
-
-
-  /* ---------- Elementos criados pelo JS ---------- */
-
-  // Mensagem de erro embaixo de cada campo
-  Object.values(campos).forEach((input) => {
-    const aviso = document.createElement("span");
-    aviso.className = "erro-msg";
-    aviso.setAttribute("aria-live", "polite");
-    input.parentElement.appendChild(aviso);
-    input._aviso = aviso;
-  });
-
-  // Botão de olho nas duas senhas
-  [campos.senha, campos.confirmacao].forEach((input) => {
-    const caixa = document.createElement("div");
-    caixa.className = "campo-senha";
-    input.parentElement.insertBefore(caixa, input);
-    caixa.appendChild(input);
-
-    const olho = document.createElement("button");
-    olho.type = "button";
-    olho.className = "toggle-senha";
-    olho.textContent = "👁";
-    olho.setAttribute("aria-label", "Mostrar ou ocultar senha");
-    olho.addEventListener("click", () => {
-      input.type = input.type === "password" ? "text" : "password";
-    });
-    caixa.appendChild(olho);
-  });
-
-  // Medidor de força da senha
-  const forca = document.createElement("div");
-  forca.className = "forca-senha";
-  forca.innerHTML =
-    '<div class="forca-barra"><span></span></div><span class="forca-texto"></span>';
-  campos.senha.closest(".campo-senha").insertAdjacentElement("afterend", forca);
-  const forcaBarra = forca.querySelector(".forca-barra span");
-  const forcaTexto = forca.querySelector(".forca-texto");
-
-  // Mensagem geral (sucesso / erro)
-  const status = document.createElement("p");
-  status.id = "cadastro-status";
-  status.setAttribute("aria-live", "polite");
-  btnEnviar.insertAdjacentElement("afterend", status);
-
-  // Campo isca anti-robô (pessoas não veem; robôs preenchem)
-  const isca = document.createElement("input");
-  isca.type = "text";
-  isca.name = "website";
-  isca.tabIndex = -1;
-  isca.autocomplete = "off";
-  isca.className = "campo-isca";
-  isca.setAttribute("aria-hidden", "true");
-  form.appendChild(isca);
-
-
-  /* ---------- Máscaras ---------- */
-
-  campos.data.addEventListener("input", () => {
-    const n = campos.data.value.replace(/\D/g, "").slice(0, 8);
-    let v = n;
-    if (n.length > 4) v = n.slice(0, 2) + "/" + n.slice(2, 4) + "/" + n.slice(4);
-    else if (n.length > 2) v = n.slice(0, 2) + "/" + n.slice(2);
-    campos.data.value = v;
-  });
-
-  campos.telefone.addEventListener("input", () => {
-    const n = campos.telefone.value.replace(/\D/g, "").slice(0, 11);
-    let v = n;
-    if (n.length > 7) v = "(" + n.slice(0, 2) + ") " + n.slice(2, 7) + "-" + n.slice(7);
-    else if (n.length > 2) v = "(" + n.slice(0, 2) + ") " + n.slice(2);
-    else if (n.length > 0) v = "(" + n;
-    campos.telefone.value = v;
-  });
-
-
-  /* ---------- Regras de validação ---------- */
-
-  function dataValida(texto) {
-    const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(texto);
-    if (!m) return false;
-    const dia = +m[1], mes = +m[2], ano = +m[3];
-    const d = new Date(ano, mes - 1, dia);
-    const real = d.getFullYear() === ano && d.getMonth() === mes - 1 && d.getDate() === dia;
-    return real && ano >= 1900 && d <= new Date();
-  }
-
-  function pontosSenha(s) {
-    return [
-      s.length >= 8,
-      /[A-Z]/.test(s),
-      /[a-z]/.test(s),
-      /\d/.test(s),
-      /[^A-Za-z0-9]/.test(s)
-    ].filter(Boolean).length;
-  }
-
-  const regras = {
-    nome: (v) =>
-      v.trim().split(/\s+/).length >= 2 && v.trim().length >= 5
-        ? "" : "Digite seu nome completo.",
-    email: (v) =>
-      /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) ? "" : "Digite um e-mail válido.",
-    data: (v) => (dataValida(v) ? "" : "Use uma data válida no formato dd/mm/aaaa."),
-    telefone: (v) => {
-      const n = v.replace(/\D/g, "");
-      return n.length === 10 || n.length === 11 ? "" : "Digite DDD e número do telefone.";
-    },
-    senha: (v) =>
-      pontosSenha(v) === 5
-        ? "" : "Use 8+ caracteres com maiúscula, minúscula, número e símbolo.",
-    confirmacao: (v) =>
-      v && v === campos.senha.value ? "" : "As senhas não são iguais."
-  };
-
-  function validarCampo(chave) {
-    const input = campos[chave];
-    const erro = regras[chave](input.value);
-    input._aviso.textContent = erro;
-    input.classList.toggle("input-erro", !!erro);
-    input.classList.toggle("input-certo", !erro);
-    return !erro;
-  }
-
-  // Valida ao sair do campo e corrige ao digitar
-  Object.keys(campos).forEach((chave) => {
-    campos[chave].addEventListener("blur", () => validarCampo(chave));
-    campos[chave].addEventListener("input", () => {
-      if (campos[chave].classList.contains("input-erro")) validarCampo(chave);
-    });
-  });
-
-  // Atualiza o medidor de força
-  campos.senha.addEventListener("input", () => {
-    const p = pontosSenha(campos.senha.value);
-    const niveis = [
-      { w: "0%", cor: "transparent", t: "" },
-      { w: "20%", cor: "#d93025", t: "Muito fraca" },
-      { w: "40%", cor: "#e8710a", t: "Fraca" },
-      { w: "60%", cor: "#f9ab00", t: "Média" },
-      { w: "80%", cor: "#7cb342", t: "Boa" },
-      { w: "100%", cor: "#1e8e3e", t: "Forte" }
+        [".btn-enviar", "Criar conta", "Create account"]
     ];
-    const n = campos.senha.value ? niveis[p] : niveis[0];
-    forcaBarra.style.width = n.w;
-    forcaBarra.style.background = n.cor;
-    forcaTexto.textContent = n.t;
-    if (campos.confirmacao.value) validarCampo("confirmacao");
-  });
 
+    // ---------- Placeholders ----------
+    // [seletor, português, inglês]
+    const PLACEHOLDERS = [
+        ["#nome", "Ex.: Maria da Silva", "E.g.: Mary Smith"],
+        ["#email", "voce@email.com", "you@email.com"],
+        ["#date", "dd/mm/aaaa", "dd/mm/yyyy"],
+        ["#telefone", "(11) 99999-9999", "(11) 99999-9999"],
+        ["#senha", "Crie uma senha", "Create a password"],
+        ["#confirmacao-senha", "Repita a senha", "Repeat the password"]
+    ];
 
-  /* ---------- Envio ---------- */
-
-  function mostrarStatus(texto, tipo) {
-    status.textContent = texto;
-    status.className = tipo ? "status-" + tipo : "";
-  }
-
-  form.addEventListener("submit", async (evento) => {
-    evento.preventDefault();
-
-    // Robô preencheu o campo escondido: ignora sem avisar
-    if (isca.value) return;
-
-    const resultados = Object.keys(campos).map(validarCampo);
-    if (resultados.includes(false)) {
-      mostrarStatus("Confira os campos destacados.", "erro");
-      const primeiroErro = form.querySelector(".input-erro");
-      if (primeiroErro) primeiroErro.focus();
-      return;
-    }
-
-    btnEnviar.disabled = true;
-    mostrarStatus("Criando sua conta...", "");
-
-    // dd/mm/aaaa -> aaaa-mm-dd
-    const [dia, mes, ano] = campos.data.value.split("/");
-
-    const dadosApi = {
-      nome: campos.nome.value.trim(),
-      email: campos.email.value.trim(),
-      telefone: campos.telefone.value.trim(),
-      nascimento: `${ano}-${mes}-${dia}`,
-      senha: campos.senha.value
+    // ---------- Nome do arquivo escolhido ----------
+    const SEM_ARQUIVO = {
+        pt: "Nenhum arquivo escolhido",
+        en: "No file chosen"
     };
 
-    // 1) Salva a conta no back-end
-    let usuarioCriado = null;
-
-    try {
-      const resp = await api("/usuarios", "POST", dadosApi);
-      console.log("Resposta do back:", resp);
-
-      if (!resp.usuario) {
-        mostrarStatus(resp.mensagem || resp.erro || "Não foi possível criar a conta.", "erro");
-        btnEnviar.disabled = false;
-        return;
-      }
-
-      usuarioCriado = resp.usuario;
-    } catch (erro) {
-      console.error(erro);
-      mostrarStatus("Não foi possível conectar ao servidor. Confira se o back está rodando.", "erro");
-      btnEnviar.disabled = false;
-      return;
+    function definirTexto(seletor, texto) {
+        document.querySelectorAll(seletor).forEach(function (el) {
+            el.textContent = texto;
+        });
     }
 
-    // 2) Guarda os dados do perfil (com a foto) no navegador.
-    //    O perfil.js procura a foto em "fotoPerfil:<email>" e "fotoPerfilAtual".
-    const foto = await reduzirFoto(inputFoto ? inputFoto.files[0] : null);
-    const emailMin = dadosApi.email.toLowerCase();
+    // ---------- Frases com link no meio ----------
+    // Os links (href) são mantidos; só o texto muda.
 
-    localStorage.setItem("fotoPerfil:" + emailMin, foto);
-    localStorage.setItem("fotoPerfilAtual", foto);
+    function traduzirTermos(en) {
+        const termos = document.querySelector(".termos");
+        if (!termos) return;
 
-    localStorage.setItem("usuario", JSON.stringify({
-      nome: dadosApi.nome,
-      email: dadosApi.email,
-      telefone: dadosApi.telefone,
-      foto: foto,
-      origem: "cadastro"
-    }));
+        const links = termos.querySelectorAll("a");
+        const hrefTermos = links[0] ? links[0].getAttribute("href") : "#";
+        const hrefPrivacidade = links[1] ? links[1].getAttribute("href") : "#";
 
-    // 3) E-mail de boas-vindas (se falhar, a conta já foi criada e o fluxo segue)
-    if (typeof enviarEmailCadastro === "function") {
-      await Promise.race([
-        enviarEmailCadastro({ nome: dadosApi.nome, email: dadosApi.email }),
-        new Promise((ok) => setTimeout(() => ok({ ok: false }), 8000))
-      ]);
+        termos.innerHTML = en
+            ? 'By creating an account, you agree to the <a href="' + hrefTermos + '">Terms of use</a> and the <a href="' + hrefPrivacidade + '">Privacy policy</a>.'
+            : 'Ao criar a conta, você concorda com os <a href="' + hrefTermos + '">Termos de uso</a> e a <a href="' + hrefPrivacidade + '">Política de privacidade</a>.';
     }
 
-    // 4) Guarda quem acabou de se cadastrar, para o reconhecimento facial
-    //    saber a qual conta pertence a verificação
-    sessionStorage.setItem("cadastroUsuario", JSON.stringify(usuarioCriado));
+    function traduzirJaTemConta(en) {
+        const bloco = document.querySelector(".ja-tem-conta");
+        if (!bloco) return;
 
-    // 5) Segue para o Reconhecimento Facial
-    mostrarStatus("Conta criada! Vamos verificar sua identidade.", "ok");
-    setTimeout(() => {
-      // replace: o botão "voltar" não traz a pessoa de volta ao formulário
-      window.location.replace(PAGINA_RECONHECIMENTO);
-    }, 1200);
-  });
-});
+        const link = bloco.querySelector("a");
+        const href = link ? link.getAttribute("href") : "/html/login/login.html";
+
+        bloco.innerHTML = en
+            ? 'Already have an account? <a href="' + href + '">Log in</a>'
+            : 'Já tem uma conta? <a href="' + href + '">Entrar</a>';
+    }
+
+    // ---------- Botão "Inscrever-se com o Google" ----------
+    // O texto desse botão é desenhado pelo Google. Para mudar o idioma
+    // dele é preciso desenhar o botão de novo, informando o "locale".
+
+    function desenharGoogle(en) {
+        const area = document.querySelector(".g_id_signin");
+
+        if (
+            !area ||
+            !window.google ||
+            !window.google.accounts ||
+            !window.google.accounts.id
+        ) {
+            return false;
+        }
+
+        try {
+            area.innerHTML = "";
+
+            window.google.accounts.id.renderButton(area, {
+                type: "standard",
+                size: "large",
+                theme: "outline",
+                text: "signup_with",
+                shape: "pill",
+                width: 400,
+                locale: en ? "en" : "pt-BR"
+            });
+
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    let tentativasGoogle = null;
+
+    function atualizarGoogle(en) {
+        if (tentativasGoogle) {
+            clearInterval(tentativasGoogle);
+            tentativasGoogle = null;
+        }
+
+        if (desenharGoogle(en)) return;
+
+        // O script do Google pode ainda estar carregando: tenta por até ~10 s.
+        let tentativas = 0;
+
+        tentativasGoogle = setInterval(function () {
+            tentativas++;
+
+            if (desenharGoogle(en) || tentativas >= 20) {
+                clearInterval(tentativasGoogle);
+                tentativasGoogle = null;
+            }
+        }, 500);
+    }
+
+    // ---------- Função principal ----------
+
+    function atualizarIdiomaPagina() {
+        const en = idiomaAtual() === "en";
+        const i = en ? 2 : 1;
+
+        document.documentElement.lang = en ? "en" : "pt-BR";
+        document.title = en ? "Sign up - WN57" : "Criar conta - WN57";
+
+        TEXTOS.forEach(function (item) {
+            definirTexto(item[0], item[i]);
+        });
+
+        PLACEHOLDERS.forEach(function (item) {
+            const campo = document.querySelector(item[0]);
+            if (campo) campo.setAttribute("placeholder", item[i]);
+        });
+
+        traduzirTermos(en);
+        traduzirJaTemConta(en);
+
+        // "Nenhum arquivo escolhido": só troca se ainda não escolheram foto.
+        const nomeArquivo = document.getElementById("nomeArquivo");
+
+        if (nomeArquivo) {
+            const texto = nomeArquivo.textContent.trim();
+
+            if (texto === SEM_ARQUIVO.pt || texto === SEM_ARQUIVO.en) {
+                nomeArquivo.textContent = SEM_ARQUIVO[en ? "en" : "pt"];
+            }
+        }
+
+        const previa = document.getElementById("previaFoto");
+        if (previa) previa.alt = en ? "Photo preview" : "Prévia da foto";
+
+        atualizarGoogle(en);
+    }
+
+    // O perfil.js chama esta função quando a pessoa clica no botão de idioma.
+    window.atualizarIdiomaPagina = atualizarIdiomaPagina;
+
+    // Outra aba mudou o idioma.
+    window.addEventListener("storage", function (evento) {
+        if (evento.key === CHAVE_IDIOMA) atualizarIdiomaPagina();
+    });
+
+    // Ao abrir a página, já aplica o idioma salvo.
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", atualizarIdiomaPagina);
+    } else {
+        atualizarIdiomaPagina();
+    }
+})();
