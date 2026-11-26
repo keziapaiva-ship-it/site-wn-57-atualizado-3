@@ -1,0 +1,604 @@
+
+/* ========================================
+   CONFIGURAÇÕES GERAIS
+======================================== */
+
+:root {
+    --pink: #ff2d78;
+    --pink-dark: #d91d63;
+    --black: #080808;
+    --background: #111111;
+    --card: #202020;
+    --white: #ffffff;
+    --muted: #bdbdbd;
+    --border: #333333;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    font-family: "Poppins", sans-serif;
+    background: var(--background);
+    color: var(--white);
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+}
+
+/* ========================================
+   CABEÇALHO
+======================================== */
+
+.header {
+    width: 100%;
+    height: 80px;
+    padding: 0 7%;
+    background: var(--black);
+    border-bottom: 1px solid #292929;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header .logo {
+    display: flex;
+    align-items: center;
+}
+
+.header .logo img {
+    width: 70px;
+    height: 55px;
+    object-fit: contain;
+}
+
+.header-direita {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.header-direita a {
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.header-direita .idioma,
+.header-direita .btn-login {
+    color: var(--white);
+    transition: color 0.25s;
+}
+
+.header-direita .idioma:hover,
+.header-direita .btn-login:hover {
+    color: var(--pink);
+}
+
+.header-direita .btn-cadastro {
+    background: var(--pink);
+    color: var(--white);
+    padding: 12px 21px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: 0.25s;
+}
+
+.header-direita .btn-cadastro:hover {
+    background: var(--pink-dark);
+    transform: translateY(-2px);
+}
+
+/* ========================================
+   CONTEÚDO PRINCIPAL
+======================================== */
+
+main {
+    width: 100%;
+    max-width: 1050px;
+    margin: 0 auto;
+    padding: 35px 30px 65px;
+}
+
+/* ========================================
+   BOTÃO VOLTAR
+======================================== */
+
+.voltar {
+    display: inline-block;
+    margin-bottom: 30px;
+    color: var(--muted);
+    font-size: 12px;
+    transition: 0.25s;
+}
+
+.voltar:hover {
+    color: var(--pink);
+    transform: translateX(-4px);
+}
+
+/* ========================================
+   APRESENTAÇÃO
+======================================== */
+
+.hero {
+    width: 100%;
+    text-align: center;
+    padding: 25px 15px 45px;
+}
+
+.hero .icone {
+    width: 75px;
+    height: 75px;
+    margin: 0 auto 22px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(255, 45, 120, 0.12);
+    border: 1px solid rgba(255, 45, 120, 0.4);
+    border-radius: 22px;
+
+    color: var(--pink);
+    font-size: 30px;
+}
+
+.hero h1 {
+    font-size: clamp(25px, 4vw, 34px);
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+
+.hero p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+/* ========================================
+   TAGS
+======================================== */
+
+.tag {
+    display: inline-block;
+    color: var(--pink);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+}
+
+/* ========================================
+   FORMULÁRIO DE RELATO
+======================================== */
+
+.relatar {
+    max-width: 850px;
+    margin: 0 auto 55px;
+    padding: 32px;
+
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+}
+
+.relatar-titulo {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 30px;
+}
+
+.relatar-icone {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(255, 45, 120, 0.12);
+    border: 1px solid rgba(255, 45, 120, 0.3);
+    border-radius: 13px;
+
+    color: var(--pink);
+    font-size: 21px;
+}
+
+.relatar-titulo h2 {
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.relatar-titulo p {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+/* CAMPOS */
+
+#formProblema {
+    display: flex;
+    flex-direction: column;
+}
+
+#formProblema label {
+    color: #eeeeee;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 9px;
+}
+
+#formProblema input,
+#formProblema select,
+#formProblema textarea {
+    width: 100%;
+    padding: 14px 15px;
+    margin-bottom: 22px;
+
+    background: #151515;
+    border: 1px solid #414141;
+    border-radius: 8px;
+
+    color: var(--white);
+    font-size: 12px;
+    outline: none;
+
+    transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+#formProblema select {
+    cursor: pointer;
+}
+
+#formProblema select option {
+    background: #202020;
+    color: white;
+}
+
+#formProblema textarea {
+    resize: vertical;
+    min-height: 130px;
+    line-height: 1.7;
+}
+
+#formProblema input::placeholder,
+#formProblema textarea::placeholder {
+    color: #777777;
+}
+
+#formProblema input:focus,
+#formProblema select:focus,
+#formProblema textarea:focus {
+    border-color: var(--pink);
+    box-shadow: 0 0 0 3px rgba(255, 45, 120, 0.1);
+}
+
+/* BOTÃO ENVIAR */
+
+#formProblema button {
+    width: fit-content;
+    padding: 13px 24px;
+
+    background: var(--pink);
+    border: none;
+    border-radius: 8px;
+
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+#formProblema button:hover {
+    background: var(--pink-dark);
+    transform: translateY(-2px);
+}
+
+#formProblema button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* MENSAGEM DO FORMULÁRIO */
+
+#mensagemProblema {
+    display: none;
+    margin-top: 18px;
+    padding: 13px 15px;
+    border-radius: 8px;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+#mensagemProblema.sucesso {
+    display: block;
+    color: #a7efbd;
+    background: rgba(46, 160, 80, 0.12);
+    border: 1px solid rgba(46, 160, 80, 0.35);
+}
+
+#mensagemProblema.erro {
+    display: block;
+    color: #ff9aaa;
+    background: rgba(255, 45, 120, 0.1);
+    border: 1px solid rgba(255, 45, 120, 0.3);
+}
+
+/* ========================================
+   SEÇÃO DE CONTATO
+======================================== */
+
+.contato {
+    max-width: 850px;
+    margin: 0 auto 60px;
+    padding: 35px 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+
+    background: linear-gradient(120deg, #24141d, #1c1c1c);
+    border: 1px solid #4a2536;
+    border-radius: 15px;
+}
+
+.contato h2 {
+    font-size: 21px;
+    margin-bottom: 12px;
+}
+
+.contato p {
+    color: #c2c2c2;
+    font-size: 12px;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.contato a {
+    display: inline-block;
+    background: var(--pink);
+    color: white;
+    padding: 11px 18px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    transition: 0.25s;
+}
+
+.contato a:hover {
+    background: var(--pink-dark);
+    transform: translateY(-2px);
+}
+
+.contato-icone {
+    min-width: 60px;
+    text-align: center;
+    color: var(--pink);
+    font-size: 38px;
+}
+
+/* ========================================
+   PERGUNTAS FREQUENTES
+======================================== */
+
+.faq {
+    max-width: 850px;
+    margin: 0 auto 55px;
+}
+
+.faq h2 {
+    font-size: 25px;
+    margin-bottom: 24px;
+}
+
+.perguntas {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.perguntas details {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.25s;
+}
+
+.perguntas details:hover {
+    border-color: rgba(255, 45, 120, 0.5);
+}
+
+.perguntas details[open] {
+    border-color: var(--pink);
+}
+
+.perguntas summary {
+    position: relative;
+    list-style: none;
+    cursor: pointer;
+    padding: 22px 55px 22px 20px;
+
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.6;
+}
+
+.perguntas summary::-webkit-details-marker {
+    display: none;
+}
+
+.perguntas summary::after {
+    content: "+";
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--pink);
+    font-size: 23px;
+    font-weight: 400;
+}
+
+.perguntas details[open] summary::after {
+    content: "−";
+}
+
+.perguntas details p {
+    padding: 0 20px 20px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.9;
+}
+
+/* ========================================
+   RODAPÉ
+======================================== */
+
+.rodape {
+    width: 100%;
+    padding: 25px 15px;
+    background: var(--black);
+    border-top: 1px solid #292929;
+
+    color: var(--muted);
+    text-align: center;
+    font-size: 11px;
+}
+
+/* ========================================
+   RESPONSIVIDADE
+======================================== */
+
+@media (max-width: 700px) {
+
+    .header {
+        height: auto;
+        min-height: 80px;
+        padding: 12px 5%;
+        gap: 15px;
+    }
+
+    .header .logo img {
+        width: 60px;
+    }
+
+    .header-direita {
+        gap: 12px;
+    }
+
+    .header-direita a {
+        font-size: 10px;
+    }
+
+    .header-direita .btn-cadastro {
+        padding: 9px 12px;
+    }
+
+    main {
+        padding: 25px 18px 45px;
+    }
+
+    .hero {
+        padding: 25px 5px 35px;
+    }
+
+    .hero h1 {
+        font-size: 25px;
+    }
+
+    .hero p {
+        font-size: 12px;
+    }
+
+    .relatar {
+        padding: 22px 18px;
+    }
+
+    .relatar-titulo h2 {
+        font-size: 17px;
+    }
+
+    .relatar-titulo p {
+        font-size: 11px;
+    }
+
+    .contato {
+        padding: 25px 20px;
+    }
+
+    .contato h2 {
+        font-size: 18px;
+    }
+
+    .contato-icone {
+        font-size: 28px;
+        min-width: 35px;
+    }
+
+    .faq h2 {
+        font-size: 21px;
+    }
+
+    .perguntas summary {
+        padding: 19px 45px 19px 15px;
+        font-size: 12px;
+    }
+
+    .perguntas details p {
+        padding: 0 15px 18px;
+    }
+}
+
+@media (max-width: 420px) {
+
+    .header {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .header-direita {
+        width: 100%;
+        justify-content: center;
+        padding-bottom: 8px;
+    }
+
+    .contato-icone {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+}
