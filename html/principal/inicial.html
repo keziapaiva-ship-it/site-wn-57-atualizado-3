@@ -1,0 +1,503 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WN57 • Mobilidade Premium</title>
+
+    <!-- FONTES -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS DA PÁGINA -->
+    <link rel="stylesheet" href="/css/princial/inicial.css">
+
+    <!-- CSS DO CABEÇALHO -->
+    <link rel="stylesheet" href="/css/login/cabecalho.css">
+
+    <!-- VERIFICAÇÃO DE LOGIN -->
+    <script>
+        try {
+            const usuario = JSON.parse(
+                localStorage.getItem("usuarioLogado")
+            );
+
+            if (
+                usuario &&
+                usuario.nome &&
+                localStorage.getItem("token")
+            ) {
+                document.documentElement.classList.add("logado");
+            }
+        } catch (e) {
+            console.error("Erro ao verificar login:", e);
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <!-- CABEÇALHO -->
+    <script src="/javascript/login/cabecalho.js"></script>
+
+    <!-- MAPA -->
+    <div id="map"></div>
+
+    <!-- ============================= -->
+    <!-- SEÇÃO PRINCIPAL -->
+    <!-- ============================= -->
+
+    <section class="hero">
+
+        <div class="hero-text">
+
+            <h1>
+                <span data-i18n="heroTitulo">Sua corrida</span>
+                <span>premium</span>
+            </h1>
+
+            <p>
+                Um aplicativo moderno, rápido e seguro.
+                Viaje com conforto em uma experiência extraordinária.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="/html/corrida/solicitar.html" class="btn">
+                    Pedir corrida
+                </a>
+
+                <a href="/html/ajuda/ajuda.html"
+                    class="btn secondary-btn">
+                    Como funciona
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- PRÉVIA DO APLICATIVO -->
+        <div class="hero-image">
+
+            <div class="phone">
+
+                <div class="screen">
+
+                    <div class="map"></div>
+
+                    <!-- CARTÃO DE CORRIDA -->
+                    <div class="ride-card">
+
+                        <h3>WN57 Comfort</h3>
+
+                        <p>
+                            Motorista chegando • 3 min
+                        </p>
+
+                        <!-- MOTORISTA -->
+                        <div class="driver">
+
+                            <img
+                                src="https://randomuser.me/api/portraits/women/44.jpg"
+                                alt="Foto da motorista">
+
+                            <div>
+                                <h4>Mariana Silva</h4>
+                                <span>HB20 • ABC-1234</span>
+                            </div>
+
+                        </div>
+
+                        <button class="btn" style="width:100%;">
+                            Confirmar corrida
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ============================= -->
+    <!-- ESTATÍSTICAS -->
+    <!-- ============================= -->
+
+    <section class="stats">
+
+        <div class="stat-box">
+
+            <h2>+20k</h2>
+
+            <p>Corridas realizadas</p>
+
+        </div>
+
+        <div class="stat-box">
+
+            <h2>4.9★</h2>
+
+            <p>Avaliação dos usuários</p>
+
+        </div>
+
+        <div class="stat-box">
+
+            <h2>+3k</h2>
+
+            <p>Motoristas ativos</p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ============================= -->
+    <!-- FUNCIONALIDADES -->
+    <!-- ============================= -->
+
+    <section class="features" id="sobre">
+
+        <div class="section-title">
+
+            <h2>Por que usar a WN57?</h2>
+
+            <p>
+                Mobilidade moderna, elegante e segura.
+            </p>
+
+        </div>
+
+        <div class="feature-grid">
+
+            <div class="feature-card">
+
+                <div class="icon">🚗</div>
+
+                <h3>Corridas rápidas</h3>
+
+                <p>
+                    Motoristas próximos em poucos segundos.
+                </p>
+
+            </div>
+
+            <div class="feature-card">
+
+                <div class="icon">📍</div>
+
+                <h3>Mapa em tempo real</h3>
+
+                <p>
+                    Veja sua rota ao vivo com GPS moderno.
+                </p>
+
+            </div>
+
+            <div class="feature-card">
+
+                <div class="icon">🛡️</div>
+
+                <h3>Mais segurança</h3>
+
+                <p>
+                    Motoristas verificados e suporte 24h.
+                </p>
+
+            </div>
+
+            <div class="feature-card">
+
+                <div class="icon">💳</div>
+
+                <h3>Pagamento fácil</h3>
+
+                <p>
+                    PIX, cartão ou dinheiro.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ============================= -->
+    <!-- CATEGORIAS DE CORRIDA -->
+    <!-- ============================= -->
+
+    <section class="rides">
+
+        <!-- WN BLACK -->
+        <div class="ride-option"
+            style="background-image:url('/img/carros/carro.black.jpg')">
+
+            <div class="ride-content">
+
+                <h3>WN Black</h3>
+
+                <p>
+                    Luxo e conforto premium.
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- WN COMFORT -->
+        <div class="ride-option"
+            style="background-image:url('/img/carros/carro.confort.jpg')">
+
+            <div class="ride-content">
+
+                <h3>WN Comfort</h3>
+
+                <p>
+                    Viagens mais confortáveis.
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- WN ECONÔMICO -->
+        <div class="ride-option"
+            style="background-image:url('/img/carros/carro.economico.jpg')">
+
+            <div class="ride-content">
+
+                <h3>WN</h3>
+
+                <p>
+                    Corridas rápidas e acessíveis.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ============================= -->
+    <!-- AVALIAÇÕES -->
+    <!-- ============================= -->
+
+    <section class="reviews">
+
+        <div class="review">
+
+            <p>
+                “Aplicativo muito bonito e rápido.
+                A experiência parece app internacional.”
+            </p>
+
+            <h4>Amanda • ⭐ 5.0</h4>
+
+        </div>
+
+        <div class="review">
+
+            <p>
+                “Mapa incrível e motoristas muito educados.”
+            </p>
+
+            <h4>Fernanda • ⭐ 4.9</h4>
+
+        </div>
+
+        <div class="review">
+
+            <p>
+                “Visual premium e muito moderno.”
+            </p>
+
+            <h4>Julia • ⭐ 5.0</h4>
+
+        </div>
+
+    </section>
+
+
+    <!-- ============================= -->
+    <!-- DOWNLOAD -->
+    <!-- ============================= -->
+
+    <section class="download">
+
+        <div>
+
+            <h2>Baixe o app WN57</h2>
+
+            <p>
+                Solicite sua corrida em segundos com uma plataforma moderna,
+                rápida e segura.
+            </p>
+
+        </div>
+
+        <button class="btn secondary-btn">
+            Download
+        </button>
+
+    </section>
+
+
+    <!-- ============================= -->
+    <!-- RODAPÉ -->
+    <!-- ============================= -->
+
+    <footer class="rodape-wn57">
+
+        <div class="rodape-container">
+
+            <div class="rodape-topo">
+
+                <div class="rodape-marca">
+
+                    <h2>WN57</h2>
+
+                    <a href="/html/ajuda/ajuda.html">
+                        Acesse a Central de Ajuda
+                    </a>
+
+                </div>
+
+                <p class="rodape-endereco">
+                    WN57 Tecnologia Ltda | Avenida Brasil, nº 949,
+                    Pinhais, Paraná, Brasil - CEP 83320-000
+                </p>
+
+            </div>
+
+
+            <div class="rodape-colunas">
+
+                <!-- EMPRESA -->
+                <div class="rodape-coluna">
+
+                    <h3>Empresa</h3>
+
+                    <a href="#">Sobre-Nós</a>
+
+                    <a href="#">Blog</a>
+
+                    <a href="#">Contato</a>
+
+                </div>
+
+
+                <!-- PRODUTOS -->
+                <div class="rodape-coluna">
+
+                    <h3>Produtos</h3>
+
+                    <a href="/html/corrida/solicitar.html">
+                        Viajar
+                    </a>
+
+                    <a href="/html/ajuda/ajuda.html">
+                        Como funciona
+                    </a>
+
+                    <a href="/html/login/cadastro.html">
+                        Cadastre-se
+                    </a>
+
+                </div>
+
+
+                <!-- CIDADANIA -->
+                <div class="rodape-coluna">
+
+                    <h3>Cidadania global</h3>
+
+                    <a href="/html/ajuda/seguranca.html">
+                        Segurança
+                    </a>
+
+                    <a href="/html/ajuda/suporte.html">
+                        Suporte
+                    </a>
+
+                    <a href="/html/ajuda/ajuda.html">
+                        Ajuda
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- LOCALIZAÇÃO E IDIOMA -->
+            <div class="rodape-meio">
+
+                <div class="rodape-local">
+
+                    <span>🌐 Português (Brasil)</span>
+
+                    <span>📍 Curitiba</span>
+
+                </div>
+
+            </div>
+
+
+            <!-- FINAL DO RODAPÉ -->
+            <div class="rodape-final">
+
+                <span>© 2026 WN57</span>
+
+                <div>
+
+                    <a href="#">Privacidade</a>
+
+                    <a href="#">Termos</a>
+
+                    <a href="#">Acessibilidade</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- ============================= -->
+    <!-- BOTÃO VOLTAR AO TOPO -->
+    <!-- ============================= -->
+
+    <button id="topBtn" title="Voltar ao topo">
+        ↑
+    </button>
+
+
+    <!-- ============================= -->
+    <!-- BIBLIOTECA LEAFLET -->
+    <!-- ============================= -->
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+
+    <!-- ============================= -->
+    <!-- JAVASCRIPT DA PÁGINA -->
+    <!-- ============================= -->
+
+    <script src="/javascript/principal/inicial.js"></script>
+
+    <!-- TRADUÇÃO GLOBAL -->
+    <script src="/javascript/idioma.js"></script>
+
+</body>
+</html>
