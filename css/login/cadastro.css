@@ -1,23 +1,33 @@
 /* =====================================================
-   01. BASE
+   01. BASE (tema futurista: preto + rosa neon)
 ====================================================== */
 
-:root {
-    --rosa: #ff2f8b;
-    --rosa-escuro: #d81b70;
-    --tinta: #12070d;
-    --texto: #2b1f26;
-    --texto-suave: #6e5d66;
-    --borda: #e6d6de;
-    --campo: #fdfafb;
-    --erro: #d93025;
-    --ok: #1e8e3e;
 
-    /* Espaço reservado no topo para o cabeçalho fixo (colado no topo, 72px de altura) */
+:root {
+    --rosa: #e91e78;
+    --rosa-claro: #f05b9c;
+    --rosa-escuro: #a91453;
+    --rosa-fundo: #b11465;
+
+    --tinta: #080608;
+    --texto: #f6e9f0;
+    --texto-suave: #b9aab2;
+
+    --borda: rgba(255, 47, 139, 0.18);
+    --campo: rgba(255, 255, 255, 0.035);
+
+    --erro: #ff5c7a;
+    --ok: #3ddc84;
+
+    --neon: 0 0 10px rgba(255, 47, 139, 0.2);
+
     --altura-menu: 72px;
     --espaco: clamp(10px, 1.8vh, 16px);
     --altura-campo: clamp(40px, 5.4vh, 48px);
+
+    color-scheme: dark;
 }
+
 
 *,
 *::before,
@@ -31,21 +41,47 @@ html {
     width: 100%;
     max-width: 100%;
     overflow-x: clip;
+    scrollbar-color: var(--rosa) #12070d;
 }
 
 body {
+    position: relative;
     width: 100%;
     max-width: 100%;
     min-height: 100vh;
     min-height: 100dvh;
     font-family: 'DM Sans', sans-serif;
     color: var(--texto);
-    background-color: #f5a0c2;
-    background-image: linear-gradient(135deg, #ec9cbd, #f5a0c2);
+    background-color: #050106;
+    background-image:
+        radial-gradient(900px 500px at 12% -5%, rgba(216, 27, 112, 0.38), transparent 60%),
+        radial-gradient(800px 600px at 95% 105%, rgba(255, 47, 139, 0.28), transparent 60%),
+        radial-gradient(600px 400px at 50% 50%, rgba(91, 15, 58, 0.35), transparent 70%),
+        linear-gradient(160deg, #0a0207, #12040c 50%, #060105);
     background-repeat: no-repeat;
     background-attachment: fixed;
     -webkit-font-smoothing: antialiased;
     overflow-x: clip;
+}
+
+/* Grade futurista no fundo, some nas bordas da tela */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+        linear-gradient(rgba(255, 47, 139, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 47, 139, 0.07) 1px, transparent 1px);
+    background-size: 48px 48px;
+    -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 80%);
+    mask-image: radial-gradient(ellipse at center, #000 30%, transparent 80%);
+}
+
+::selection {
+    background: var(--rosa);
+    color: #ffffff;
 }
 
 a {
@@ -60,20 +96,24 @@ button {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
     *,
     *::before,
     *::after {
         transition-duration: 0.01ms !important;
+        animation: none !important;
     }
 }
 
 /* =====================================================
-   02. CARTÃO DO CADASTRO
+   02. CARTÃO DO CADASTRO (borda rosa brilhante)
 ====================================================== */
 
 /* O cartão fica logo abaixo do menu, sempre na mesma posição,
    e a página rola normalmente se o conteúdo não couber. */
 .container {
+    position: relative;
+    z-index: 1;
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -86,17 +126,41 @@ button {
 }
 
 main {
+    position: relative;
     width: 100%;
     max-width: 1040px;
     min-width: 0;
-    margin: 0;
-    background: #f6f6f6;
+    margin: 30px 0 0;
+    background: linear-gradient(114deg, rgb(0 0 0 / 92%), rgb(0 0 0 / 95%));
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
     border-radius: 20px;
     padding: clamp(18px, 3vh, 34px) clamp(20px, 4vw, 52px);
-    box-shadow:
-        0 2px 6px rgba(90, 20, 55, 0.08),
-        0 24px 60px rgba(120, 20, 70, 0.2);
+    box-shadow: 0 0 0 1px rgba(255, 47, 139, 0.18), 0 0 24px rgba(0, 0, 0, 0.35), 0 0 70px rgba(216, 27, 112, 0.28), inset 0 0 40px rgba(255, 47, 139, 0.06);
+    animation: pulsar 4s ease-in-out infinite alternate;
 }
+
+
+/* Borda de gradiente que "corre" ao redor do cartão */
+main::before {
+    display: none;
+}
+
+main {
+    border: none;
+    box-shadow: 0 10px 35px rgba(255, 47, 139, 0.25);
+}
+
+@keyframes correr {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 300% 50%;
+    }
+}
+
 
 .sessao,
 .sessao form {
@@ -116,11 +180,15 @@ main {
 ====================================================== */
 
 .sessao-topo h1 {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'DM Sans', Arial, Helvetica, sans-serif;
     font-size: clamp(1.45rem, 3.9vh, 2rem);
     font-weight: 700;
+    letter-spacing: 0.02em;
     line-height: 1.15;
-    color: var(--tinta);
+    color: #ffffff;
+    text-shadow:
+        0 0 10px rgba(255, 47, 139, 0.7),
+        0 0 28px rgba(255, 47, 139, 0.4);
 }
 
 .sessao-topo p {
@@ -133,6 +201,7 @@ main {
    04. LOGIN COM GOOGLE + DIVISOR
 ====================================================== */
 
+/* overflow-x "clip" corta só o que passa dos lados; na vertical o brilho aparece */
 .google-area {
     display: flex;
     justify-content: center;
@@ -141,12 +210,28 @@ main {
     max-width: 100%;
     min-width: 0;
     min-height: 44px;
-    overflow: hidden;
+    overflow-x: clip;
+    overflow-y: visible;
 }
 
-.google-area > div,
+.google-area>div,
 .google-area iframe {
     max-width: 100% !important;
+}
+
+.google-area .g_id_signin {
+    display: flex;
+    border-radius: 999px;
+    box-shadow:
+        0 0 0 1px rgba(255, 47, 139, 0.6),
+        0 0 22px rgba(255, 47, 139, 0.4);
+    transition: box-shadow 0.25s;
+}
+
+.google-area .g_id_signin:hover {
+    box-shadow:
+        0 0 0 1px var(--rosa),
+        0 0 32px rgba(255, 47, 139, 0.65);
 }
 
 .divisor {
@@ -163,7 +248,7 @@ main {
     content: '';
     flex: 1;
     height: 1px;
-    background: var(--borda);
+    background: linear-gradient(90deg, transparent, rgba(255, 47, 139, 0.55), transparent);
 }
 
 /* =====================================================
@@ -180,7 +265,7 @@ main {
     min-width: 0;
 }
 
-.informacoes > div {
+.informacoes>div {
     display: flex;
     flex-direction: column;
     min-width: 0;
@@ -190,6 +275,7 @@ main {
     margin-bottom: 5px;
     font-size: 0.85rem;
     font-weight: 600;
+    letter-spacing: 0.02em;
     color: var(--texto);
 }
 
@@ -199,46 +285,61 @@ main {
     padding: 0 14px;
     font-family: inherit;
     font-size: 0.98rem;
-    color: var(--texto);
+    color: #ffffff;
+    caret-color: var(--rosa);
     background: var(--campo);
     border: 1.5px solid var(--borda);
     border-radius: 10px;
     outline: none;
-    box-shadow: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    box-shadow: inset 0 0 12px rgba(255, 47, 139, 0.05);
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
 }
 
 .informacoes input::placeholder {
-    color: #aa9aa2;
+    color: rgba(255, 255, 255, 0.35);
 }
 
 .informacoes input:hover {
-    border-color: #d3bcc7;
+    border-color: rgba(255, 47, 139, 0.55);
 }
 
 .informacoes input:focus {
     border-color: var(--rosa);
-    background: #ffffff;
-    box-shadow: 0 0 0 4px rgba(255, 47, 139, 0.15);
+    background: rgba(255, 47, 139, 0.07);
+    box-shadow:
+        0 0 0 3px rgba(255, 47, 139, 0.18),
+        0 0 18px rgba(255, 47, 139, 0.45);
+}
+
+/* Preenchimento automático do navegador: mantém o campo escuro */
+.informacoes input:-webkit-autofill,
+.informacoes input:-webkit-autofill:hover,
+.informacoes input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #ffffff;
+    caret-color: #ffffff;
+    box-shadow: 0 0 0 1000px #1a0a12 inset;
+    transition: background-color 9999s ease-in-out 0s;
 }
 
 /* Estados de validação (depois do :focus, para vencer sem !important) */
 
 .informacoes input.input-erro {
     border-color: var(--erro);
-    box-shadow: 0 0 0 4px rgba(217, 48, 37, 0.12);
+    box-shadow:
+        0 0 0 3px rgba(255, 92, 122, 0.16),
+        0 0 16px rgba(255, 92, 122, 0.4);
 }
 
 .informacoes input.input-certo {
     border-color: var(--ok);
-    box-shadow: none;
+    box-shadow: 0 0 12px rgba(61, 220, 132, 0.3);
 }
 
 /* Campo de data */
 
 .informacoes #date {
     padding-right: 44px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23ff2f8b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='3'/%3E%3Cpath d='M16 2v4M8 2v4M3 10h18'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23ff6fb0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='3'/%3E%3Cpath d='M16 2v4M8 2v4M3 10h18'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 14px center;
     background-size: 20px;
@@ -253,26 +354,33 @@ main {
 }
 
 /* =====================================================
-   06. BOTÃO PRINCIPAL
+   06. BOTÃO PRINCIPAL (neon)
 ====================================================== */
 
 .btn-enviar {
+    position: relative;
     width: 100%;
     height: clamp(44px, 5.9vh, 54px);
     font-family: inherit;
     font-size: 1.05rem;
     font-weight: 700;
+    letter-spacing: 0.03em;
     color: #ffffff;
-    background: var(--tinta);
-    border: none;
+    background: linear-gradient(135deg, rgba(255, 47, 139, 0.45), #ff2f8b);
+    border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: 12px;
     cursor: pointer;
-    transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 0 20px rgba(255, 47, 139, 0.55), 0 8px 30px rgba(216, 27, 112, 0.35);
+    transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
 }
 
-/* rosa-escuro dá contraste melhor com o texto branco */
+
 .btn-enviar:hover {
-    background: var(--rosa-escuro);
+    transform: translateY(-2px);
+    filter: brightness(1.08);
+    box-shadow:
+        0 0 30px rgba(255, 47, 139, 0.85),
+        0 12px 40px rgba(216, 27, 112, 0.5);
 }
 
 .btn-enviar:active {
@@ -280,13 +388,15 @@ main {
 }
 
 .btn-enviar:focus-visible {
-    outline: 3px solid var(--rosa);
+    outline: 3px solid #ffffff;
     outline-offset: 3px;
 }
 
 .btn-enviar:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+    transform: none;
+    filter: none;
 }
 
 /* =====================================================
@@ -303,15 +413,17 @@ main {
 
 .termos a,
 .ja-tem-conta a {
-    color: var(--rosa-escuro);
+    color: var(--rosa-claro);
     font-weight: 600;
     text-decoration: underline;
     text-underline-offset: 3px;
+    transition: color 0.2s, text-shadow 0.2s;
 }
 
 .termos a:hover,
 .ja-tem-conta a:hover {
-    color: var(--rosa);
+    color: #ffffff;
+    text-shadow: 0 0 10px var(--rosa);
 }
 
 .ja-tem-conta {
@@ -319,7 +431,7 @@ main {
     font-size: 0.92rem;
     text-align: center;
     color: var(--texto);
-    border-top: 1px solid var(--borda);
+    border-top: 1px solid rgba(255, 47, 139, 0.25);
 }
 
 /* =====================================================
@@ -334,7 +446,7 @@ main {
    O cabeçalho fica colado no topo e ocupa a largura toda da tela.
 ====================================================== */
 
-html body > header {
+html body>header {
     position: fixed;
     top: 0;
     left: 0;
@@ -348,20 +460,22 @@ html body > header {
     padding: 0;
     border-radius: 0;
     background: #000000;
-    box-shadow: 0 4px 20px rgba(60, 0, 30, 0.25);
+    border-bottom: 1px solid rgba(255, 47, 139, 0.55);
+    box-shadow: 0 0 26px rgba(255, 47, 139, 0.35);
 }
 
-html body > header .header-container {
+html body>header .header-container {
     display: flex;
     align-items: center;
     width: 100%;
-    max-width: 1300px; /* troque por "none" para esticar logo e botões até as bordas */
+    max-width: 1300px;
+    /* troque por "none" para esticar logo e botões até as bordas */
     height: 100%;
     margin: 0 auto;
     padding: 0 24px;
 }
 
-html body > header img.logo {
+html body>header img.logo {
     display: block;
     height: 54px;
     width: auto;
@@ -370,7 +484,7 @@ html body > header img.logo {
     cursor: pointer;
 }
 
-html body > header nav {
+html body>header nav {
     display: flex;
     align-items: center;
     gap: 36px;
@@ -378,22 +492,23 @@ html body > header nav {
     margin-right: auto;
 }
 
-html body > header nav a,
-html body > header .header-right > a {
+html body>header nav a,
+html body>header .header-right>a {
     color: #ffffff;
     font-family: 'DM Sans', sans-serif;
     font-size: 15px;
     font-weight: 700;
     white-space: nowrap;
-    transition: color 0.3s;
+    transition: color 0.3s, text-shadow 0.3s;
 }
 
-html body > header nav a:hover,
-html body > header .header-right > a:hover {
+html body>header nav a:hover,
+html body>header .header-right>a:hover {
     color: var(--rosa);
+    text-shadow: 0 0 12px rgba(255, 47, 139, 0.7);
 }
 
-html body > header .header-right {
+html body>header .header-right {
     display: flex;
     align-items: center;
     gap: 22px;
@@ -401,27 +516,28 @@ html body > header .header-right {
     min-width: 0;
 }
 
-html body > header .idioma-btn {
+html body>header .idioma-btn {
     padding: 8px 14px;
     color: #ffffff;
     background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 47, 139, 0.5);
     border-radius: 8px;
     cursor: pointer;
     font-family: 'DM Sans', sans-serif;
     font-size: 14px;
     font-weight: 700;
     white-space: nowrap;
-    transition: border-color 0.2s, color 0.2s;
+    transition: border-color 0.2s, color 0.2s, box-shadow 0.2s;
 }
 
-html body > header .idioma-btn:hover {
+html body>header .idioma-btn:hover {
     color: var(--rosa);
     border-color: var(--rosa);
+    box-shadow: 0 0 14px rgba(255, 47, 139, 0.45);
 }
 
 /* Botão rosa "Cadastre-se" */
-html body > header .header-right > a.btn-menu {
+html body>header .header-right>a.btn-menu {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -431,18 +547,19 @@ html body > header .header-right > a.btn-menu {
     background: linear-gradient(135deg, #ff2f8b, #ff4fa1);
     color: #ffffff;
     font-size: 15px;
-    box-shadow: 0 8px 25px rgba(255, 47, 139, 0.35);
+    box-shadow: 0 0 22px rgba(255, 47, 139, 0.55);
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
-html body > header .header-right > a.btn-menu:hover {
+html body>header .header-right>a.btn-menu:hover {
     color: #ffffff;
+    text-shadow: none;
     transform: translateY(-2px);
-    box-shadow: 0 12px 30px rgba(255, 47, 139, 0.45);
+    box-shadow: 0 0 32px rgba(255, 47, 139, 0.8);
 }
 
-html body > header a:focus-visible,
-html body > header button:focus-visible {
+html body>header a:focus-visible,
+html body>header button:focus-visible {
     outline: 2px solid var(--rosa);
     outline-offset: 3px;
 }
@@ -450,22 +567,22 @@ html body > header button:focus-visible {
 /* ---------- Deslogado x logado ----------
    O perfil.js coloca a classe "logado" no <html> quando há sessão. */
 
-html body > header .perfil {
+html body>header .perfil {
     display: none;
     position: relative;
 }
 
-html.logado body > header [data-deslogado] {
+html.logado body>header [data-deslogado] {
     display: none;
 }
 
-html.logado body > header .perfil {
+html.logado body>header .perfil {
     display: block;
 }
 
 /* ---------- Botão do perfil ---------- */
 
-html body > header .perfil-btn {
+html body>header .perfil-btn {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -474,19 +591,20 @@ html body > header .perfil-btn {
     font-size: 14px;
     font-weight: 700;
     color: #ffffff;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 47, 139, 0.1);
+    border: 1px solid rgba(255, 47, 139, 0.45);
     border-radius: 30px;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: background 0.2s, box-shadow 0.2s;
 }
 
-html body > header .perfil-btn:hover {
-    background: rgba(255, 255, 255, 0.18);
+html body>header .perfil-btn:hover {
+    background: rgba(255, 47, 139, 0.2);
+    box-shadow: 0 0 14px rgba(255, 47, 139, 0.45);
 }
 
-html body > header .perfil-avatar,
-html body > header .perfil-foto {
+html body>header .perfil-avatar,
+html body>header .perfil-foto {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -499,26 +617,27 @@ html body > header .perfil-foto {
     font-weight: 700;
 }
 
-html body > header .perfil-avatar {
+html body>header .perfil-avatar {
     width: 32px;
     height: 32px;
     font-size: 14px;
 }
 
-html body > header .perfil-foto {
+html body>header .perfil-foto {
     width: 52px;
     height: 52px;
     font-size: 20px;
+    box-shadow: 0 0 14px rgba(255, 47, 139, 0.55);
 }
 
-html body > header .perfil-btn .seta {
+html body>header .perfil-btn .seta {
     font-size: 11px;
     opacity: 0.7;
 }
 
-/* ---------- Menu suspenso do perfil (painel claro) ---------- */
+/* ---------- Menu suspenso do perfil (painel escuro com brilho) ---------- */
 
-html body > header .perfil-menu {
+html body>header .perfil-menu {
     display: none;
     position: absolute;
     top: calc(100% + 14px);
@@ -526,16 +645,19 @@ html body > header .perfil-menu {
     width: 300px;
     max-width: calc(100vw - 24px);
     padding: 18px;
-    background: #ffffff;
+    background: #0f060b;
+    border: 1px solid rgba(255, 47, 139, 0.55);
     border-radius: 16px;
-    box-shadow: 0 20px 50px rgba(90, 20, 55, 0.25);
+    box-shadow:
+        0 0 24px rgba(255, 47, 139, 0.35),
+        0 20px 50px rgba(0, 0, 0, 0.6);
 }
 
-html body > header .perfil-menu.aberto {
+html body>header .perfil-menu.aberto {
     display: block;
 }
 
-html body > header .perfil-topo {
+html body>header .perfil-topo {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -543,32 +665,32 @@ html body > header .perfil-topo {
     margin-bottom: 14px;
 }
 
-html body > header .perfil-topo h3 {
+html body>header .perfil-topo h3 {
     font-size: 18px;
     line-height: 1.2;
-    color: var(--tinta);
+    color: #ffffff;
     word-break: break-word;
 }
 
-html body > header .perfil-topo .nota {
+html body>header .perfil-topo .nota {
     display: inline-block;
     margin-top: 4px;
     padding: 2px 8px;
     font-size: 12px;
     font-weight: 700;
-    color: var(--texto);
-    background: #f1ecee;
+    color: var(--rosa-claro);
+    background: rgba(255, 47, 139, 0.15);
     border-radius: 20px;
 }
 
-html body > header .perfil-atalhos {
+html body>header .perfil-atalhos {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 8px;
     margin-bottom: 12px;
 }
 
-html body > header .perfil-atalhos a {
+html body>header .perfil-atalhos a {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -576,24 +698,26 @@ html body > header .perfil-atalhos a {
     padding: 10px 4px;
     font-size: 13px;
     font-weight: 600;
-    color: var(--tinta);
-    background: #f6f2f4;
+    color: #ffffff;
+    background: rgba(255, 47, 139, 0.1);
+    border: 1px solid rgba(255, 47, 139, 0.25);
     border-radius: 10px;
     text-align: center;
-    transition: background 0.2s;
+    transition: background 0.2s, box-shadow 0.2s;
 }
 
-html body > header .perfil-atalhos a:hover {
-    background: #ffe3f0;
+html body>header .perfil-atalhos a:hover {
+    background: rgba(255, 47, 139, 0.25);
+    box-shadow: 0 0 12px rgba(255, 47, 139, 0.4);
 }
 
-html body > header .perfil-lista {
+html body>header .perfil-lista {
     list-style: none;
     margin-bottom: 12px;
-    border-top: 1px solid var(--borda);
+    border-top: 1px solid rgba(255, 47, 139, 0.25);
 }
 
-html body > header .perfil-lista a {
+html body>header .perfil-lista a {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -601,30 +725,32 @@ html body > header .perfil-lista a {
     font-size: 14px;
     font-weight: 600;
     color: var(--texto);
-    border-bottom: 1px solid var(--borda);
+    border-bottom: 1px solid rgba(255, 47, 139, 0.2);
     transition: color 0.2s;
 }
 
-html body > header .perfil-lista a:hover {
-    color: var(--rosa-escuro);
+html body>header .perfil-lista a:hover {
+    color: var(--rosa-claro);
 }
 
-html body > header .perfil-sair {
+html body>header .perfil-sair {
     width: 100%;
     height: 40px;
     font-family: inherit;
     font-size: 14px;
     font-weight: 700;
     color: #ffffff;
-    background: var(--tinta);
+    background: linear-gradient(135deg, #d81b70, #ff2f8b);
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    transition: background 0.2s;
+    box-shadow: 0 0 16px rgba(255, 47, 139, 0.45);
+    transition: filter 0.2s, box-shadow 0.2s;
 }
 
-html body > header .perfil-sair:hover {
-    background: var(--rosa-escuro);
+html body>header .perfil-sair:hover {
+    filter: brightness(1.1);
+    box-shadow: 0 0 24px rgba(255, 47, 139, 0.7);
 }
 
 /* =====================================================
@@ -670,6 +796,7 @@ html body > header .perfil-sair:hover {
     border-radius: 6px;
     font-size: 16px;
     line-height: 1;
+    color: var(--rosa-claro);
     cursor: pointer;
 }
 
@@ -686,7 +813,7 @@ html body > header .perfil-sair:hover {
 .forca-barra {
     height: 4px;
     border-radius: 4px;
-    background: rgba(0, 0, 0, 0.12);
+    background: rgba(255, 255, 255, 0.12);
     overflow: hidden;
 }
 
@@ -750,8 +877,9 @@ html body > header .perfil-sair:hover {
    seletor ".informacoes > .foto" e os ".informacoes .foto-*" abaixo:
    eles ganham de qualquer regra genérica, inclusive de um <style>
    que ainda esteja dentro do HTML. */
-.informacoes > .foto {
-    position: relative; /* ancora o input escondido dentro do bloco */
+.informacoes>.foto {
+    position: relative;
+    /* ancora o input escondido dentro do bloco */
     grid-column: 1 / -1;
     flex-direction: row;
     align-items: center;
@@ -760,9 +888,10 @@ html body > header .perfil-sair:hover {
     max-width: 100%;
     min-width: 0;
     padding: clamp(9px, 1.6vh, 14px) 18px;
-    background: #fff5fa;
-    border: 1.5px dashed #f0b6d2;
+    background: rgba(255, 47, 139, 0.06);
+    border: 1.5px dashed rgba(255, 47, 139, 0.5);
     border-radius: 14px;
+    box-shadow: inset 0 0 20px rgba(255, 47, 139, 0.06);
 }
 
 .informacoes .foto img {
@@ -772,8 +901,10 @@ html body > header .perfil-sair:hover {
     border-radius: 50%;
     object-fit: cover;
     background: #f9c6de;
-    border: 3px solid #fff;
-    box-shadow: 0 0 0 2px #c2185b;
+    border: 3px solid #0f060b;
+    box-shadow:
+        0 0 0 2px var(--rosa),
+        0 0 18px rgba(255, 47, 139, 0.65);
 }
 
 .foto-texto {
@@ -787,13 +918,13 @@ html body > header .perfil-sair:hover {
 .foto-titulo {
     font-weight: 700;
     font-size: 16px;
-    color: #4a0d2e;
+    color: #ffffff;
 }
 
 .foto-dica {
     margin: 0;
     font-size: 13px;
-    color: #7a5568;
+    color: var(--texto-suave);
     line-height: 1.35;
 }
 
@@ -810,21 +941,23 @@ html body > header .perfil-sair:hover {
     margin-bottom: 0;
     padding: 8px 18px;
     border-radius: 999px;
-    background: #c2185b;
+    background: linear-gradient(135deg, #d81b70, #ff2f8b);
     color: #fff;
     font-weight: 600;
     font-size: 14px;
     cursor: pointer;
-    transition: background 0.15s;
+    box-shadow: 0 0 14px rgba(255, 47, 139, 0.5);
+    transition: filter 0.15s, box-shadow 0.15s;
 }
 
 .informacoes .foto-botao:hover {
-    background: #4a0d2e;
+    filter: brightness(1.12);
+    box-shadow: 0 0 22px rgba(255, 47, 139, 0.8);
 }
 
 .foto-nome {
     font-size: 13px;
-    color: #7a5568;
+    color: var(--texto-suave);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -842,7 +975,7 @@ html body > header .perfil-sair:hover {
 }
 
 .foto:focus-within .foto-botao {
-    outline: 3px solid #e91e8c;
+    outline: 3px solid #ffffff;
     outline-offset: 2px;
 }
 
@@ -860,15 +993,15 @@ html body > header .perfil-sair:hover {
         max-width: 750px;
     }
 
-    html body > header .header-container {
+    html body>header .header-container {
         padding: 0 12px;
     }
 
-    html body > header nav {
+    html body>header nav {
         display: none;
     }
 
-    html body > header .header-right {
+    html body>header .header-right {
         gap: 16px;
     }
 }
@@ -910,7 +1043,7 @@ html body > header .perfil-sair:hover {
         gap: var(--espaco) 12px;
     }
 
-    .informacoes > .foto {
+    .informacoes>.foto {
         gap: 12px;
         padding: 8px 12px;
     }
@@ -933,41 +1066,41 @@ html body > header .perfil-sair:hover {
         --altura-menu: 52px;
     }
 
-    html body > header {
+    html body>header {
         top: 0;
         width: 100%;
         height: 52px;
         border-radius: 0;
     }
 
-    html body > header .idioma-btn {
+    html body>header .idioma-btn {
         padding: 5px 9px;
     }
 
-    html body > header .header-container {
+    html body>header .header-container {
         padding: 0 12px;
     }
 
-    html body > header img.logo {
+    html body>header img.logo {
         height: 38px;
     }
 
-    html body > header .header-right {
+    html body>header .header-right {
         gap: 10px;
     }
 
-    html body > header .header-right > a,
-    html body > header .idioma-btn {
+    html body>header .header-right>a,
+    html body>header .idioma-btn {
         font-size: 12px;
     }
 
     /* Espaço curto: some o "Ajuda" e o nome ao lado da foto */
-    html body > header #menuAjuda,
-    html body > header #perfilNomeCurto {
+    html body>header #menuAjuda,
+    html body>header #perfilNomeCurto {
         display: none;
     }
 
-    html body > header .header-right > a.btn-menu {
+    html body>header .header-right>a.btn-menu {
         height: 34px;
         padding: 0 14px;
         font-size: 12px;
@@ -1015,20 +1148,20 @@ html body > header .perfil-sair:hover {
 /* Só aqui os campos passam para 1 coluna: abaixo de ~380px
    duas colunas deixam cada campo apertado demais. */
 @media (max-width: 380px) {
-    html body > header .header-container {
+    html body>header .header-container {
         padding: 0 10px;
     }
 
-    html body > header .header-right {
+    html body>header .header-right {
         gap: 7px;
     }
 
-    html body > header .header-right > a,
-    html body > header .idioma-btn {
+    html body>header .header-right>a,
+    html body>header .idioma-btn {
         font-size: 11px;
     }
 
-    html body > header .header-right > a.btn-menu {
+    html body>header .header-right>a.btn-menu {
         padding: 0 12px;
     }
 
@@ -1070,6 +1203,7 @@ html body > header .perfil-sair:hover {
 /* Notebooks e janelas pequenas: some só o texto de apoio.
    As regras da senha (.dica-senha) continuam visíveis. */
 @media (max-height: 820px) {
+
     .sessao-topo p,
     .foto-dica {
         display: none;
@@ -1082,16 +1216,16 @@ html body > header .perfil-sair:hover {
         --altura-menu: 56px;
     }
 
-    html body > header {
+    html body>header {
         top: 0;
         height: 56px;
     }
 
-    html body > header img.logo {
+    html body>header img.logo {
         height: 42px;
     }
 
-    html body > header .header-right > a.btn-menu {
+    html body>header .header-right>a.btn-menu {
         height: 38px;
     }
 
