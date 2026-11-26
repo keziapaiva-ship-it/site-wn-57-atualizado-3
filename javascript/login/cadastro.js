@@ -280,8 +280,14 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // 2) Guarda os dados do perfil (com a foto) no navegador
+    // 2) Guarda os dados do perfil (com a foto) no navegador.
+    //    O perfil.js procura a foto em "fotoPerfil:<email>" e "fotoPerfilAtual".
     const foto = await reduzirFoto(inputFoto ? inputFoto.files[0] : null);
+    const emailMin = dadosApi.email.toLowerCase();
+
+    localStorage.setItem("fotoPerfil:" + emailMin, foto);
+    localStorage.setItem("fotoPerfilAtual", foto);
+
     localStorage.setItem("usuario", JSON.stringify({
       nome: dadosApi.nome,
       email: dadosApi.email,
