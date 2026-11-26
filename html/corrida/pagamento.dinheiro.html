@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>WN57 - Pagamento em dinheiro</title>
+
+    <!-- Fontes -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/login/cabecalho.css">
+    <link rel="stylesheet" href="/css/corrida/pagamento.dinheiro.css">
+
+</head>
+
+<body>
+
+    <!-- CABEÇALHO -->
+    <script src="/javascript/login/cabecalho.js"></script>
+
+    <!-- MAPA -->
+    <div id="map"></div>
+
+    <!-- PAINEL PRINCIPAL -->
+    <main class="painel">
+
+        <div class="barra"></div>
+
+        <div class="layout-pagamento">
+
+            <!-- =====================================
+                 CARD DE PAGAMENTO
+            ====================================== -->
+
+            <section class="conteudo-pagamento">
+
+                <span class="tag">WN57</span>
+
+                <h2 id="tituloPagamento">
+                    Pagamento em dinheiro
+                </h2>
+
+                <p class="descricao" id="descricaoPagamento">
+                    Sua corrida foi finalizada!
+                </p>
+
+                <!-- ÍCONE -->
+                <div class="icone-pagamento">
+                    <i>R$</i>
+                </div>
+
+                <!-- VALOR -->
+                <div class="valor-box">
+
+                    <small id="textoValor">
+                        Valor total da corrida
+                    </small>
+
+                    <h1 id="valor">R$ 15,00</h1>
+
+                </div>
+
+                <!-- AVISO -->
+                <div class="aviso">
+
+                    <strong id="tituloAviso">
+                        Como realizar o pagamento?
+                    </strong>
+
+                    <p id="textoAviso">
+                        Entregue o valor diretamente ao motorista para finalizar
+                        o pagamento da sua viagem.
+                    </p>
+
+                </div>
+
+                <!-- FORMA DE PAGAMENTO -->
+                <div class="resumo">
+
+                    <span id="textoFormaPagamento">
+                        Forma de pagamento
+                    </span>
+
+                    <strong id="formaPagamento">
+                        Dinheiro
+                    </strong>
+
+                </div>
+
+                <!-- TROCO -->
+                <div class="resumo">
+
+                    <span id="textoTroco">
+                        Troco solicitado
+                    </span>
+
+                    <strong id="troco">
+                        Não precisa
+                    </strong>
+
+                </div>
+
+                <!-- STATUS -->
+                <div class="status">
+
+                    <span class="bolinha"></span>
+
+                    <span id="statusTexto">
+                        Pagamento pendente
+                    </span>
+
+                </div>
+
+                <!-- BOTÃO -->
+                <button type="button" class="botao-finalizar" id="botaoFinalizar" onclick="abrirConfirmacaoDinheiro()">
+
+                    Finalizar corrida
+                    <span>→</span>
+
+                </button>
+
+                <!-- VOLTAR -->
+                <a class="voltar" href="/html/principal/inicial.html" id="voltarInicio">
+
+                    Voltar ao início
+
+                </a>
+
+                <!-- RODAPÉ -->
+                <div class="rodape-pagamento">
+                    WN57 • Mobilidade Premium
+                </div>
+
+            </section>
+
+            <!-- =====================================
+                 CARD DE AVALIAÇÃO
+            ====================================== -->
+
+            <section class="avaliacao-motorista" id="avaliacaoMotorista">
+
+                <div class="avaliacao-titulo">
+
+                    <span class="avaliacao-tag">WN57</span>
+
+                    <h2>Avalie sua experiência</h2>
+
+                    <p>Como foi sua viagem?</p>
+
+                </div>
+
+                <div class="avaliacao-estrelas">
+
+                    <div class="estrelas" id="estrelasMotorista">
+
+                        <button type="button" data-nota="1" aria-label="1 estrela">★</button>
+                        <button type="button" data-nota="2" aria-label="2 estrelas">★</button>
+                        <button type="button" data-nota="3" aria-label="3 estrelas">★</button>
+                        <button type="button" data-nota="4" aria-label="4 estrelas">★</button>
+                        <button type="button" data-nota="5" aria-label="5 estrelas">★</button>
+
+                    </div>
+
+                    <span id="mensagemEstrelas">
+                        Selecione uma nota
+                    </span>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+    <!-- =====================================
+         MODAL DE CONFIRMAÇÃO
+    ====================================== -->
+
+    <div class="modal-confirmacao" id="modalConfirmacaoDinheiro">
+
+        <div class="modal-conteudo">
+
+            <div class="modal-icone">?</div>
+
+            <h2>Confirmar pagamento?</h2>
+
+            <p>
+                Você confirma que entregou o dinheiro diretamente ao motorista?
+            </p>
+
+            <div class="modal-botoes">
+
+                <button type="button" class="btn-modal-cancelar" onclick="fecharConfirmacaoDinheiro()">
+                    Cancelar
+                </button>
+
+                <button type="button" class="btn-modal-confirmar" onclick="confirmarFinalizacaoDinheiro()">
+                    Sim, confirmar
+                    <span>→</span>
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script src="/javascript/corrida/pagamento.dinheiro.js"></script>
+
+</body>
+
+</html>
