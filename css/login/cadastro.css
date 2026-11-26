@@ -1,17 +1,22 @@
 /* =====================================================
-   WN57 - GERENCIAR CONTA
-   (o cabeçalho continua no cabecalho.css)
+   01. BASE
 ====================================================== */
 
 :root {
     --rosa: #ff2f8b;
-    --rosa-claro: #ff6fb1;
-    --texto: #f6eaf0;
-    --suave: #b79fab;
-    --borda: rgba(255, 255, 255, 0.12);
-    --vidro: rgba(24, 9, 18, 0.72);
-    --erro: #ff6b6b;
-    --ok: #3ddc84;
+    --rosa-escuro: #d81b70;
+    --tinta: #12070d;
+    --texto: #2b1f26;
+    --texto-suave: #6e5d66;
+    --borda: #e6d6de;
+    --campo: #fdfafb;
+    --erro: #d93025;
+    --ok: #1e8e3e;
+
+    /* Espaço reservado no topo para o cabeçalho fixo (colado no topo, 72px de altura) */
+    --altura-menu: 72px;
+    --espaco: clamp(10px, 1.8vh, 16px);
+    --altura-campo: clamp(40px, 5.4vh, 48px);
 }
 
 *,
@@ -22,18 +27,25 @@
     padding: 0;
 }
 
+html {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+}
+
 body {
+    width: 100%;
+    max-width: 100%;
     min-height: 100vh;
+    min-height: 100dvh;
     font-family: 'DM Sans', sans-serif;
     color: var(--texto);
-    -webkit-font-smoothing: antialiased;
-    background-color: #09060a;
-    background-image:
-        radial-gradient(ellipse at 10% 20%, rgba(190, 0, 85, .38), transparent 42%),
-        radial-gradient(ellipse at 90% 75%, rgba(255, 20, 120, .24), transparent 38%),
-        radial-gradient(ellipse at 50% 100%, rgba(110, 0, 65, .35), transparent 48%),
-        linear-gradient(135deg, #09060a 0%, #260817 40%, #120711 70%, #050407 100%);
+    background-color: #f5a0c2;
+    background-image: linear-gradient(135deg, #ec9cbd, #f5a0c2);
+    background-repeat: no-repeat;
     background-attachment: fixed;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
 }
 
 a {
@@ -41,599 +53,1049 @@ a {
     text-decoration: none;
 }
 
-[hidden] {
-    display: none !important;
-}
-
-
-/* =====================================================
-   LAYOUT
-====================================================== */
-
-.conta {
-    max-width: 1060px;
-    margin: 0 auto;
-    padding: 104px 20px 56px;
-    display: grid;
-    grid-template-columns: 260px 1fr;
-    gap: 28px;
-    align-items: start;
-}
-
-.lateral,
-.conteudo {
-    background: var(--vidro);
-    -webkit-backdrop-filter: blur(22px) saturate(140%);
-    backdrop-filter: blur(22px) saturate(140%);
-    border: 1px solid rgba(255, 47, 139, 0.2);
-    border-radius: 22px;
-    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5), 0 0 60px rgba(255, 47, 139, 0.08);
-}
-
-.lateral {
-    position: sticky;
-    top: 94px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    padding: 12px;
-}
-
-.lateral a {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 13px 16px;
-    border-radius: 12px;
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: var(--suave);
-    transition: background .2s, color .2s;
-}
-
-.lateral a i {
-    width: 18px;
-    text-align: center;
-}
-
-.lateral a:hover {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.06);
-}
-
-.lateral a.on {
-    color: #fff;
-    font-weight: 700;
-    background: rgba(255, 47, 139, 0.16);
-    box-shadow: inset 3px 0 0 var(--rosa);
-}
-
-.lateral a.on i {
-    color: var(--rosa-claro);
-}
-
-.conteudo {
-    position: relative;
-    min-height: 520px;
-    padding: 42px 46px 46px;
-    overflow: hidden;
-}
-
-.conteudo::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 12%;
-    right: 12%;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--rosa), var(--rosa-claro), var(--rosa), transparent);
-    box-shadow: 0 0 18px var(--rosa);
-}
-
-.vista {
-    display: none;
-}
-
-.vista.on {
-    display: block;
-    animation: entrada .35s ease-out both;
-}
-
-@keyframes entrada {
-    from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: none; }
-}
-
-
-/* =====================================================
-   TEXTOS
-====================================================== */
-
-h1 {
-    font-family: 'Fraunces', serif;
-    font-size: 2rem;
-    font-weight: 600;
-    line-height: 1.15;
-    color: #fff;
-    margin-bottom: 22px;
-}
-
-h2 {
-    margin: 34px 0 14px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #fff;
-}
-
-h3 {
-    margin-bottom: 8px;
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: #fff;
-}
-
-.sub,
-.card p,
-.cab p {
-    font-size: 0.92rem;
-    line-height: 1.55;
-    color: var(--suave);
-}
-
-h2 + .sub {
-    margin: -6px 0 14px;
-}
-
-
-/* =====================================================
-   INÍCIO
-====================================================== */
-
-.cab {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding-bottom: 10px;
-}
-
-.cab h1 {
-    margin: 18px 0 4px;
-}
-
-.foto-g {
-    display: grid;
-    place-items: center;
-    width: 112px;
-    height: 112px;
-    flex-shrink: 0;
-    border-radius: 50%;
-    font-family: 'Fraunces', serif;
-    font-size: 2.8rem;
-    color: #fff;
-    background: linear-gradient(135deg, #c2185b, var(--rosa)) center / cover no-repeat;
-    border: 3px solid #12070d;
-    box-shadow: 0 0 0 2px var(--rosa), 0 0 32px rgba(255, 47, 139, 0.5);
-}
-
-.atalho {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
-    margin-top: 26px;
-}
-
-.atalho a {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    padding: 20px 12px;
-    text-align: center;
-    font-size: 0.92rem;
-    font-weight: 600;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid var(--borda);
-    border-radius: 16px;
-    transition: border-color .2s, background .2s, transform .2s;
-}
-
-.atalho a i {
-    font-size: 1.3rem;
-    color: var(--rosa-claro);
-}
-
-.atalho a:hover {
-    border-color: var(--rosa);
-    background: rgba(255, 47, 139, 0.1);
-    transform: translateY(-2px);
-}
-
-
-/* =====================================================
-   CARTÕES
-====================================================== */
-
-.card {
-    padding: 24px;
-    margin-bottom: 16px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid var(--borda);
-    border-radius: 18px;
-}
-
-.card .btn {
-    margin-top: 16px;
-}
-
-#sugestao {
-    display: flex;
-    gap: 18px;
-    align-items: flex-start;
-}
-
-#sugestao > i {
-    display: grid;
-    place-items: center;
-    width: 48px;
-    height: 48px;
-    flex-shrink: 0;
-    border-radius: 14px;
-    font-size: 1.2rem;
-    color: #fff;
-    background: linear-gradient(135deg, var(--rosa), #ff4fa1);
-    box-shadow: 0 8px 22px rgba(255, 47, 139, 0.4);
-}
-
-.card.sessao {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-}
-
-.card.sessao > i {
-    font-size: 1.8rem;
-    color: var(--rosa-claro);
-}
-
-.card.sessao b,
-.card.sessao span {
-    display: block;
-}
-
-.atual {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--ok);
-}
-
-
-/* =====================================================
-   LISTA EDITÁVEL
-====================================================== */
-
-.foto-edit {
-    display: flex;
-    align-items: center;
-    gap: 22px;
-    margin-bottom: 26px;
-}
-
-.foto-edit .foto-g {
-    width: 88px;
-    height: 88px;
-    font-size: 2.1rem;
-}
-
-.lista {
-    border: 1px solid var(--borda);
-    border-radius: 18px;
-    overflow: hidden;
-    background: rgba(255, 255, 255, 0.03);
-}
-
-.item + .item {
-    border-top: 1px solid var(--borda);
-}
-
-.item > button {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    width: 100%;
-    padding: 18px 22px;
-    font: inherit;
-    text-align: left;
-    color: var(--texto);
-    background: transparent;
-    border: 0;
-    cursor: pointer;
-    transition: background .2s;
-}
-
-.item > button:hover {
-    background: rgba(255, 255, 255, 0.05);
-}
-
-.item > button:focus-visible {
-    outline: 2px solid var(--rosa-claro);
-    outline-offset: -2px;
-}
-
-.rotulo b {
-    display: block;
-    font-size: 0.95rem;
-}
-
-.rotulo .v {
-    display: block;
-    margin-top: 3px;
-    font-size: 0.9rem;
-    color: var(--suave);
-    overflow-wrap: anywhere;
-}
-
-.rotulo .v span {
-    margin-left: 4px;
-}
-
-.seta {
-    font-size: 0.8rem;
-    color: var(--suave);
-    transition: transform .25s;
-}
-
-.item.aberto .seta {
-    transform: rotate(90deg);
-    color: var(--rosa-claro);
-}
-
-.item.aberto > button {
-    background: rgba(255, 47, 139, 0.07);
-}
-
-.editor {
-    display: none;
-    padding: 6px 22px 24px;
-    background: rgba(255, 47, 139, 0.07);
-}
-
-.item.aberto .editor {
-    display: block;
-}
-
-.editor label {
-    display: block;
-    margin: 14px 0 7px;
-    font-size: 0.86rem;
-    font-weight: 600;
-}
-
-.editor input {
-    width: 100%;
-    max-width: 440px;
-    height: 48px;
-    padding: 0 16px;
-    font: inherit;
-    font-size: 0.95rem;
-    color: #fff;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1.5px solid var(--borda);
-    border-radius: 12px;
-    outline: none;
-    transition: border-color .2s, box-shadow .2s;
-}
-
-.editor input:focus {
-    border-color: var(--rosa);
-    box-shadow: 0 0 0 4px rgba(255, 47, 139, 0.18);
-}
-
-.dica {
-    margin-top: 8px;
-    font-size: 0.8rem;
-    line-height: 1.45;
-    color: var(--suave);
-}
-
-.msg {
-    min-height: 20px;
-    margin-top: 10px;
-    font-size: 0.85rem;
-    font-weight: 600;
-}
-
-.msg.erro { color: var(--erro); }
-.msg.ok   { color: var(--ok); }
-
-
-/* =====================================================
-   BOTÕES
-====================================================== */
-
-.acoes {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 14px;
-}
-
-.acoes.topo {
-    margin-top: 22px;
-}
-
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 9px;
-    min-height: 46px;
-    padding: 0 24px;
-    font: inherit;
-    font-size: 0.93rem;
-    font-weight: 700;
-    color: #fff;
-    background: linear-gradient(135deg, var(--rosa), #ff4fa1);
-    border: 1.5px solid transparent;
-    border-radius: 999px;
-    cursor: pointer;
-    box-shadow: 0 8px 24px rgba(255, 47, 139, 0.35);
-    transition: transform .2s, box-shadow .2s, background .2s, border-color .2s;
-}
-
-.btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 30px rgba(255, 47, 139, 0.5);
-}
-
-.btn:active {
-    transform: translateY(1px);
-}
-
-.btn:focus-visible {
-    outline: 3px solid #fff;
-    outline-offset: 3px;
-}
-
-.btn.sec {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: var(--borda);
-    box-shadow: none;
-}
-
-.btn.sec:hover {
-    border-color: var(--rosa-claro);
-    background: rgba(255, 255, 255, 0.1);
-    box-shadow: none;
-}
-
-.btn.perigo {
-    color: var(--erro);
-    background: rgba(255, 107, 107, 0.1);
-    border-color: rgba(255, 107, 107, 0.45);
-    box-shadow: none;
-}
-
-.btn.perigo:hover {
-    color: #fff;
-    background: #d93025;
-    border-color: #d93025;
-    box-shadow: 0 10px 26px rgba(217, 48, 37, 0.45);
-}
-
-
-/* =====================================================
-   SEM CADASTRO + AVISO
-====================================================== */
-
-.vazio {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    padding: 60px 10px;
-    text-align: center;
-}
-
-.vazio > i {
-    font-size: 3.4rem;
-    margin-bottom: 14px;
-    color: var(--rosa-claro);
-}
-
-.vazio h1 {
-    margin-bottom: 4px;
-}
-
-.vazio .btn {
-    margin-top: 20px;
-}
-
-.toast {
-    position: fixed;
-    left: 50%;
-    bottom: 28px;
-    z-index: 2000;
-    max-width: calc(100% - 32px);
-    padding: 14px 22px;
-    font-size: 0.92rem;
-    font-weight: 600;
-    color: #fff;
-    background: #1d0b15;
-    border: 1px solid rgba(255, 47, 139, 0.5);
-    border-radius: 14px;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 47, 139, 0.25);
-    opacity: 0;
-    pointer-events: none;
-    transform: translate(-50%, 16px);
-    transition: opacity .25s, transform .25s;
-}
-
-.toast.show {
-    opacity: 1;
-    transform: translate(-50%, 0);
-}
-
-
-/* =====================================================
-   RESPONSIVO E MOVIMENTO
-====================================================== */
-
-@media (max-width: 860px) {
-    .conta {
-        grid-template-columns: 1fr;
-        gap: 18px;
-        padding: 92px 14px 40px;
-    }
-
-    .lateral {
-        position: static;
-        flex-direction: row;
-        overflow-x: auto;
-        padding: 8px;
-        scrollbar-width: none;
-    }
-
-    .lateral::-webkit-scrollbar {
-        display: none;
-    }
-
-    .lateral a {
-        flex-shrink: 0;
-        padding: 11px 16px;
-        white-space: nowrap;
-    }
-
-    .lateral a.on {
-        box-shadow: inset 0 -3px 0 var(--rosa);
-    }
-
-    .conteudo {
-        padding: 30px 20px 32px;
-        min-height: 0;
-    }
-
-    h1 {
-        font-size: 1.7rem;
-    }
-
-    .atalho {
-        grid-template-columns: 1fr;
-    }
-
-    .editor,
-    .item > button {
-        padding-left: 16px;
-        padding-right: 16px;
-    }
+img,
+input,
+button {
+    max-width: 100%;
 }
 
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
     *::after {
-        animation: none !important;
-        transition: none !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* =====================================================
+   02. CARTÃO DO CADASTRO
+====================================================== */
+
+/* O cartão fica logo abaixo do menu, sempre na mesma posição,
+   e a página rola normalmente se o conteúdo não couber. */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: calc(var(--altura-menu) + 8px) 20px 8px;
+}
+
+main {
+    width: 100%;
+    max-width: 1040px;
+    min-width: 0;
+    margin: 0;
+    background: #f6f6f6;
+    border-radius: 20px;
+    padding: clamp(18px, 3vh, 34px) clamp(20px, 4vw, 52px);
+    box-shadow:
+        0 2px 6px rgba(90, 20, 55, 0.08),
+        0 24px 60px rgba(120, 20, 70, 0.2);
+}
+
+.sessao,
+.sessao form {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+}
+
+.sessao form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco);
+}
+
+/* =====================================================
+   03. TÍTULO
+====================================================== */
+
+.sessao-topo h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: clamp(1.45rem, 3.9vh, 2rem);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--tinta);
+}
+
+.sessao-topo p {
+    margin-top: 4px;
+    font-size: 1rem;
+    color: var(--texto-suave);
+}
+
+/* =====================================================
+   04. LOGIN COM GOOGLE + DIVISOR
+====================================================== */
+
+.google-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    min-height: 44px;
+    overflow: hidden;
+}
+
+.google-area > div,
+.google-area iframe {
+    max-width: 100% !important;
+}
+
+.divisor {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 0.85rem;
+    color: var(--texto-suave);
+    text-align: center;
+}
+
+.divisor::before,
+.divisor::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--borda);
+}
+
+/* =====================================================
+   05. CAMPOS
+====================================================== */
+
+.informacoes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--espaco) 20px;
+    align-items: start;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+}
+
+.informacoes > div {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.informacoes label {
+    margin-bottom: 5px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--texto);
+}
+
+.informacoes input {
+    width: 100%;
+    height: var(--altura-campo);
+    padding: 0 14px;
+    font-family: inherit;
+    font-size: 0.98rem;
+    color: var(--texto);
+    background: var(--campo);
+    border: 1.5px solid var(--borda);
+    border-radius: 10px;
+    outline: none;
+    box-shadow: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.informacoes input::placeholder {
+    color: #aa9aa2;
+}
+
+.informacoes input:hover {
+    border-color: #d3bcc7;
+}
+
+.informacoes input:focus {
+    border-color: var(--rosa);
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(255, 47, 139, 0.15);
+}
+
+/* Estados de validação (depois do :focus, para vencer sem !important) */
+
+.informacoes input.input-erro {
+    border-color: var(--erro);
+    box-shadow: 0 0 0 4px rgba(217, 48, 37, 0.12);
+}
+
+.informacoes input.input-certo {
+    border-color: var(--ok);
+    box-shadow: none;
+}
+
+/* Campo de data */
+
+.informacoes #date {
+    padding-right: 44px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23ff2f8b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='3'/%3E%3Cpath d='M16 2v4M8 2v4M3 10h18'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 20px;
+}
+
+/* Regras da senha: sempre visíveis, a pessoa precisa delas antes de errar */
+.dica-senha {
+    margin-top: -2px;
+    font-size: 0.8rem;
+    line-height: 1.35;
+    color: var(--texto-suave);
+}
+
+/* =====================================================
+   06. BOTÃO PRINCIPAL
+====================================================== */
+
+.btn-enviar {
+    width: 100%;
+    height: clamp(44px, 5.9vh, 54px);
+    font-family: inherit;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: var(--tinta);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+/* rosa-escuro dá contraste melhor com o texto branco */
+.btn-enviar:hover {
+    background: var(--rosa-escuro);
+}
+
+.btn-enviar:active {
+    transform: translateY(1px);
+}
+
+.btn-enviar:focus-visible {
+    outline: 3px solid var(--rosa);
+    outline-offset: 3px;
+}
+
+.btn-enviar:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* =====================================================
+   07. RODAPÉ DO FORMULÁRIO
+====================================================== */
+
+.termos {
+    margin-top: -2px;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    text-align: center;
+    color: var(--texto-suave);
+}
+
+.termos a,
+.ja-tem-conta a {
+    color: var(--rosa-escuro);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.termos a:hover,
+.ja-tem-conta a:hover {
+    color: var(--rosa);
+}
+
+.ja-tem-conta {
+    padding-top: var(--espaco);
+    font-size: 0.92rem;
+    text-align: center;
+    color: var(--texto);
+    border-top: 1px solid var(--borda);
+}
+
+/* =====================================================
+   08. CABEÇALHO (criado pelo perfil.js)
+   Estrutura: header > .header-container > img.logo, nav,
+   .header-right (idioma, ajuda, login, cadastre-se, .perfil)
+
+   Todos os seletores começam com "html body > header" de propósito:
+   assim eles vencem qualquer CSS de cabeçalho de outro arquivo e o
+   cabeçalho fica igual ao das outras páginas (fundo preto).
+
+   O cabeçalho fica colado no topo e ocupa a largura toda da tela.
+====================================================== */
+
+html body > header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    transform: none;
+    z-index: 1000;
+    width: 100%;
+    max-width: none;
+    height: 72px;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    background: #000000;
+    box-shadow: 0 4px 20px rgba(60, 0, 30, 0.25);
+}
+
+html body > header .header-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 1300px; /* troque por "none" para esticar logo e botões até as bordas */
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+html body > header img.logo {
+    display: block;
+    height: 54px;
+    width: auto;
+    flex-shrink: 0;
+    border-radius: 14px;
+    cursor: pointer;
+}
+
+html body > header nav {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    margin-left: 50px;
+    margin-right: auto;
+}
+
+html body > header nav a,
+html body > header .header-right > a {
+    color: #ffffff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    white-space: nowrap;
+    transition: color 0.3s;
+}
+
+html body > header nav a:hover,
+html body > header .header-right > a:hover {
+    color: var(--rosa);
+}
+
+html body > header .header-right {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    margin-left: auto;
+    min-width: 0;
+}
+
+html body > header .idioma-btn {
+    padding: 8px 14px;
+    color: #ffffff;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+    transition: border-color 0.2s, color 0.2s;
+}
+
+html body > header .idioma-btn:hover {
+    color: var(--rosa);
+    border-color: var(--rosa);
+}
+
+/* Botão rosa "Cadastre-se" */
+html body > header .header-right > a.btn-menu {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    padding: 0 20px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #ff2f8b, #ff4fa1);
+    color: #ffffff;
+    font-size: 15px;
+    box-shadow: 0 8px 25px rgba(255, 47, 139, 0.35);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+html body > header .header-right > a.btn-menu:hover {
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(255, 47, 139, 0.45);
+}
+
+html body > header a:focus-visible,
+html body > header button:focus-visible {
+    outline: 2px solid var(--rosa);
+    outline-offset: 3px;
+}
+
+/* ---------- Deslogado x logado ----------
+   O perfil.js coloca a classe "logado" no <html> quando há sessão. */
+
+html body > header .perfil {
+    display: none;
+    position: relative;
+}
+
+html.logado body > header [data-deslogado] {
+    display: none;
+}
+
+html.logado body > header .perfil {
+    display: block;
+}
+
+/* ---------- Botão do perfil ---------- */
+
+html body > header .perfil-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 12px 4px 4px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+html body > header .perfil-btn:hover {
+    background: rgba(255, 255, 255, 0.18);
+}
+
+html body > header .perfil-avatar,
+html body > header .perfil-foto {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background-color: var(--rosa);
+    background-size: cover;
+    background-position: center;
+    color: #ffffff;
+    font-weight: 700;
+}
+
+html body > header .perfil-avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+}
+
+html body > header .perfil-foto {
+    width: 52px;
+    height: 52px;
+    font-size: 20px;
+}
+
+html body > header .perfil-btn .seta {
+    font-size: 11px;
+    opacity: 0.7;
+}
+
+/* ---------- Menu suspenso do perfil (painel claro) ---------- */
+
+html body > header .perfil-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 14px);
+    right: 0;
+    width: 300px;
+    max-width: calc(100vw - 24px);
+    padding: 18px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(90, 20, 55, 0.25);
+}
+
+html body > header .perfil-menu.aberto {
+    display: block;
+}
+
+html body > header .perfil-topo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+html body > header .perfil-topo h3 {
+    font-size: 18px;
+    line-height: 1.2;
+    color: var(--tinta);
+    word-break: break-word;
+}
+
+html body > header .perfil-topo .nota {
+    display: inline-block;
+    margin-top: 4px;
+    padding: 2px 8px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--texto);
+    background: #f1ecee;
+    border-radius: 20px;
+}
+
+html body > header .perfil-atalhos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+html body > header .perfil-atalhos a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 4px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--tinta);
+    background: #f6f2f4;
+    border-radius: 10px;
+    text-align: center;
+    transition: background 0.2s;
+}
+
+html body > header .perfil-atalhos a:hover {
+    background: #ffe3f0;
+}
+
+html body > header .perfil-lista {
+    list-style: none;
+    margin-bottom: 12px;
+    border-top: 1px solid var(--borda);
+}
+
+html body > header .perfil-lista a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 4px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--texto);
+    border-bottom: 1px solid var(--borda);
+    transition: color 0.2s;
+}
+
+html body > header .perfil-lista a:hover {
+    color: var(--rosa-escuro);
+}
+
+html body > header .perfil-sair {
+    width: 100%;
+    height: 40px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffffff;
+    background: var(--tinta);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+html body > header .perfil-sair:hover {
+    background: var(--rosa-escuro);
+}
+
+/* =====================================================
+   09. VALIDAÇÃO DO CADASTRO
+====================================================== */
+
+/* Elementos criados pelo cadastro.js. O espaço da mensagem de erro
+   fica reservado (12px) para o formulário não "pular" ao errar. */
+.erro-msg {
+    display: block;
+    min-height: 13px;
+    margin-top: 1px;
+    font-size: 12px;
+    line-height: 13px;
+    color: var(--erro);
+}
+
+.campo-senha {
+    position: relative;
+    display: block;
+    width: 100%;
+    min-width: 0;
+}
+
+.campo-senha input {
+    width: 100%;
+    padding-right: 48px !important;
+}
+
+/* Seletor longo e !important mantidos de propósito: o botão precisa
+   vencer estilos genéricos de "form button" de outros arquivos. */
+.container .sessao form .toggle-senha {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    padding: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border: 0;
+    border-radius: 6px;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.container .sessao form .toggle-senha:focus-visible {
+    outline: 2px solid var(--rosa);
+    outline-offset: 2px;
+}
+
+.forca-senha {
+    margin-top: 4px;
+    width: 100%;
+}
+
+.forca-barra {
+    height: 4px;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+}
+
+/* Sem senha digitada: a trilha cinza fica invisível (o espaço continua reservado) */
+.forca-senha:has(.forca-texto:empty) .forca-barra {
+    background: transparent;
+}
+
+.forca-barra span {
+    display: block;
+    height: 100%;
+    width: 0;
+    border-radius: 4px;
+    transition: width 0.25s, background 0.25s;
+}
+
+.forca-texto {
+    display: block;
+    margin-top: 2px;
+    font-size: 12px;
+    line-height: 14px;
+    color: var(--texto-suave);
+}
+
+/* Só ocupa espaço quando tem mensagem */
+#cadastro-status {
+    text-align: center;
+    font-size: 13px;
+    line-height: 16px;
+    font-weight: 600;
+}
+
+#cadastro-status:empty {
+    display: none;
+}
+
+#cadastro-status.status-erro {
+    color: var(--erro);
+}
+
+#cadastro-status.status-ok {
+    color: var(--ok);
+}
+
+/* Campo-isca (anti-bot): fora da tela, invisível e não clicável */
+.campo-isca {
+    position: absolute !important;
+    left: -9999px !important;
+    width: 1px !important;
+    height: 1px !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* =====================================================
+   10. FOTO DE PERFIL
+====================================================== */
+
+/* O ".foto" é um <div> filho direto de ".informacoes", e a regra
+   ".informacoes > div" (seção 05) o deixaria em coluna. Por isso o
+   seletor ".informacoes > .foto" e os ".informacoes .foto-*" abaixo:
+   eles ganham de qualquer regra genérica, inclusive de um <style>
+   que ainda esteja dentro do HTML. */
+.informacoes > .foto {
+    position: relative; /* ancora o input escondido dentro do bloco */
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding: clamp(9px, 1.6vh, 14px) 18px;
+    background: #fff5fa;
+    border: 1.5px dashed #f0b6d2;
+    border-radius: 14px;
+}
+
+.informacoes .foto img {
+    width: clamp(50px, 7.4vh, 72px);
+    height: clamp(50px, 7.4vh, 72px);
+    flex-shrink: 0;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #f9c6de;
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 2px #c2185b;
+}
+
+.foto-texto {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.foto-titulo {
+    font-weight: 700;
+    font-size: 16px;
+    color: #4a0d2e;
+}
+
+.foto-dica {
+    margin: 0;
+    font-size: 13px;
+    color: #7a5568;
+    line-height: 1.35;
+}
+
+.foto-acoes {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+}
+
+.informacoes .foto-botao {
+    display: inline-block;
+    margin-bottom: 0;
+    padding: 8px 18px;
+    border-radius: 999px;
+    background: #c2185b;
+    color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.informacoes .foto-botao:hover {
+    background: #4a0d2e;
+}
+
+.foto-nome {
+    font-size: 13px;
+    color: #7a5568;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 220px;
+}
+
+.informacoes .foto-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    border: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.foto:focus-within .foto-botao {
+    outline: 3px solid #e91e8c;
+    outline-offset: 2px;
+}
+
+/* =====================================================
+   11. TABLETS E TELAS MÉDIAS
+====================================================== */
+
+@media (max-width: 900px) {
+    .container {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+
+    main {
+        max-width: 750px;
+    }
+
+    html body > header .header-container {
+        padding: 0 12px;
+    }
+
+    html body > header nav {
+        display: none;
+    }
+
+    html body > header .header-right {
+        gap: 16px;
+    }
+}
+
+/* =====================================================
+   12. CELULARES
+====================================================== */
+
+/* Os campos continuam em 2 colunas aqui, para economizar altura. */
+@media (max-width: 700px) {
+    :root {
+        --espaco: clamp(8px, 1.5vh, 14px);
+        --altura-campo: clamp(36px, 4.8vh, 44px);
+    }
+
+    .informacoes label {
+        font-size: 0.8rem;
+    }
+
+    .dica-senha {
+        font-size: 0.76rem;
+    }
+
+    .informacoes .foto img {
+        width: clamp(44px, 6.5vh, 64px);
+        height: clamp(44px, 6.5vh, 64px);
+    }
+
+    .container {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    main {
+        border-radius: 16px;
+    }
+
+    .informacoes {
+        gap: var(--espaco) 12px;
+    }
+
+    .informacoes > .foto {
+        gap: 12px;
+        padding: 8px 12px;
+    }
+
+    .foto-dica {
+        display: none;
+    }
+
+    .foto-nome {
+        max-width: 140px;
+    }
+}
+
+/* =====================================================
+   13. CELULARES PEQUENOS
+====================================================== */
+
+@media (max-width: 480px) {
+    :root {
+        --altura-menu: 52px;
+    }
+
+    html body > header {
+        top: 0;
+        width: 100%;
+        height: 52px;
+        border-radius: 0;
+    }
+
+    html body > header .idioma-btn {
+        padding: 5px 9px;
+    }
+
+    html body > header .header-container {
+        padding: 0 12px;
+    }
+
+    html body > header img.logo {
+        height: 38px;
+    }
+
+    html body > header .header-right {
+        gap: 10px;
+    }
+
+    html body > header .header-right > a,
+    html body > header .idioma-btn {
+        font-size: 12px;
+    }
+
+    /* Espaço curto: some o "Ajuda" e o nome ao lado da foto */
+    html body > header #menuAjuda,
+    html body > header #perfilNomeCurto {
+        display: none;
+    }
+
+    html body > header .header-right > a.btn-menu {
+        height: 34px;
+        padding: 0 14px;
+        font-size: 12px;
+    }
+
+    .container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    main {
+        padding: 14px;
+    }
+
+    .sessao-topo p {
+        display: none;
+    }
+
+    .informacoes input {
+        padding: 0 10px;
+        font-size: 0.88rem;
+    }
+
+    .btn-enviar {
+        font-size: 0.95rem;
+    }
+
+    .divisor {
+        font-size: 0.72rem;
+    }
+
+    .termos {
+        font-size: 0.72rem;
+    }
+
+    .ja-tem-conta {
+        font-size: 0.82rem;
+    }
+}
+
+/* =====================================================
+   14. CELULARES MUITO ESTREITOS
+====================================================== */
+
+/* Só aqui os campos passam para 1 coluna: abaixo de ~380px
+   duas colunas deixam cada campo apertado demais. */
+@media (max-width: 380px) {
+    html body > header .header-container {
+        padding: 0 10px;
+    }
+
+    html body > header .header-right {
+        gap: 7px;
+    }
+
+    html body > header .header-right > a,
+    html body > header .idioma-btn {
+        font-size: 11px;
+    }
+
+    html body > header .header-right > a.btn-menu {
+        padding: 0 12px;
+    }
+
+    main {
+        padding: 12px;
+    }
+
+    .informacoes {
+        grid-template-columns: 1fr;
+    }
+
+    .sessao-topo h1 {
+        font-size: 1.25rem;
+    }
+}
+
+/* =====================================================
+   15. TELAS GRANDES
+====================================================== */
+
+/* Computador: 3 colunas (nome | e-mail | nascimento, telefone | senha |
+   confirmação). Uma linha a menos de campos = menos altura. */
+@media (min-width: 1000px) {
+    .informacoes {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 1400px) {
+    main {
+        max-width: 1120px;
+    }
+}
+
+/* =====================================================
+   16. TELAS BAIXAS (CABER SEM ROLAGEM)
+====================================================== */
+
+/* Notebooks e janelas pequenas: some só o texto de apoio.
+   As regras da senha (.dica-senha) continuam visíveis. */
+@media (max-height: 820px) {
+    .sessao-topo p,
+    .foto-dica {
+        display: none;
+    }
+}
+
+/* Telas bem baixas: cabeçalho um pouco menor. */
+@media (min-width: 481px) and (max-height: 700px) {
+    :root {
+        --altura-menu: 56px;
+    }
+
+    html body > header {
+        top: 0;
+        height: 56px;
+    }
+
+    html body > header img.logo {
+        height: 42px;
+    }
+
+    html body > header .header-right > a.btn-menu {
+        height: 38px;
+    }
+
+    .foto-titulo {
+        font-size: 14px;
     }
 }
